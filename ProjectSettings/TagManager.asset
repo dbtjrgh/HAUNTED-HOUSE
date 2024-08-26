@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Initial
+  - GhostSpawnPoint
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -11,16 +14,16 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - MainHero
+  - Interactable
+  - Door
+  - Photable
+  - Ghost
+  - Room
+  - GhostOrbs
+  - SmudgeObject
+  - NightVision
   - 
   - 
   - 
