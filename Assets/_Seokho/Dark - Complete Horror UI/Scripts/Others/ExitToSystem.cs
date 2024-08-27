@@ -6,8 +6,8 @@ namespace Michsky.UI.Dark
     {
         public void ExitGame()
         {
-            Debug.Log("Exit method is working in builds.");
             Application.Quit();
+            Debug.Log("Exit method is working in builds.");
         }
     }
 }

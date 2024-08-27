@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ namespace Michsky.UI.Dark
     {
         [Header("Resources")]
         public UIManager UIManagerAsset;
-        public Image logoObject;
+        public TextMeshProUGUI logoObject;
 
         [Header("Settings")]
         public bool keepAlphaValue = false;
@@ -35,7 +36,6 @@ namespace Michsky.UI.Dark
 
                     if (UIManagerAsset.enableDynamicUpdate == false)
                     {
-                        UpdateLogo();
                         this.enabled = false;
                     }
                 }
@@ -45,7 +45,7 @@ namespace Michsky.UI.Dark
 
             if (logoObject == null)
             {
-                try { logoObject = gameObject.GetComponent<Image>(); }
+                try { logoObject = gameObject.GetComponent<TextMeshProUGUI>(); }
                 catch { }
             }
         }
@@ -55,27 +55,6 @@ namespace Michsky.UI.Dark
             if (UIManagerAsset == null || logoObject == null)
                 return;
 
-            if (UIManagerAsset.enableDynamicUpdate == true)
-                UpdateLogo();
-        }
-
-        void UpdateLogo()
-        {
-            if (logoType == LogoType.GAME)
-                logoObject.sprite = UIManagerAsset.gameLogo;
-            else
-            {
-                logoObject.sprite = UIManagerAsset.brandLogo;
-                return;
-            }
-
-            if (useCustomColor == false)
-            {
-                if (keepAlphaValue == false)
-                    logoObject.color = UIManagerAsset.logoColor;
-                else
-                    logoObject.color = new Color(UIManagerAsset.logoColor.r, UIManagerAsset.logoColor.g, UIManagerAsset.logoColor.b, logoObject.color.a);
-            }
         }
     }
 }

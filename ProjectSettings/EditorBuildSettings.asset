@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Seokho/1. Scene/Main Menu (Desktop).unity
+    guid: 5247271de4c27db44bab1ee8f97564bd
+  - enabled: 1
     path: Assets/Scenes/Boot.unity
     guid: fcf31afa09ae0774398747d3f65f3a28
   - enabled: 1
