@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 namespace Michsky.UI.Dark
 {
@@ -45,7 +46,7 @@ namespace Michsky.UI.Dark
         bool firstTime = true;
         [HideInInspector] public bool gamepadEnabled = false;
 
-        [System.Serializable]
+        [Serializable]
         public class PanelItem
         {
             public string panelName = "My Panel";

@@ -29,12 +29,6 @@ namespace Michsky.UI.Dark
         public Color backgroundColor = new Color(255, 255, 255, 255);
         public Color backgroundColorAlt = new Color(255, 255, 255, 255);
 
-        // Fonts
-        public TMP_FontAsset lightFont;
-        public TMP_FontAsset mediumFont;
-        public TMP_FontAsset boldFont;
-        public TMP_FontAsset altFont;
-        public TMP_FontAsset alt2Font;
 
         // Logo
         public Sprite brandLogo;

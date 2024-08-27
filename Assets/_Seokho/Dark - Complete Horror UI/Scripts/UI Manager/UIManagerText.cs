@@ -53,7 +53,7 @@ namespace Michsky.UI.Dark
                     }
                 }
 
-                catch { Debug.LogWarning("No <b>UI Manager</b> variable found. Please assign it manually.", this); }
+                catch { }
             }
 
             if (textObject == null)
@@ -109,16 +109,6 @@ namespace Michsky.UI.Dark
                 }
             }
 
-            if (fontType == FontType.LIGHT)
-                textObject.font = UIManagerAsset.lightFont;
-            else if (fontType == FontType.MEDIUM)
-                textObject.font = UIManagerAsset.mediumFont;
-            else if (fontType == FontType.BOLD)
-                textObject.font = UIManagerAsset.boldFont;
-            else if (fontType == FontType.ALTERNATIVE_1)
-                textObject.font = UIManagerAsset.altFont;
-            else if (fontType == FontType.ALTERNATIVE_2)
-                textObject.font = UIManagerAsset.alt2Font;
         }
     }
 }
