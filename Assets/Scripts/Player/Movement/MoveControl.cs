@@ -238,14 +238,14 @@ namespace Player.Movement
         {
             if (disable)
             {
-                 _footstepsAudio.volume = 0f;
-                 _footstepsFastAudio.volume = 0f;
+                _footstepsAudio.volume = 0f;
+                _footstepsFastAudio.volume = 0f;
                 return;
             }
             if (playerSpeed <= 1)
             {
-                 _footstepsFastAudio.volume = 0f;
-                 _footstepsAudio.volume = 1f;
+                _footstepsFastAudio.volume = 0f;
+                _footstepsAudio.volume = 1f;
             }
             else
             {
