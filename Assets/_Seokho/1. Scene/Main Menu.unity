@@ -4228,7 +4228,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 65.4, y: -50}
-  m_SizeDelta: {x: 0, y: 100}
+  m_SizeDelta: {x: 130.8, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1094629100
 CanvasGroup:
@@ -5356,7 +5356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2735256948852336115, guid: c27b8ae4d1b3cd5428b7fb53f8dfbfef, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 99.54
       objectReference: {fileID: 0}
     - target: {fileID: 2735256948852336115, guid: c27b8ae4d1b3cd5428b7fb53f8dfbfef, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7253,7 +7253,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 185.4, y: -449.43402}
+  m_AnchoredPosition: {x: 185.4, y: -479.23743}
   m_SizeDelta: {x: 130.8, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1938190322
@@ -7338,9 +7338,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1938948732}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OpenPanel
-        m_Mode: 5
+        m_TargetAssemblyTypeName: Michsky.UI.Dark.MainPanelManager, Assembly-CSharp
+        m_MethodName: GameStart
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10644,7 +10644,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 54.74, y: -50}
-  m_SizeDelta: {x: 0, y: 100}
+  m_SizeDelta: {x: 109.48, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8314491804910425526
 MonoBehaviour:
@@ -11553,8 +11553,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 174.74, y: -657.434}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 174.74, y: -687.2374}
+  m_SizeDelta: {x: 109.48, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8314491805875360656
 CanvasRenderer:
@@ -11686,7 +11686,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 27.14, y: -50}
-  m_SizeDelta: {x: 0, y: 100}
+  m_SizeDelta: {x: 54.28, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8314491806008648587
 GameObject:
@@ -11895,8 +11895,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 147.14, y: -553.434}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 147.14, y: -583.2374}
+  m_SizeDelta: {x: 54.28, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8314491806321638033
 GameObject:
