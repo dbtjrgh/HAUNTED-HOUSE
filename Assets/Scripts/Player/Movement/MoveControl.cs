@@ -51,7 +51,7 @@ namespace Player.Movement
         private float _curSpeedMultiplier = 1f;
         private float _mouseX, _mouseY;
         private Vector2 _mouseDelta;
-        private float _xRotation = 0f;
+        private float xRotation = 0f;
 
         private Vector3 _headPosition;
         private Vector3 _currSpeed;
@@ -208,10 +208,10 @@ namespace Player.Movement
         {
             _playerBody.Rotate(Vector3.up * _mouseX);
 
-            _xRotation -= _mouseY;
-            _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+            xRotation -= _mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-            _playerHead.transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
+            _playerHead.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         }
 
         private void PlayerMovement()
