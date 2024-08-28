@@ -6,7 +6,7 @@ namespace Items.Logic
 {
     public interface IDraggable
     {
-        GameObject gameObject { get; }
+        GameObject gameObject { get; }      
         public void OnDragBegin();
         public void OnDragEnd();
     }
