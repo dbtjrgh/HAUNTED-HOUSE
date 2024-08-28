@@ -16,8 +16,8 @@ public class MapManager : MonoBehaviour
 
     public void randomGhostSpawn()
     {
-        randomSpawn.position = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
-        Instantiate(GhostPrefab, randomSpawn.position, Quaternion.identity);
+        
+        Instantiate(GhostPrefab, randomSpawn.position, Quaternion.identity);        //고스트 생성
 
     }
 }

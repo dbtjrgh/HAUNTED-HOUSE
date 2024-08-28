@@ -20,7 +20,7 @@ public class TruckDoorButton : MonoBehaviour, IClickable
 
     private void Start()
     {
-        _gameFlowService = AllServices.Container.Single<GameFlowService>();
+        _gameFlowService = AllServices.Container.Single<GameFlowService>(); 
     }
     public void OnClick()
     {

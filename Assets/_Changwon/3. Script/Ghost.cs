@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -25,11 +26,38 @@ public enum GhostType
 
 public class Ghost : MonoBehaviour
 {
-    
-    public changwon.GhostState state;
-    public NavMeshAgent ghostNav;
-    public Transform target;
 
+    public changwon.GhostState state;
+    public GhostType ghostType;
+    public NavMeshAgent ghostNav;
+    public GameObject target;
+
+
+
+    private void Awake()
+    {
+        ghosttypeRandom(value: Random.Range(0, 3));
+        switch (ghostType)
+        {
+            case GhostType.NIGHTMARE:
+                ghostNav.speed = 5f;
+                break;
+            case GhostType.BANSHEE:
+                ghostNav.speed = 7f;
+                break;
+            case GhostType.DEMON:
+                ghostNav.speed = 10f;
+                break;
+        }
+
+    }
+
+    private void Update()
+    {
+        target = GameObject.FindGameObjectWithTag("Player");
+
+        StartCoroutine(StateMechine());
+    }
 
 
 
@@ -58,7 +86,12 @@ public class Ghost : MonoBehaviour
     {
         while (state == changwon.GhostState.IDLE)
         {
+            /*if(*//*플레이어 정신력*//*)
+            {
+                ChangeState(changwon.GhostState.HUNTTING);
+            }*/
             yield return null;
+            
         }
 
     }
@@ -67,40 +100,45 @@ public class Ghost : MonoBehaviour
     {
         while (state == changwon.GhostState.HUNTTING)
         {
-            
+
             if (target != null)
             {
+
                 ghostNav.isStopped = false;
-                ghostNav.SetDestination(target.position);
-                float HunttingTargetDistance = Vector3.Distance(target.position, transform.position);
+                ghostNav.SetDestination(target.transform.position);
+                float HunttingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
                 if (HunttingTargetDistance < 1)
                 {
                     Debug.Log("플레이어를 찾았다");
                     ghostNav.isStopped = true;
+                    ChangeState(changwon.GhostState.IDLE);
+                    yield return new WaitForSeconds(30f);
+                    ChangeState(changwon.GhostState.HUNTTING);
+                    yield return new WaitForSeconds(30f);
+                    ChangeState(changwon.GhostState.IDLE);
                 }
                 else
                 {
                     ghostNav.isStopped = false;
+                    yield return new WaitForSeconds(30f);
+                    ChangeState(changwon.GhostState.IDLE);
+                    yield return new WaitForSeconds(10f);
+                    ChangeState(changwon.GhostState.HUNTTING);
                 }
             }
             yield return null;
         }
     }
-
-
-    
-
-    
-
-    public void hunttime()
+    public void ghosttypeRandom(int value)
     {
-        ChangeState(changwon.GhostState.HUNTTING);
-        StartCoroutine(Hunting());
+        ghostType = (GhostType)value;
     }
 
-    public void idleTime()
-    {
-        ChangeState(changwon.GhostState.IDLE);
-        StartCoroutine(idle());
-    }
+
+
+
+
+
+
+
 }
