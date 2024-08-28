@@ -123,8 +123,6 @@ namespace Michsky.UI.Dark
                     GUILayout.EndHorizontal();
                     GUILayout.Space(4);
 
-                    if (GUILayout.Button("+  Add a new item", customSkin.button))
-                        mpmTarget.AddNewItem();
 
                     GUILayout.EndVertical();
                     break;

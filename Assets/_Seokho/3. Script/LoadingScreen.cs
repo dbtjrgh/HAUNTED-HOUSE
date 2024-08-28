@@ -10,10 +10,14 @@ namespace UI
 {
     public class LoadingScreen : MonoBehaviour
     {
+        [Space(10f)]
         [SerializeField]
         private CanvasGroup[] _panelsToShow;
 
-        private const float MinValue = 0f, MaxValue = 1f, TimeToFade = 0.8f, TimeBetweenPanels = 3f;
+        private const float MinValue = 0f;
+        private const float MaxValue = 1f;
+        private const float TimeToFade = 0.8f;
+        private const float TimeBetweenPanels = 3f;
 
         private void Start()
         {
@@ -24,14 +28,14 @@ namespace UI
         {
             for (int i = 0; i < _panelsToShow.Length; i++)
             {
-                if (i > 0) // First panel has max fade
+                if (i > 0)
                 {
                     _panelsToShow[i].DOFade(MaxValue, TimeToFade);
                 }
 
-                if (i == _panelsToShow.Length - 1) // If loading screen 
+                if (i == _panelsToShow.Length - 1)
                 {
-                    yield return new WaitForSeconds(TimeToFade); // Wait until we see loading
+                    yield return new WaitForSeconds(TimeToFade);
 
                     SceneLoader sceneLoader = AllServices.Container.Single<SceneLoader>();
                     if (sceneLoader != null)
