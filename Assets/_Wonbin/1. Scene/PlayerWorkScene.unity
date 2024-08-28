@@ -219,6 +219,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82211972}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &113352421 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5356674429432218463, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
+  m_PrefabInstance: {fileID: 1153761589}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &456032440
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,9 +592,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 4
-  xRotation: 0
+  _mouseX: 0
+  _mouseY: 0
   moveSpeed: 5
   gravity: 3
+  _playerBody: {fileID: 113352421}
   _playerHead: {fileID: 1489167002}
   _headPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1851626796
