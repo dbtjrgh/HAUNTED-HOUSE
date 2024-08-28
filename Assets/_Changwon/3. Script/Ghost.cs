@@ -14,7 +14,7 @@ namespace changwon
     }
 }
 
-enum GhostType
+public enum GhostType
 {
     NIGHTMARE,
     BANSHEE,
@@ -25,19 +25,14 @@ enum GhostType
 
 public class Ghost : MonoBehaviour
 {
-    public Transform randomSpawn;
-    public Transform target;
+    
     public changwon.GhostState state;
-    public GameObject GhostPrefab;
     public NavMeshAgent ghostNav;
+    public Transform target;
 
 
 
-    private void Start()
-    {
-        randomGhostSpawn();
 
-    }
 
     public IEnumerator StateMechine()
     {
@@ -95,12 +90,7 @@ public class Ghost : MonoBehaviour
 
     
 
-    public void randomGhostSpawn()
-    {
-        randomSpawn.position = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));        
-        Instantiate(GhostPrefab, randomSpawn.position, Quaternion.identity);
-        
-    }
+    
 
     public void hunttime()
     {

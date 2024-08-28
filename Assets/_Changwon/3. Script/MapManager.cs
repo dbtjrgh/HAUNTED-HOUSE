@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform randomSpawn;
+    
+    public GameObject GhostPrefab;
+
+    private void Start()
     {
-        
+        randomGhostSpawn();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void randomGhostSpawn()
     {
-        
+        randomSpawn.position = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+        Instantiate(GhostPrefab, randomSpawn.position, Quaternion.identity);
+
     }
 }
