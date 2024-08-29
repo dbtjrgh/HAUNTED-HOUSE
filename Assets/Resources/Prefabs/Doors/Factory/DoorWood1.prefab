@@ -79,7 +79,6 @@ GameObject:
   - component: {fileID: 7564312601216051346}
   - component: {fileID: 7564312601216051357}
   - component: {fileID: 7564312601216051356}
-  - component: {fileID: 7564312601216051359}
   - component: {fileID: 463543769}
   - component: {fileID: 463543770}
   m_Layer: 9
@@ -220,27 +219,6 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 45
   m_ConnectedMassScale: 1
---- !u!114 &7564312601216051359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7564312601216051353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ced68bfcda0b340ad57896c5db18b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
-  InteractionTransform: {fileID: 7564312601683571172}
-  _handprints: {fileID: 1865889820300120364, guid: 8954caf1b6ba00f469fe5f8576fec3b6, type: 3}
-  _closeDoorAudioSource: {fileID: 463543769}
-  _doorDragAudioSource: {fileID: 463543770}
-  _forceAmmount: 20
-  _distance: 1.5
-  _maxDrugVolume: 1
 --- !u!82 &463543769
 AudioSource:
   m_ObjectHideFlags: 0

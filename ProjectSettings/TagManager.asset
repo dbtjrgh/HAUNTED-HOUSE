@@ -9,6 +9,7 @@ TagManager:
   - Door
   - Bullet
   - FlashLight
+  - Ghost
   layers:
   - Default
   - TransparentFX
