@@ -1,53 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class flashLight : MonoBehaviour
 {
-    bool playerGetLight; // true일 경우, 플레이어가 손전등을 on한 상태.
-    static bool getLight; // 손전등 획득 여부 확인.
-    Light myLight; // light 컴포넌트 관리.
+    bool playerGetLight; // 플레이어가 손전등을 on한 상태인지 확인
+    static bool getLight; // 손전등 획득 여부 확인
+    Light myLight; // Light 컴포넌트 관리
+    public static bool isInItemSlot; // 손전등이 ItemSlot에 있는지 여부를 확인
+
+    playerInventory Inventory;
 
     private void Start()
     {
         playerGetLight = false;
         getLight = false;
-        myLight = this.GetComponent<Light>(); //flashLight의 Light 컴포넌트를 가져옴.
+        isInItemSlot = false; // 초기 상태는 ItemSlot에 없음
+        myLight = GetComponent<Light>(); // flashLight의 Light 컴포넌트를 가져옴
+        myLight.intensity = 0; // 시작 시 손전등이 꺼져 있도록 설정
+        myLight.enabled = false; // 시작 시 손전등이 꺼져 있도록 설정
     }
 
     private void Update()
     {
-        lightOnOFF();
-        if(playerGetLight == false)
+        if (isInItemSlot)
         {
-            myLight.intensity = 0;
+            lightOnOFF(); // 손전등이 ItemSlot에 있을 때만 호출
+
         }
 
-        else if(playerGetLight == true)
-        {
-            myLight.intensity = 10;
-        }
     }
 
-    static internal void lightCheck()
+    static internal void lightEquip()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        getLight = true;
+        GameObject flashLightObject = GameObject.FindGameObjectWithTag("Items");
+
+        if (flashLightObject != null)
         {
-            getLight = true;
-            Destroy(GameObject.FindGameObjectWithTag("FlashLight"));
+            GameObject itemSlot = GameObject.Find("ItemSlot");
+            if (itemSlot != null)
+            {
+                flashLightObject.transform.SetParent(itemSlot.transform);
+                flashLightObject.transform.localPosition = Vector3.zero; // 위치 초기화
+                flashLightObject.transform.localRotation = Quaternion.identity; // 회전 초기화
+
+                isInItemSlot = true; // ItemSlot에 추가되었음을 표시
+
+            }
         }
     }
 
     void lightOnOFF()
     {
-        if(getLight == true)
+        if (getLight)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                playerGetLight = playerGetLight ? false : true; // 손전등 on/off
+                playerGetLight = !playerGetLight; // 손전등 on/off
+                myLight.intensity = playerGetLight ? 10 : 0; // 손전등 밝기 조정
+                myLight.enabled = playerGetLight; // 손전등 활성화/비활성화
             }
-
         }
     }
+
 
 }
