@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3847378341265918501}
   m_Layer: 8
   m_Name: Flashlight
-  m_TagString: FlashLight
+  m_TagString: Items
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.15
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
