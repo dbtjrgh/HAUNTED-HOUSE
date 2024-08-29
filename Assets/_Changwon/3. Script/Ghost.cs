@@ -10,7 +10,7 @@ namespace changwon
     public enum GhostState
     {
         IDLE,
-        EVENT,
+        RETURN,
         HUNTTING
     }
 }
@@ -31,6 +31,7 @@ public class Ghost : MonoBehaviour
     public GhostType ghostType;
     public NavMeshAgent ghostNav;
     public GameObject target;
+    public Transform returnpos;
 
 
 
@@ -86,6 +87,7 @@ public class Ghost : MonoBehaviour
     {
         while (state == changwon.GhostState.IDLE)
         {
+            ghostNav.isStopped = true;
             /*if(*//*플레이어 정신력*//*)
             {
                 ChangeState(changwon.GhostState.HUNTTING);
@@ -96,11 +98,26 @@ public class Ghost : MonoBehaviour
 
     }
 
+    private IEnumerator returnPosition()
+    {
+        if(/*player kill*/target==null)
+        while(state==changwon.GhostState.RETURN)
+        {
+            {
+                ghostNav.SetDestination(returnpos.position);
+                
+               
+            }
+            yield return null;
+        }
+    }
+
+
     private IEnumerator Hunting()
     {
         while (state == changwon.GhostState.HUNTTING)
         {
-
+            /*if(정신력게이지)*/
             if (target != null)
             {
 
@@ -109,15 +126,15 @@ public class Ghost : MonoBehaviour
                 float HunttingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
                 if (HunttingTargetDistance < 1)
                 {
-                    Debug.Log("플레이어를 찾았다");
+                    Debug.Log("플레이어를 찾았다");             //플레이어 킬
                     ghostNav.isStopped = true;
-                    ChangeState(changwon.GhostState.IDLE);
+                    ChangeState(changwon.GhostState.RETURN);
                     yield return new WaitForSeconds(30f);
                     ChangeState(changwon.GhostState.HUNTTING);
                     yield return new WaitForSeconds(30f);
                     ChangeState(changwon.GhostState.IDLE);
                 }
-                else
+                else/*else if 플레이어*/
                 {
                     ghostNav.isStopped = false;
                     yield return new WaitForSeconds(30f);
@@ -125,6 +142,13 @@ public class Ghost : MonoBehaviour
                     yield return new WaitForSeconds(10f);
                     ChangeState(changwon.GhostState.HUNTTING);
                 }
+
+                
+            }
+
+            else
+            {
+                ChangeState(changwon.GhostState.RETURN);
             }
             yield return null;
         }
