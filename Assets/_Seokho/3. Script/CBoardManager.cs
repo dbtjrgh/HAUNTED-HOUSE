@@ -9,11 +9,12 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public static CBoardManager Instance { get; private set; }
 
     public CLoginScreen login;
-    public CMainMenuScreen mainMenu;
-    public CLobbyScreen lobby;
+    public CMenuScreen Menu;
+    public CFindRoom find;
     public CRoomScreen room;
 
     private Dictionary<string, GameObject> screens;
+
 
     private void Awake()
     {
@@ -21,8 +22,8 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         screens = new Dictionary<string, GameObject>
         {
             {"Login", login.gameObject },
-            {"MainMenu",mainMenu.gameObject},
-            {"Lobby",lobby.gameObject},
+            {"Menu",Menu.gameObject},
+            {"Find",find.gameObject},
             {"Room", room.gameObject }
         };
         ScreenOpen("Login");
@@ -41,7 +42,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnConnected()
     {
         print("메인메뉴 입장");
-        ScreenOpen("MainMenu");
+        ScreenOpen("Menu");
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -53,13 +54,13 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         print("로비 입장");
-        ScreenOpen("Lobby");
+        ScreenOpen("Find");
     }
 
     public override void OnLeftLobby()
     {
         print("메인메뉴 입장");
-        ScreenOpen("MainMenu");
+        ScreenOpen("Menu");
     }
 
     public override void OnJoinedRoom()
@@ -77,7 +78,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         print("메인메뉴 입장");
-        ScreenOpen("MainMenu");
+        ScreenOpen("Menu");
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)

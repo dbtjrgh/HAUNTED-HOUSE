@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class CLoginScreen : MonoBehaviour
 {
     public TMP_InputField nicknameInput;
+    public TextMeshProUGUI connectionInfoText;
     public Button loginButton;
     public Button backButton;
     public Button quitButton;
@@ -24,15 +25,18 @@ public class CLoginScreen : MonoBehaviour
 
     private void OnEnable()
     {
+
         nicknameInput.interactable = true;
         loginButton.interactable = true;
     }
 
     public void OnLoginButtonClick()
     {
+        connectionInfoText.text = "마스터 서버에 접속 중";
         PhotonNetwork.LocalPlayer.NickName = nicknameInput.text;
         PhotonNetwork.ConnectUsingSettings();
     }
+
 
     public void OnQuitButtonClick()
     {
