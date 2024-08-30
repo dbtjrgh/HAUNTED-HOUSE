@@ -6,22 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Wonbin/1. Scene/SeckhoTest/Main Menu.unity
-    guid: ccc6d70e8ef86774398dbd4dfaec9a2b
+    path: Assets/_Seokho/1. Scene/Main Menu.unity
+    guid: 5247271de4c27db44bab1ee8f97564bd
   - enabled: 1
-    path: Assets/_Wonbin/1. Scene/SeckhoTest/Boot.unity
-    guid: 30ac8b8f8add60748aa336560d7abcff
+    path: Assets/_Seokho/1. Scene/Loading.unity
+    guid: 52f9a803d294f9947a12184fc872eab9
   - enabled: 1
-    path: Assets/_Wonbin/1. Scene/SeckhoTest/Loading.unity
-    guid: e28a1218a624f814fb3c5fbd087a0c29
+    path: Assets/_Seokho/1. Scene/Lobby.unity
+    guid: a0e2a994b6d911f44b23b2de53060027
   - enabled: 1
-    path: Assets/_Wonbin/1. Scene/SeckhoTest/Lobby.unity
-    guid: 6fd98a7c8ff5fbf4fb35ddf687b487e6
-  - enabled: 1
-    path: Assets/Scenes/Levels/Factory.unity
-    guid: 1441f16d8da749d4089744022b3cbdaa
-  - enabled: 1
-    path: Assets/Scenes/Levels/Turkwood.unity
-    guid: 9973e969a1eb9094b8e274e115bc8211
+    path: Assets/_Seokho/1. Scene/MultiLobby.unity
+    guid: 09f9f06a6c757774ba84813c9f6aa788
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 30cbcf3296d646843b7183de2422b01f, type: 2}

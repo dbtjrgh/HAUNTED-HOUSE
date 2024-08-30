@@ -81,6 +81,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         print("로비 입장");
         ScreenOpen("Find");
+        // PhotonNetwork.LoadLevel("Lobby");
     }
 
     /// <summary>
@@ -100,6 +101,22 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         print("룸에 입장");
         ScreenOpen("Room");
 
+    }
+
+    /// <summary>
+    /// 랜덤 방 참가에 실패했을 때 불러오는 함수
+    /// </summary>
+    /// <param name="returnCode"></param>
+    /// <param name="message"></param>
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        Debug.Log("랜덤 참가할 방이 없으므로 방 생성");
+        RoomOptions option = new()
+        {
+            MaxPlayers = 4
+        };
+        string roomName = $"Random Room {Random.Range(100, 300)}";
+        PhotonNetwork.CreateRoom(roomName: roomName, roomOptions: option);
     }
 
     /// <summary>

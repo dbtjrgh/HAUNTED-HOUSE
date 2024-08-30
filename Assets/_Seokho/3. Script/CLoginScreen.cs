@@ -9,10 +9,10 @@ public class CLoginScreen : MonoBehaviour
 {
     #region 변수 
     public TMP_InputField nicknameInput; // 플레이어 닉네임을 입력할 Input
-    public TextMeshProUGUI connectionInfoText; // 연결 상태를 표시할 LogText
     public Button loginButton; // 로그인 버튼
     public Button backButton; // 뒤로 가기 버튼
     public Button quitButton; // 종료 버튼
+    public TextMeshProUGUI InfoText; // 연결 상태를 표시할 LogText
 
     private CLookBoard lookBoard;
     #endregion
@@ -44,8 +44,7 @@ public class CLoginScreen : MonoBehaviour
     /// </summary>
     public void OnLoginButtonClick()
     {
-        Debug.Log("왜 안돼");
-        connectionInfoText.text = "마스터 서버에 접속 중";
+        InfoText.text = "마스터 서버에 접속 중";
         PhotonNetwork.LocalPlayer.NickName = nicknameInput.text;
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -55,7 +54,6 @@ public class CLoginScreen : MonoBehaviour
     /// </summary>
     public void OnQuitButtonClick()
     {
-        // 게임 종료
         Application.Quit();
     }
 
