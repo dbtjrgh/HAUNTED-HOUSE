@@ -3,8 +3,6 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using TMPro.EditorUtilities;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -138,22 +136,28 @@ public class CMenuScreen : MonoBehaviour
     /// </summary>
     public void CreateRoomButtonClick()
     {
-        string roomName = roomNameInput.text;
-        int maxPlayer = int.Parse(playerNumInput.text);
+        string roomName = roomNameInput.text.Trim();
+        int maxPlayer;
 
         if (string.IsNullOrEmpty(roomName))
         {
-            // 같은 방 번호가 있을 수 있으므로 좀 더 섬세한 유효성 검사가 필요함.
-            roomName = $"Room {Random.Range(0, 1000)}";
+            roomName = $"Room {Random.Range(1000, 9999)}";
         }
 
-        if (maxPlayer <= 0 || maxPlayer > 4)
+        if (!int.TryParse(playerNumInput.text, out maxPlayer) || maxPlayer <= 0 || maxPlayer > 4)
         {
-            maxPlayer = 4;
+            maxPlayer = 4; // 기본 최대 플레이어 수 설정
         }
-        
-        PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = maxPlayer });// 최대인원이 0명이하거나 4명 초과할 때 권장인원 4명으로 변환.
-        
+
+        RoomOptions roomOptions = new RoomOptions
+        {
+            MaxPlayers = (byte)maxPlayer,
+            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "Diff", 0 }, { "Character", "Default" } },
+            CustomRoomPropertiesForLobby = new string[] { "Diff", "Character" }
+        };
+
+        PhotonNetwork.CreateRoom(roomName, roomOptions);// 최대인원이 0명이하거나 4명 초과할 때 권장인원 4명으로 변환.
+
     }
     #endregion
 

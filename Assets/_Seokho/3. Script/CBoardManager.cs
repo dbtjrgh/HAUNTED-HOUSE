@@ -16,6 +16,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public CMenuScreen menu;   // 메뉴 스크린
     public CFindRoom find;     // 방찾기 스크린
     public CRoomScreen room;   // 방 스크린
+    public GameObject playerPrefab;
     #endregion
 
     // 스크린을 이름으로 관리
@@ -101,6 +102,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         print("룸에 입장");
         ScreenOpen("Room");
 
+
     }
 
     /// <summary>
@@ -125,7 +127,11 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         print("룸에 입장");
+        base.OnCreatedRoom();
+        // Load multiplayer lobby scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MultiplayerLobby");
         ScreenOpen("Room");
+
     }
 
     /// <summary>
@@ -143,7 +149,10 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// <param name="newPlayer"></param>
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        // 잘 따라해야함 room.JoinPlayer(newPlayer);
+        base.OnPlayerEnteredRoom(newPlayer);
+        // 새로운 플레이어 3D 오브젝트 생성
+        Vector3 spawnPosition = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+        GameObject playerObject = PhotonNetwork.Instantiate("PlayerPrefab", spawnPosition, Quaternion.identity);
     }
 
     /// <summary>
@@ -152,7 +161,9 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// <param name="otherPlayer"></param>
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
-        // room.LeavePlayer(otherPlayer);
+        base.OnPlayerLeftRoom(otherPlayer);
+        // 떠난 플레이어의 3D 오브젝트 제거
+        PhotonNetwork.DestroyPlayerObjects(otherPlayer);
     }
 
     /// <summary>
@@ -162,6 +173,10 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // lobby.UpdateRoomList(roomList);
+    }
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        ScreenOpen("Menu");
     }
 }
 

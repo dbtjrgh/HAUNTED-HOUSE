@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
-using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
 
 namespace Michsky.UI.Dark
@@ -97,10 +96,103 @@ namespace Michsky.UI.Dark
             catch { }
         }
 
+        public void SwitchToSecondPanel()
+        {
+            if (panels.Count < 2)
+            {
+                return;
+            }
+
+            newPanelIndex = 1; // Assuming index 1 is the second panel
+            currentButton = panels[currentPanelIndex].panelButton;
+
+            if (currentButton != null)
+            {
+                currentButtonAnimator = currentButton.GetComponent<Animator>();
+
+                if (currentButtonAnimator != null)
+                {
+                    currentButtonAnimator.Play(buttonFadeOut);
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+            }
+
+            // Activate the new panel
+            currentPanelIndex = newPanelIndex;
+            currentPanel = panels[currentPanelIndex].panelObject;
+
+            if (currentPanel != null)
+            {
+                currentPanel.SetActive(true);
+                currentPanelAnimator = currentPanel.GetComponent<Animator>();
+
+                if (currentPanelAnimator != null)
+                {
+                    currentPanelAnimator.Play(panelFadeIn);
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+            }
+
+            // Update the current button for the new panel
+            currentButton = panels[currentPanelIndex].panelButton;
+
+            if (currentButton != null)
+            {
+                currentButtonAnimator = currentButton.GetComponent<Animator>();
+
+                if (currentButtonAnimator != null)
+                {
+                    currentButtonAnimator.Play(buttonFadeIn);
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+            }
+        }
+
+        IEnumerator DisablePanel(GameObject panel, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            if (panel != null)
+            {
+                panel.SetActive(false);
+            }
+            else
+            {
+                Debug.LogError("Panel is null, cannot disable.");
+            }
+        }
+
+        public void CloseCurrentPanel()
+        {
+            if (currentPanelAnimator != null)
+            {
+                currentPanelAnimator.Play(panelFadeOut);
+
+                StartCoroutine(DisablePanel(currentPanel, disablePanelAfter));
+            }
+            else
+            {
+                Debug.LogError("Current panel animator is missing.");
+            }
+        }
 
         public void GameStart()
         {
-            SceneManager.LoadScene("Boot");
+            SceneManager.LoadScene("Loading");
         }
 
     }

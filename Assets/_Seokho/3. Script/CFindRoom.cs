@@ -28,24 +28,18 @@ public class CFindRoom : MonoBehaviour
     public void UpdateRoomList(List<RoomInfo> roomList)
     {
 
-        List<RoomInfo> destroyCandidate = currentRoomList.FindAll((x) => false == roomList.Contains(x));
-        foreach (RoomInfo rooninfo in roomList)
-        {
-            if(currentRoomList.Contains(rooninfo))
-            {
-                continue;
-            }
-            AddRoomButton(rooninfo);
-        }
-
         foreach (Transform child in roomListRect)
         {
-            if (destroyCandidate.Exists((x) => x.Name == child.name))
+            Destroy(child.gameObject);
+        }
+
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            if (!roomInfo.RemovedFromList)
             {
-                Destroy(child.gameObject);
+                AddRoomButton(roomInfo);
             }
         }
-        currentRoomList = roomList;
     }
 
     /// <summary>
@@ -57,7 +51,10 @@ public class CFindRoom : MonoBehaviour
         Button joinButton = Instantiate(roomButtonPrefab, roomListRect, false);
         joinButton.gameObject.name = roomInfo.Name;
         joinButton.onClick.AddListener(() => PhotonNetwork.JoinRoom(roomInfo.Name));
-        joinButton.GetComponentInChildren<Text>().text = roomInfo.Name;
+
+        // 방 이름과 추가 정보를 표시
+        string roomInfoText = $"{roomInfo.Name} ({roomInfo.PlayerCount}/{roomInfo.MaxPlayers}) ";
+        joinButton.GetComponentInChildren<Text>().text = roomInfoText;
     }
 
     /// <summary>

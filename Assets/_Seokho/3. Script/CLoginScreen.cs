@@ -44,8 +44,15 @@ public class CLoginScreen : MonoBehaviour
     /// </summary>
     public void OnLoginButtonClick()
     {
-        InfoText.text = "마스터 서버에 접속 중";
-        PhotonNetwork.LocalPlayer.NickName = nicknameInput.text;
+        string nickname = nicknameInput.text.Trim();
+        if (string.IsNullOrEmpty(nickname))
+        {
+            InfoText.text = "닉네임을 입력하세요.";
+            return;
+        }
+
+        PhotonNetwork.NickName = nickname;
+        InfoText.text = "마스터 서버에 접속 중...";
         PhotonNetwork.ConnectUsingSettings();
     }
 

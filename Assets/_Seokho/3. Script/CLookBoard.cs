@@ -21,6 +21,7 @@ public class CLookBoard : MonoBehaviour
     {
         // 시작할 때 플레이어 시점 마우스 없애기
         Cursor.lockState = CursorLockMode.Locked;
+        playerCinemachine.Priority = 0;
     }
 
     private void Update()
