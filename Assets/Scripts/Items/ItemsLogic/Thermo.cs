@@ -20,7 +20,7 @@ public class Thermo : MonoBehaviour, IMainUsable, IDisababled
     private GameObject _thermoBody;
 
     private GhostInfo _ghostInfo;
-    private LevelRooms.LevelRoomsEnum _ghostRoom;
+    private Rooms.RoomsEnum _ghostRoom;
         
     private LevelSetUp _levelSetUp;
     private bool _isThermoEnabled = false;
@@ -53,7 +53,7 @@ public class Thermo : MonoBehaviour, IMainUsable, IDisababled
         _levelSetUp = AllServices.Container.Single<LevelSetUp>();
         _ghostRoom = _levelSetUp.CurrGhostRoom;
         _currTemperature = DefaultTemp;
-        if (_ghostRoom == LevelRooms.LevelRoomsEnum.NoRoom) _levelSetUp.OnLevelSetedUp += SetUpInfo;
+        if (_ghostRoom == Rooms.RoomsEnum.NormalRoom) _levelSetUp.OnLevelSetedUp += SetUpInfo;
     }
 
     public void OnMainUse()
@@ -93,7 +93,7 @@ public class Thermo : MonoBehaviour, IMainUsable, IDisababled
 
     private void SetMinMaxValue()
     {
-        if ( (_currRoom.CurrRoom == _ghostRoom && _ghostRoom != LevelRooms.LevelRoomsEnum.NoRoom) )
+        if ( (_currRoom.CurrRoom == _ghostRoom && _ghostRoom != Rooms.RoomsEnum.NormalRoom) )
         {
             _minTemp = _minPossibleTemp;
             _maxTemp = (_minPossibleTemp / 3) + 10;

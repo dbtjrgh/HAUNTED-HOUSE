@@ -11,7 +11,7 @@ namespace Items.ItemsLogic
     public class Book : MonoBehaviour, IPickupable, IDisababled
     {
         private GhostInfo _ghostInfo;
-        private LevelRooms.LevelRoomsEnum _ghostRoom;
+        private Rooms.RoomsEnum _ghostRoom;
 
         private LevelSetUp _levelSetUp;
 
@@ -54,7 +54,7 @@ namespace Items.ItemsLogic
             _levelSetUp = AllServices.Container.Single<LevelSetUp>();
             _ghostRoom = _levelSetUp.CurrGhostRoom;
 
-            if (_ghostRoom == LevelRooms.LevelRoomsEnum.NoRoom) _levelSetUp.OnLevelSetedUp += SetUpInfo;
+            if (_ghostRoom == Rooms.RoomsEnum.NormalRoom) _levelSetUp.OnLevelSetedUp += SetUpInfo;
 
             if (_couldBeWritten) StartCoroutine(nameof(WriteBook));
 

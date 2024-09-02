@@ -65,7 +65,7 @@ namespace Ghosts.Mood
         private void StartGhostEvent()
         {
             if (!(_ghostState._currState is IdleState)) return;
-            if (_ghostInfo.PlayerRoom.CurrRoom == LevelRooms.LevelRoomsEnum.NoRoom) return;
+            if (_ghostInfo.PlayerRoom.CurrRoom == Rooms.RoomsEnum.NormalRoom) return;
 
             _ghostMood.StartGhostEvent();
         }

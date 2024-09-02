@@ -28,7 +28,7 @@ namespace Items.ItemsLogic
         private PhotoReward _photoReward;
         private GhostInfo _ghostInfo;
         private AttackChecker _ghostAttackChecker;
-        private LevelRooms.LevelRoomsEnum _ghostRoom;
+        private Rooms.RoomsEnum _ghostRoom;
 
         private LevelSetUp _levelSetUp;
 
@@ -45,7 +45,7 @@ namespace Items.ItemsLogic
             _levelSetUp = AllServices.Container.Single<LevelSetUp>();
 
             SetUpInfo();
-            if (_ghostRoom == LevelRooms.LevelRoomsEnum.NoRoom) _levelSetUp.OnLevelSetedUp += SetUpInfo;
+            if (_ghostRoom == Rooms.RoomsEnum.NormalRoom) _levelSetUp.OnLevelSetedUp += SetUpInfo;
         }
 
         private void SetUpInfo()

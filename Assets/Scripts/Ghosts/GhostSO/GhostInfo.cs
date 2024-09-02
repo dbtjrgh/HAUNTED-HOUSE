@@ -7,7 +7,7 @@ public class GhostInfo : MonoBehaviour
     public GhostDataSO GhostData;
     public DifficultySO CurrDifficulty;
 
-    public LevelRooms.LevelRoomsEnum GhostRoom;
+    public Rooms.RoomsEnum GhostRoom;
     public LevelSizeConst.LevelSize LevelSize;
 
     public GameObject MainHero;
@@ -30,7 +30,7 @@ public class GhostInfo : MonoBehaviour
     private GameObject[] _ghostModels;
 
     private int ghostModelType;
-    public void SetUpGhost(DifficultySO currDifficulty, GhostDataSO currGhostData, GameObject mainHero, Transform playerTransformPoint, LevelRooms.LevelRoomsEnum _ghostRoom, RoomIdentifire playerRoom, SanityHandler playerSanity, LevelSizeConst.LevelSize levelSize, DoorDraggable[] mainDoors, LightButton[] lightButtons)
+    public void SetUpGhost(DifficultySO currDifficulty, GhostDataSO currGhostData, GameObject mainHero, Transform playerTransformPoint, Rooms.RoomsEnum _ghostRoom, RoomIdentifire playerRoom, SanityHandler playerSanity, LevelSizeConst.LevelSize levelSize, DoorDraggable[] mainDoors, LightButton[] lightButtons)
     {
         GhostData = currGhostData;
         CurrDifficulty = currDifficulty;

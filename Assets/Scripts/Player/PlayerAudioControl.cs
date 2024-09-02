@@ -67,12 +67,12 @@ public class PlayerAudioControl : MonoBehaviour
     {
         while (true)
         {
-            if (_roomIdentifire.CurrRoom == LevelRooms.LevelRoomsEnum.NoRoom && _inHouse)
+            if (_roomIdentifire.CurrRoom == Rooms.RoomsEnum.NormalRoom && _inHouse)
             {
                 _inHouse = false;
                 StartCoroutine(nameof(SetOutsideSoundVolumes));
             }
-            else if (_roomIdentifire.CurrRoom != LevelRooms.LevelRoomsEnum.NoRoom && !_inHouse)
+            else if (_roomIdentifire.CurrRoom != Rooms.RoomsEnum.NormalRoom && !_inHouse)
             {
                 _inHouse = true;
                 StartCoroutine(nameof(SetInsideSoundVolumes));

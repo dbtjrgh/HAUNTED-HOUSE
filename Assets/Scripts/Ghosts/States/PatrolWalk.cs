@@ -19,7 +19,7 @@ public class PatrolWalk : MonoBehaviour
     [SerializeField]
     private bool _goNextPoint = false;
 
-    public LevelRooms.LevelRoomsEnum _GhostRoom;
+    public Rooms.RoomsEnum _GhostRoom;
 
     Transform bestPoint = null;
 

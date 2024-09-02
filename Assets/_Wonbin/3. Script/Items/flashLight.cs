@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.ProBuilder.MeshOperations;
 
 public class flashLight : MonoBehaviour
@@ -9,6 +10,7 @@ public class flashLight : MonoBehaviour
     static bool getLight; // 손전등 획득 여부 확인
     Light myLight; // Light 컴포넌트 관리
     public static bool isInItemSlot; // 손전등이 ItemSlot에 있는지 여부를 확인
+    private Transform itemSlotTransform;
 
     playerInventory Inventory;
 
@@ -20,14 +22,28 @@ public class flashLight : MonoBehaviour
         myLight = GetComponent<Light>(); // flashLight의 Light 컴포넌트를 가져옴
         myLight.intensity = 0; // 시작 시 손전등이 꺼져 있도록 설정
         myLight.enabled = false; // 시작 시 손전등이 꺼져 있도록 설정
+        itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
     }
 
     private void Update()
     {
+        if (itemSlotTransform == null)
+        {
+            // ItemSlot이 존재하지 않을 때
+            myLight.enabled = false;
+            return;
+        }
+
+        // 손전등이 ItemSlot의 자식인지 확인
+        bool isInItemSlot = transform.IsChildOf(itemSlotTransform);
+
         if (isInItemSlot)
         {
             lightOnOFF(); // 손전등이 ItemSlot에 있을 때만 호출
-
+        }
+        else
+        {
+            myLight.enabled = false; // 손전등이 ItemSlot에 없을 때 비활성화
         }
 
     }
