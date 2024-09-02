@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6908432596322757871}
   - component: {fileID: 5808539432598063465}
+  - component: {fileID: 8643453995658726978}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -177,6 +178,26 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &8643453995658726978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074834309477687340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1845487272115986355
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,12 +494,10 @@ GameObject:
   - component: {fileID: 5795864029807178409}
   - component: {fileID: 5795864029807178414}
   - component: {fileID: 5795864029807178415}
-  - component: {fileID: 8038667415279237317}
-  - component: {fileID: -7987495227290347406}
-  - component: {fileID: 5223273071762338475}
+  - component: {fileID: 8740989984652183456}
   m_Layer: 8
   m_Name: UVglowstick1
-  m_TagString: Untagged
+  m_TagString: Items
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -528,7 +547,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &8038667415279237317
+--- !u!114 &8740989984652183456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -537,39 +556,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5795864029807178412}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2995c21f9468a984a9a88d5dc246ccd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 95cd440bf580aeb4dbcb5eefda52d679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uvLight: {fileID: -7987495227290347406}
-  _light: {fileID: 5808539432598063465}
-  _glowOnMaterial: {fileID: 2100000, guid: 004d5eeee54ee964bba9a24334c24786, type: 2}
-  _glowBody: {fileID: 6427601463672819743}
---- !u!114 &-7987495227290347406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5795864029807178412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b3c26c86d7009a4d9470e7c8461d07e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _light: {fileID: 5808539432598063465}
-  _revealableMaterial: {fileID: 2100000, guid: 8adebe17d2bc09f429682dfe4c32a9b2, type: 2}
-  _lightAngle: 360
---- !u!114 &5223273071762338475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5795864029807178412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c744f04ab32254e4d89b34d07a9b3ea3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hitSound: {fileID: 8300000, guid: b38a6bd4e36dfff4790751b8790bdbd0, type: 3}
-  _hitVolume: 0.08
+  uvLight: {fileID: 5808539432598063465}
+  handprintLayerMask:
+    serializedVersion: 2
+    m_Bits: 1048576
