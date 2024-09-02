@@ -10,9 +10,14 @@ public class MapManager : MonoBehaviour
 
     public GameObject Ghost;
 
+    public GameObject GhostOrb;
+    Ghost ghost;
+
+
     private void Start()
     {
         GhostSpawn();
+        ghost=GetComponent<Ghost>();
 
     }
 
@@ -20,6 +25,10 @@ public class MapManager : MonoBehaviour
     {
         
         Instantiate(GhostPrefab, Spawn.position, Quaternion.identity);        //고스트 생성
+        if (ghost.ghostType==GhostType.NIGHTMARE||ghost.ghostType==GhostType.BANSHEE)
+        {
+            Instantiate(GhostOrb, Spawn.position, Quaternion.identity);        //고스트 생성
+        }
 
     }
 
