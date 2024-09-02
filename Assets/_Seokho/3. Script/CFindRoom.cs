@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,19 +28,28 @@ public class CFindRoom : MonoBehaviour
 
     public void UpdateRoomList(List<RoomInfo> roomList)
     {
-
-        foreach (Transform child in roomListRect)
-        {
-            Destroy(child.gameObject);
-        }
+        // 파괴될 후보
+        List<RoomInfo> destroyCandidate =
+            currentRoomList.FindAll((x) => false == roomList.Contains(x));
 
         foreach (RoomInfo roomInfo in roomList)
         {
-            if (!roomInfo.RemovedFromList)
+            if (currentRoomList.Contains(roomInfo))
             {
-                AddRoomButton(roomInfo);
+                continue;
+            }
+            AddRoomButton(roomInfo);
+        }
+
+        foreach (Transform child in roomListRect)
+        {
+            if (destroyCandidate.Exists((x) => x.Name == child.name))
+            {
+                Destroy(child.gameObject);
             }
         }
+
+        currentRoomList = roomList; 
     }
 
     /// <summary>
@@ -54,7 +64,7 @@ public class CFindRoom : MonoBehaviour
 
         // 방 이름과 추가 정보를 표시
         string roomInfoText = $"{roomInfo.Name} ({roomInfo.PlayerCount}/{roomInfo.MaxPlayers}) ";
-        joinButton.GetComponentInChildren<Text>().text = roomInfoText;
+        joinButton.GetComponentInChildren<TextMeshProUGUI>().text = roomInfoText;
     }
 
     /// <summary>
