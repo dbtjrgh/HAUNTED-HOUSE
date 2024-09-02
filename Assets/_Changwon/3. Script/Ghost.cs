@@ -26,6 +26,9 @@ public enum GhostType
 
 public class Ghost : MonoBehaviour
 {
+    public static Ghost instance;
+
+    
 
     public changwon.GhostState state;
     public GhostType ghostType;
@@ -38,6 +41,7 @@ public class Ghost : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         ghosttypeRandom(value: Random.Range(0, 3));
         switch (ghostType)
         {
@@ -51,6 +55,7 @@ public class Ghost : MonoBehaviour
                 ghostNav.speed = 7f;
                 break;
         }
+        
 
     }
 
