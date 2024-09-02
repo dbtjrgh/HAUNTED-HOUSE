@@ -60,7 +60,7 @@ public class PlayerDoorInter : MonoBehaviour
         hinge = GetComponent<HingeJoint>();
         col = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
-        ghost = GetComponent<Ghost>();
+        Ghost ghost = GetComponent<Ghost>();
 
 
         waitForDoorStateCheck = new WaitForSeconds(checkDoorStateCD);
@@ -84,6 +84,7 @@ public class PlayerDoorInter : MonoBehaviour
 
     public void GhostDrugDoor()
     {
+        ghost=FindObjectOfType<Ghost>();
         if (ghost.state == changwon.GhostState.HUNTTING)  // 유령이 사냥 중이라면
         {
             GhostInterrectWithDoor(GenerateForce(), GenerateDirection(), Random.Range(minGhostForceTime, maxGhostForceTime));   // 유령이 문을 드래그        //hunttime이 enum클래스의 huntting이면

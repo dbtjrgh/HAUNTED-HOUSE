@@ -31,7 +31,7 @@ namespace changwon
 
         public void EMFSwitching()
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetButtonDown("Fire1"))
             {
                 if (EMFOnOff == false)
                 {

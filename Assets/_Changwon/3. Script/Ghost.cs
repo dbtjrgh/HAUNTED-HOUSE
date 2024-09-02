@@ -32,6 +32,7 @@ public class Ghost : MonoBehaviour
     public NavMeshAgent ghostNav;
     public GameObject target;
     public Transform returnpos;
+    mentalGaugeManager mental;
 
 
 
@@ -41,23 +42,32 @@ public class Ghost : MonoBehaviour
         switch (ghostType)
         {
             case GhostType.NIGHTMARE:
-                ghostNav.speed = 5f;
+                ghostNav.speed = 3f;
                 break;
             case GhostType.BANSHEE:
-                ghostNav.speed = 7f;
+                ghostNav.speed = 5f;
                 break;
             case GhostType.DEMON:
-                ghostNav.speed = 10f;
+                ghostNav.speed = 7f;
                 break;
         }
 
     }
 
+    
+
     private void Update()
     {
         target = GameObject.FindGameObjectWithTag("Player");
+        returnpos = GameObject.FindGameObjectWithTag("GhostSpawnPoint").transform;
 
         StartCoroutine(StateMechine());
+        
+    }
+
+    public float currentGhostType()
+    {
+        return (float)ghostType;
     }
 
 
@@ -74,6 +84,10 @@ public class Ghost : MonoBehaviour
             case changwon.GhostState.HUNTTING:
                 yield return StartCoroutine(Hunting());
                 break;
+
+            case changwon.GhostState.RETURN:
+                yield return StartCoroutine(returnPosition());
+                break;
         }
 
     }
@@ -85,28 +99,37 @@ public class Ghost : MonoBehaviour
 
     private IEnumerator idle()
     {
+        mental =FindObjectOfType<mentalGaugeManager>();
         while (state == changwon.GhostState.IDLE)
         {
             ghostNav.isStopped = true;
-            /*if(*//*플레이어 정신력*//*)
+            if(mental!=null&&mental.MentalGauge==50)
             {
                 ChangeState(changwon.GhostState.HUNTTING);
-            }*/
+            }
+
+            else if (mental == null)
+            {
+                Debug.LogError("mental is null");
+            }
             yield return null;
-            
+
         }
 
     }
 
     private IEnumerator returnPosition()
     {
-        if(/*player kill*/target==null)
-        while(state==changwon.GhostState.RETURN)
+
+        while (state == changwon.GhostState.RETURN)
         {
             {
+                ghostNav.isStopped = false;
                 ghostNav.SetDestination(returnpos.position);
-                
-               
+                yield return new WaitForSeconds(30f);
+                ChangeState(changwon.GhostState.IDLE);
+
+
             }
             yield return null;
         }
@@ -117,7 +140,7 @@ public class Ghost : MonoBehaviour
     {
         while (state == changwon.GhostState.HUNTTING)
         {
-            /*if(정신력게이지)*/
+            
             if (target != null)
             {
 
@@ -127,13 +150,19 @@ public class Ghost : MonoBehaviour
                 if (HunttingTargetDistance < 1)
                 {
                     Debug.Log("플레이어를 찾았다");             //플레이어 킬
+                    Destroy(target);
                     ghostNav.isStopped = true;
                     ChangeState(changwon.GhostState.RETURN);
                     yield return new WaitForSeconds(30f);
                     ChangeState(changwon.GhostState.HUNTTING);
                     yield return new WaitForSeconds(30f);
                     ChangeState(changwon.GhostState.IDLE);
+                    StartCoroutine(ghostBlink());
                 }
+
+                
+
+
                 else/*else if 플레이어*/
                 {
                     ghostNav.isStopped = false;
@@ -143,7 +172,7 @@ public class Ghost : MonoBehaviour
                     ChangeState(changwon.GhostState.HUNTTING);
                 }
 
-                
+
             }
 
             else
@@ -156,6 +185,16 @@ public class Ghost : MonoBehaviour
     public void ghosttypeRandom(int value)
     {
         ghostType = (GhostType)value;
+    }
+
+    IEnumerator ghostBlink()
+    {
+
+        
+        Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("ghostBlink");
+        yield return new WaitForSeconds(1f);
+        Camera.main.cullingMask^=~(1<<LayerMask.NameToLayer("ghostBlink")); 
+
     }
 
 
