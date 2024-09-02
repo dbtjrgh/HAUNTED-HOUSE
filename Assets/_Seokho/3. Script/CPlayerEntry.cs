@@ -11,18 +11,11 @@ public class CPlayerEntry : MonoBehaviour
     public TextMeshProUGUI playerNameText;
     public Toggle readyToggle;
 
-    private void Start()
-    {
-        if (player.CustomProperties.ContainsKey("Ready"))
-        {
-            bool isReady = (bool)player.CustomProperties["Ready"];
-            readyToggle.isOn = isReady;
-        }
-    }
+    public bool IsMine => player == PhotonNetwork.LocalPlayer;
 
-    public void UpdateReadyStatus(bool isReady)
+    private void Awake()
     {
-        readyToggle.isOn = isReady;
+        readyToggle.SetIsOnWithoutNotify(false);
     }
 
 }

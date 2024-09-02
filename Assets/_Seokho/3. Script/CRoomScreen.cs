@@ -26,7 +26,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
     public Button startButton;
     public Button exitButton;
-    public Toggle readyToggle;
+    public Button readyButton;
     public TMP_Dropdown diffDropdown;
     public TextMeshProUGUI diffText;
 
@@ -42,6 +42,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
     {
         startButton.onClick.AddListener(StartButtonClick);
         exitButton.onClick.AddListener(QuitButtonClick);
+        readyButton.onClick.AddListener(OnReadyButtonClick);
         diffDropdown.ClearOptions();
 
         foreach(object diff in Enum.GetValues(typeof(Difficulty)))
@@ -74,14 +75,11 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         {
             playersReady = new Dictionary<int, bool>();
         }
-        else
-        {
-            // 방장이 아닌 상태
-        }
-            // 방장이 아니면 게임 시작 버튼 및 난이도 조절 드롭다운 비활성화
-            startButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
-            diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
-            diffText.gameObject.SetActive(!PhotonNetwork.IsMasterClient);
+
+        // 방장이 아니면 게임 시작 버튼 및 난이도 조절 드롭다운 비활성화
+        startButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+        diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+        diffText.gameObject.SetActive(!PhotonNetwork.IsMasterClient);
 
         foreach (Photon.Realtime.Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
@@ -104,29 +102,39 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
         var toggle = playerEntry.readyToggle;
 
-        if(PhotonNetwork.LocalPlayer.ActorNumber == newPlayer.ActorNumber)
+        if (PhotonNetwork.LocalPlayer.ActorNumber == newPlayer.ActorNumber)
         {
             // 내 엔트리일 경우
             toggle.onValueChanged.AddListener(ReadyToggleClick);
-            readyToggle.onValueChanged.AddListener(ReadyToggleClick);
+            toggle.interactable = true; // 내 토글은 상호작용 가능
         }
         else
         {
             // 내가 아닌 다른 플레이어의 엔트리
-            toggle.gameObject.SetActive(false);
+            toggle.interactable = false; // 다른 플레이어의 토글은 비활성화 (하지만 보이도록 유지)
         }
 
         playerEntries[newPlayer.ActorNumber] = playerEntry;
 
         // 방장일 경우 새로운 플레이어의 준비 상태 Off
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             playersReady[newPlayer.ActorNumber] = false;
             CheckReady();
         }
 
         SortPlayers();
+    }
 
+    private void OnReadyButtonClick()
+    {
+        var toggle = playerEntries[PhotonNetwork.LocalPlayer.ActorNumber].readyToggle;
+
+        bool newState = !toggle.isOn;
+
+        toggle.SetIsOnWithoutNotify(newState);
+
+        ReadyToggleClick(newState);
     }
 
     public void LeavePlayer(Photon.Realtime.Player leavePlayer)
@@ -197,40 +205,33 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         // PhotonNetwork의 customProperties는 Hashtable 구조를 활용
         // 그러나 dotnet의 HashTable이 아닌 간소화 형태의 Hashtable 클래스를 직접 제공
 
-        Hashtable customProps = PhotonNetwork.LocalPlayer.CustomProperties;
+        PhotonHashtable customProps = localPlayer.CustomProperties;
         customProps["Ready"] = isOn;
 
-        PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
-        UpdatePlayerReadyState(PhotonNetwork.LocalPlayer.ActorNumber, isOn);
-    }
-
-    private void UpdatePlayerReadyState(int actorNumber, bool isReady)
-    {
-        if (playerEntries.ContainsKey(actorNumber))
-        {
-            playerEntries[actorNumber].readyToggle.isOn = isReady;
-        }
+        localPlayer.SetCustomProperties(customProps);
     }
 
     // 다른 플레이어가 ReadyToggle을 변경했을 경우 내 클라이언트에도 반영.
     public void SetPlayerReady(int actorNumber, bool isReady)
+{
+    if (playerEntries.ContainsKey(actorNumber))
     {
-        if (playerEntries.ContainsKey(actorNumber))
-        {
-            playerEntries[actorNumber].UpdateReadyStatus(isReady);
+        var playerEntry = playerEntries[actorNumber];
+        playerEntry.readyToggle.SetIsOnWithoutNotify(isReady); // 토글의 상태를 업데이트
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                playersReady[actorNumber] = isReady;
-                CheckReady();
-            }
-            else
-            {
-                // 방장이 아닌 플레이어는 준비 상태를 볼 수만 있게
-                playerEntries[actorNumber].readyToggle.interactable = false;
-            }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            playersReady[actorNumber] = isReady;
+            CheckReady();
+        }
+
+        // 자신의 토글은 상호작용 가능하게 유지, 다른 플레이어는 비활성화
+        if (actorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            playerEntry.readyToggle.interactable = false;
         }
     }
+}
 
     public void CheckReady()
     {
@@ -253,8 +254,6 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, PhotonHashtable changedProps)
     {
-        print($"커스텀 프로퍼티 변경됐습니다. : {PhotonNetwork.Time}");
-
         if (changedProps.ContainsKey("Ready"))
         {
             SetPlayerReady(targetPlayer.ActorNumber, (bool)changedProps["Ready"]);
@@ -268,16 +267,10 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
             print($"room difficulty changed: {props["Diff"]}");
             diffText.text = ((Difficulty)props["Diff"]).ToString();
         }
-
-        if (props.ContainsKey("Character"))
-        {
-            print($"room character changed : {props["Character"]}");
-        }
     }
 
     public override void OnJoinedRoom()
     {
-        base.OnJoinedRoom();
 
         // 이미 캐릭터가 생성되어 있는지 확인
         if (PhotonNetwork.LocalPlayer.TagObject != null)
