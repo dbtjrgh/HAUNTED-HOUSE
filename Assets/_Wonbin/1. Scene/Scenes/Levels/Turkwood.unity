@@ -6842,6 +6842,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 440830, guid: ee17d9afd26027744b8c7d0cc0f25022, type: 3}
   m_PrefabInstance: {fileID: 782373721}
   m_PrefabAsset: {fileID: 0}
+--- !u!143 &793350919 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 5356674429432218448, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
+  m_PrefabInstance: {fileID: 1218172120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &798096755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10681,8 +10686,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 500264010287570709, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
       propertyPath: turnSpeed
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 500264010287570709, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
+      propertyPath: charController
+      value: 
+      objectReference: {fileID: 793350919}
     - target: {fileID: 3771156345009334793, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -10730,6 +10739,10 @@ PrefabInstance:
     - target: {fileID: 3771156345009335283, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5382792366224767110, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
+      propertyPath: sceneViewId
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}

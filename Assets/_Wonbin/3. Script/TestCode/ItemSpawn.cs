@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlashSpawn : MonoBehaviour
+public class ItemSpawn : MonoBehaviour
 {
-    public GameObject Flash;
+    public GameObject Item;
 
     private void Awake()
     {
@@ -14,7 +14,7 @@ public class FlashSpawn : MonoBehaviour
 
     void Spawn()
     {
-        Instantiate(Flash, transform.position, transform.rotation);
+        Instantiate(Item, transform.position, transform.rotation);
     }    
 
 

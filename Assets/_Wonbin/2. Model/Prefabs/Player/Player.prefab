@@ -1204,6 +1204,8 @@ GameObject:
   - component: {fileID: 5356674429432218448}
   - component: {fileID: 500264010287570709}
   - component: {fileID: 3214368371623018483}
+  - component: {fileID: 2052748420303604949}
+  - component: {fileID: 5382792366224767110}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1258,6 +1260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2bfbbb920e9ca04abb93be650c8b2a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charController: {fileID: 0}
   turnSpeed: 4
   _mouseX: 0
   _mouseY: 0
@@ -1265,7 +1268,6 @@ MonoBehaviour:
   gravity: 3
   _playerBody: {fileID: 5356674429432218463}
   _playerHead: {fileID: 5356674429432218462}
-  _headPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &3214368371623018483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1278,6 +1280,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8fda1627cc29e4418519660dd51841d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &2052748420303604949
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771156345009335283}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 1.9
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5382792366224767110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771156345009335283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3771156345257201992
 GameObject:
   m_ObjectHideFlags: 0

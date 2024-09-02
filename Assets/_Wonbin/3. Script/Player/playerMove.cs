@@ -10,6 +10,9 @@ namespace Wonbin
 {
     public class playerMove : MonoBehaviour
     {
+        [SerializeField]
+        private CharacterController charController;
+
         // 카메라 회전 속도
         [SerializeField]
         private float turnSpeed = 4f;
@@ -36,7 +39,6 @@ namespace Wonbin
         // 머리 각도 조절 변수
         [SerializeField]
         private Transform _playerHead;   // 머리 Transform
-        [SerializeField]
         private Vector3 _headPosition;
         private float _currFollowHeadTime = 0f;
         private float _playerHeadOffset = 0f;
@@ -65,8 +67,8 @@ namespace Wonbin
             // 이동량 측정
             Vector3 move = _playerBody.forward * Input.GetAxis("Vertical") + _playerBody.right * Input.GetAxis("Horizontal");
 
-            // 이동량을 현재 좌표에 반영
-            transform.position += move * moveSpeed * Time.deltaTime;
+            // 이동량을 현재 좌표에 반영(이동량 값 계산할때, charController를 참조해야함. 그렇지 않으면 벽 뚫음.)
+            charController.Move(move * moveSpeed * Time.deltaTime);
         }
 
         private void FollowHead()
