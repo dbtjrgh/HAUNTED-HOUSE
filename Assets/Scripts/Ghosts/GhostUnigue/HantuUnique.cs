@@ -11,7 +11,7 @@ public class HantuUnique : MonoBehaviour
     [SerializeField]
     private float _speedInColdRoom;
 
-    private LevelRooms.LevelRoomsEnum _ghostRoom;
+    private Rooms.RoomsEnum _ghostRoom;
     private LevelSetUp _levelSetUp;
 
     private AttackPatrol _attackPatrol;

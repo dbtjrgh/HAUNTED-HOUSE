@@ -21,7 +21,7 @@ public class SanityHandler : MonoBehaviour
     private LevelSetUp _levelSetUp;
     private GameObjectivesService _gameObjectives;
 
-    private LevelRooms.LevelRoomsEnum _currGhostRoom = LevelRooms.LevelRoomsEnum.NoRoom;
+    private Rooms.RoomsEnum _currGhostRoom = Rooms.RoomsEnum.NormalRoom;
     private bool _isSubscribedToOnLevelSetedUp = false;
     private float _sanityModifier = 1f;
 
@@ -71,7 +71,7 @@ public class SanityHandler : MonoBehaviour
 
     private void DropPlayerSanity()
     {
-        if (_currPlayerRoom.CurrRoom == LevelRooms.LevelRoomsEnum.NoRoom) return;
+        if (_currPlayerRoom.CurrRoom == Rooms.RoomsEnum.NormalRoom) return;
         else if (_currPlayerRoom.CurrRoom == _currGhostRoom) TakeSanity(_ghostRoomSecondSanityMinus);
         else TakeSanity(_houseSecondSanityMinus);
 

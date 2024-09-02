@@ -31,7 +31,7 @@ public class SpiritBox : MonoBehaviour, IMainUsable, IDisababled, IDroppable
 
     private LevelSetUp _levelSetUp;
     private GhostInfo _ghostInfo;
-    private LevelRooms.LevelRoomsEnum _ghostRoom;
+    private Rooms.RoomsEnum _ghostRoom;
 
     private float _curChanceToSay = 0f;
 
@@ -44,7 +44,7 @@ public class SpiritBox : MonoBehaviour, IMainUsable, IDisababled, IDroppable
         _levelSetUp = AllServices.Container.Single<LevelSetUp>();
         _ghostRoom = _levelSetUp.CurrGhostRoom;
 
-        if (_ghostRoom == LevelRooms.LevelRoomsEnum.NoRoom) _levelSetUp.OnLevelSetedUp += SetUpInfo;
+        if (_ghostRoom == Rooms.RoomsEnum.NormalRoom) _levelSetUp.OnLevelSetedUp += SetUpInfo;
 
         _curChanceToSay = _defaultChanceToSay;
     }

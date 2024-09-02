@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Utilities.Constants;
+using myRooms;
 
-namespace GameFeatures
+namespace RoomLogic
 {
     [RequireComponent(typeof(Collider))]
     public class RoomIdentifire : MonoBehaviour

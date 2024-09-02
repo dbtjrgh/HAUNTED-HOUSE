@@ -15,7 +15,7 @@ namespace Ghosts.Mood
         [SerializeField]
         private RoomIdentifire _playerCurrentRoom;
         [SerializeField]
-        private LevelRooms.LevelRoomsEnum _ghostRoom;
+        private Rooms.RoomsEnum _ghostRoom;
 
         private GhostDataSO _ghostData;
         private float _ghostAnger = 0f;
@@ -54,7 +54,7 @@ namespace Ghosts.Mood
 
         private void CalculateGhostAnger()
         {
-            if (_playerCurrentRoom.CurrRoom == LevelRooms.LevelRoomsEnum.NoRoom) return;
+            if (_playerCurrentRoom.CurrRoom == Rooms.RoomsEnum.NormalRoom) return;
             else if (_playerCurrentRoom.CurrRoom == _ghostRoom) AddGhostAngerWithCalc(_ghostAngerInGhostRoomWithTime);
             else AddGhostAngerWithCalc(_ghostAngerWithTime);
         }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using Utilities.Constants;
+using myRooms;
 
-namespace GameFeatures
+namespace RoomLogic
 {
     [RequireComponent(typeof(Collider))]
     public class Room : MonoBehaviour

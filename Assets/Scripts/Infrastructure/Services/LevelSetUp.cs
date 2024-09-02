@@ -7,7 +7,7 @@ namespace Infrastructure.Services
     public class LevelSetUp : IService
     {
         public Action OnLevelSetedUp;
-        public LevelRooms.LevelRoomsEnum CurrGhostRoom
+        public Rooms.RoomsEnum CurrGhostRoom
         {
             get { return _currRoom; }
         }
@@ -50,7 +50,7 @@ namespace Infrastructure.Services
         private LightButton[] _lightButtons;
         private SceneNames.LevelNames _selectedMap = SceneNames.LevelNames.Turkwood;
         private Transform _currRoomTransform;
-        private LevelRooms.LevelRoomsEnum _currRoom = LevelRooms.LevelRoomsEnum.NoRoom;
+        private Rooms.RoomsEnum _currRoom = Rooms.RoomsEnum.NormalRoom;
 
         private GameObjectivesService _gameObjectivesService;
         private LevelInfo _currLevelInfo;
@@ -96,17 +96,17 @@ namespace Infrastructure.Services
 
         public void ResetLevel()
         {
-            _currRoom = LevelRooms.LevelRoomsEnum.NoRoom;
+            _currRoom = Rooms.RoomsEnum.NormalRoom;
             _currRoomTransform = null;
             IsInitialized = false;
         }
 
         private void RandomizeCurrentRoom()
         {
-            int randomLevelNum = UnityEngine.Random.Range(0, _currLevelInfo.AllLevelRooms.Length);
-            _currRoom = _currLevelInfo.AllLevelRooms[randomLevelNum].RoomType;
+            int randomLevelNum = UnityEngine.Random.Range(0, _currLevelInfo.AllRooms.Length);
+            _currRoom = _currLevelInfo.AllRooms[randomLevelNum].RoomType;
             _currLevelSize = _currLevelInfo.LevelSize;
-            _currRoomTransform = _currLevelInfo.AllLevelRooms[randomLevelNum].transform;
+            _currRoomTransform = _currLevelInfo.AllRooms[randomLevelNum].transform;
             _mainDoors = _currLevelInfo.MainDoors;
             _lightButtons = _currLevelInfo.LightButtons;
             //Debug.Log("curr room = " + _currRoom.ToString());
