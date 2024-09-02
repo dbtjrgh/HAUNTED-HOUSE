@@ -1,40 +1,44 @@
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
+using System.Collections;
 using UnityEngine;
 
 public class CGameManager : MonoBehaviourPunCallbacks
 {
-    private static GameObject localPlayerInstance;
+    #region 변수
+    public Transform startPositions;
+
+    #endregion
 
     private void Start()
     {
-        // 방에 이미 참가한 상태인 경우 플레이어 생성
-        if (PhotonNetwork.InRoom)
+        PhotonNetwork.AutomaticallySyncScene = true;
+        if (PhotonNetwork.IsConnectedAndReady)
         {
-            CreatePlayer();
-        }
-    }
-
-    // 방에 참가했을 때 호출되는 콜백
-    public override void OnJoinedRoom()
-    {
-        // 방에 참가했을 때 플레이어 생성
-        CreatePlayer();
-    }
-
-    private void CreatePlayer()
-    {
-        if (localPlayerInstance != null) return; // 이미 플레이어가 생성된 경우 중복 생성 방지
-
-        GameObject playerPrefab = Resources.Load<GameObject>("PlayerPrefab");
-        if (playerPrefab == null)
-        {
-            Debug.LogError("Player prefab not found.");
-            return;
+            StartCoroutine(NormalStart());
         }
 
-        Vector3 spawnPosition = new Vector3(11, 4, -7); 
-        localPlayerInstance = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
 
-        PhotonNetwork.LocalPlayer.TagObject = localPlayerInstance;
+    }
+
+    private IEnumerator NormalStart()
+    {
+        // PhotonNetwork가 모든 플레이어의 로드 상태를 판단하여 넘버링을 해야 하는데,
+        // 현재 그런 모듈이 구현되어있지 않으므로, 1초 대기 후 게임 시작 절차를 수행
+        yield return new WaitUntil(() => PhotonNetwork.LocalPlayer.GetPlayerNumber() != -1);
+
+        //GameObject playerPrefab = Resources.Load<GameObject>("Player");
+
+        //Instantiate(playerPrefab, startPositions.GetChild(0).position,Quaternion.identity);
+
+        // 게임에 참여한 방에서 부여된 내 번호
+        // 활용하기 위해서는 게임 씬에 PlayerNumbering 컴포넌트가 존재해야함.
+        int playerNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
+
+        Transform playerPos = startPositions.GetChild(playerNumber);
+
+        GameObject playerObj = PhotonNetwork.Instantiate("PlayerPrefab", playerPos.position, playerPos.rotation);
+
+        playerObj.name = $"Player {playerNumber}";
     }
 }

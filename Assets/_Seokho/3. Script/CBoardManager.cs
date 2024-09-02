@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CBoardManager : MonoBehaviourPunCallbacks
 {
@@ -16,7 +17,6 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public CMenuScreen menu;   // 메뉴 스크린
     public CFindRoom find;     // 방찾기 스크린
     public CRoomScreen room;   // 방 스크린
-    public GameObject playerPrefab;
     #endregion
 
     // 스크린을 이름으로 관리
@@ -100,9 +100,8 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         print("룸에 입장");
+        SceneManager.LoadScene("Multi Lobby");
         ScreenOpen("Room");
-
-
     }
 
     /// <summary>
@@ -128,8 +127,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         print("룸에 입장");
         base.OnCreatedRoom();
-        // Load multiplayer lobby scene
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Multi Lobby");
+        
         ScreenOpen("Room");
 
     }

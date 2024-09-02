@@ -26,6 +26,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
     public Button startButton;
     public Button exitButton;
+    public Toggle readyToggle;
     public TMP_Dropdown diffDropdown;
     public TextMeshProUGUI diffText;
 
@@ -107,6 +108,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         {
             // 내 엔트리일 경우
             toggle.onValueChanged.AddListener(ReadyToggleClick);
+            readyToggle.onValueChanged.AddListener(ReadyToggleClick);
         }
         else
         {
@@ -162,7 +164,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         // Photon을 통해 플레이어들과 씬을 동기화하여 로드
         if (PhotonNetwork.IsMasterClient && AllPlayersReady())
         {
-            PhotonNetwork.CurrentRoom.IsOpen = false; // Close room to prevent late joins
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
             PhotonNetwork.LoadLevel("GameScene");
@@ -207,7 +209,6 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         if (playerEntries.ContainsKey(actorNumber))
         {
             playerEntries[actorNumber].readyToggle.isOn = isReady;
-            playerEntries[actorNumber].readyStatusImage.color = isReady ? Color.green : Color.red;
         }
     }
 
@@ -233,8 +234,8 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
     public void CheckReady()
     {
-        bool allReady = playersReady.Values.All(x => x);        // 모든 플레이어가 준비가 되어있을 때 버튼 활성화
-        bool anyReady = playersReady.Values.Any(x => x);          // 한명이라도 준비가 되어있을 때 버튼 활성화
+        bool allReady = playersReady.Values.All(x => x); // 모든 플레이어가 준비가 되어있을 때 버튼 활성화
+        bool anyReady = playersReady.Values.Any(x => x); // 한명이라도 준비가 되어있을 때 버튼 활성화
 
         startButton.interactable = allReady;
     }
@@ -271,8 +272,6 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         if (props.ContainsKey("Character"))
         {
             print($"room character changed : {props["Character"]}");
-
-
         }
     }
 
@@ -292,13 +291,11 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         if (props.ContainsKey("Diff"))
         {
             print($"방 난이도 변경됨 : {props["Diff"]}");
-            diffText.text = ((Difficulty)props["Diff"]).ToString();             // enum형태로 변환
+            diffText.text = ((Difficulty)props["Diff"]).ToString(); // enum형태로 변환
         }
+        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab", Vector3.zero, Quaternion.identity); // 플레이어 재생성
+       
 
-        if (props.ContainsKey("Character"))
-        {
-            print($"room difficulty changed : {props["Diff"]}");
-        }
         if (PhotonNetwork.LocalPlayer.TagObject == null)
         {
             SpawnPlayer();

@@ -2353,12 +2353,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 4
-  moveSpeed: 1
+  moveSpeed: 3
   gravity: 3
   _playerBody: {fileID: 3321877604750537608}
   _playerHead: {fileID: 3321877604750537609}
   _headPosition: {x: 0, y: 0, z: 0}
-  characterController: {fileID: 0}
+  characterController: {fileID: 3321877604750537607}
 --- !u!114 &4947996850334405209
 MonoBehaviour:
   m_ObjectHideFlags: 0
