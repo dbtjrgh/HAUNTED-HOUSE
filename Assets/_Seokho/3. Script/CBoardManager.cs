@@ -129,7 +129,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         print("∑Îø° ¿‘¿Â");
         base.OnCreatedRoom();
         // Load multiplayer lobby scene
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MultiplayerLobby");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Multi Lobby");
         ScreenOpen("Room");
 
     }

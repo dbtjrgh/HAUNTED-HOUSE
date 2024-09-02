@@ -58028,6 +58028,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4789138812208588684, guid: ac8f81e72e66ed941879d7036e8949c8, type: 3}
+      propertyPath: characterController
+      value: 
+      objectReference: {fileID: 2129537063}
     - target: {fileID: 4947996850334405209, guid: ac8f81e72e66ed941879d7036e8949c8, type: 3}
       propertyPath: sceneViewId
       value: 1
@@ -71266,6 +71270,11 @@ CanvasRenderer:
 --- !u!4 &2129537058 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5772140967704337118, guid: ac8f81e72e66ed941879d7036e8949c8, type: 3}
+  m_PrefabInstance: {fileID: 1528773002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &2129537063 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 3321877604750537607, guid: ac8f81e72e66ed941879d7036e8949c8, type: 3}
   m_PrefabInstance: {fileID: 1528773002}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2144398297
