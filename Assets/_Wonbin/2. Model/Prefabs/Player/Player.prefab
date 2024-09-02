@@ -1206,6 +1206,8 @@ GameObject:
   - component: {fileID: 3214368371623018483}
   - component: {fileID: 2052748420303604949}
   - component: {fileID: 5382792366224767110}
+  - component: {fileID: 6723944009055706394}
+  - component: {fileID: 9222617591134645466}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1316,6 +1318,38 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6723944009055706394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771156345009335283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea7233f67b8004ab25966152431697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPlayerRoom: {fileID: 9222617591134645466}
+  maxMentalGauge: 100
+  normalRoomGaugeMinus: 0
+  secondGaugeMinus: 0
+  ghostRoomGaugeMinus: 0
+  MentalGauge: 0
+--- !u!114 &9222617591134645466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771156345009335283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fd5dc42422d49d4d9da1e952038853e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrRoom: 24
+  _nextRooms: 
 --- !u!1 &3771156345257201992
 GameObject:
   m_ObjectHideFlags: 0

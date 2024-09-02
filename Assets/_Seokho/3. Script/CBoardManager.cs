@@ -43,11 +43,6 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AddCallbackTarget(this);
     }
 
-    private void OnDestroy()
-    {
-        PhotonNetwork.RemoveCallbackTarget(this);
-    }
-
     /// <summary>
     /// 특정 스크린을 이름으로 열기 위한 함수
     /// </summary>
@@ -105,9 +100,8 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         print("룸에 입장");
-        ScreenOpen("Room");
         SceneManager.LoadScene("Multi Lobby");
-        
+        ScreenOpen("Room");
     }
 
     /// <summary>
@@ -154,7 +148,6 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
-        room.JoinPlayer(newPlayer);
         // 새로운 플레이어 3D 오브젝트 생성
         Vector3 spawnPosition = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         GameObject playerObject = PhotonNetwork.Instantiate("PlayerPrefab", spawnPosition, Quaternion.identity);
@@ -167,7 +160,6 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-        room.LeavePlayer(otherPlayer);
         // 떠난 플레이어의 3D 오브젝트 제거
         PhotonNetwork.DestroyPlayerObjects(otherPlayer);
     }
@@ -178,7 +170,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        find.UpdateRoomList(roomList);
+        // lobby.UpdateRoomList(roomList);
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {

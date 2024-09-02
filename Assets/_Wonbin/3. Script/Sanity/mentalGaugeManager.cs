@@ -11,8 +11,8 @@ public class mentalGaugeManager : MonoBehaviour
     [SerializeField]
     private RoomIdentifire currentPlayerRoom;
 
-    [SerializeField]
-    private float maxMentalGauge = 100;
+    
+    public float maxMentalGauge = 100;
 
     [SerializeField]
     private float normalRoomGaugeMinus;

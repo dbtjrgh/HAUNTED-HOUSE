@@ -1697,7 +1697,7 @@ GameObject:
   - component: {fileID: 8495586267572030096}
   m_Layer: 11
   m_Name: GameObject
-  m_TagString: Ghost
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1961,10 +1961,9 @@ GameObject:
   - component: {fileID: 3499709902169054000}
   - component: {fileID: -2518655794572663041}
   - component: {fileID: 2018343558381690971}
-  - component: {fileID: 5483569275526619573}
   m_Layer: 11
   m_Name: ghost1529
-  m_TagString: Ghost
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2440,19 +2439,6 @@ MonoBehaviour:
   ghostNav: {fileID: 205478300}
   target: {fileID: 0}
   returnpos: {fileID: 0}
---- !u!135 &5483569275526619573
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7874926961459402408}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.09
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7914551804106814790
 GameObject:
   m_ObjectHideFlags: 0

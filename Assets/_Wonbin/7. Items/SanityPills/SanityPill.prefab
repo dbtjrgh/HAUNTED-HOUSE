@@ -9,14 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2358146820083368815}
-  - component: {fileID: 2358146820083368813}
-  - component: {fileID: 2358146820083368814}
   - component: {fileID: -6426674261419286860}
   - component: {fileID: 2358146820083368812}
   - component: {fileID: 2358146820083368811}
+  - component: {fileID: 8756728745032175278}
   m_Layer: 8
   m_Name: SanityPill
-  m_TagString: Untagged
+  m_TagString: Items
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,31 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2358146820083368813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2358146820083368720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ded5e3a642c86ef46b95b3633aaca54f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sanityToAdd: 30
---- !u!114 &2358146820083368814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2358146820083368720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84dfa8e51bff5a5458810b99fac9201f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-6426674261419286860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,12 +73,25 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.15
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!114 &8756728745032175278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2358146820083368720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e286e563af7e34b83948d287d270e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Player: {fileID: 3771156345009335283, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
 --- !u!1 &7493903079333777646
 GameObject:
   m_ObjectHideFlags: 0

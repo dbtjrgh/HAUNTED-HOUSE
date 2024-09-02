@@ -78,10 +78,10 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         {
             // 방장이 아닌 상태
         }
-        // 방장이 아니면 게임 시작 버튼 및 난이도 조절 드롭다운 비활성화
-        startButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
-        diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
-        diffText.gameObject.SetActive(!PhotonNetwork.IsMasterClient);
+            // 방장이 아니면 게임 시작 버튼 및 난이도 조절 드롭다운 비활성화
+            startButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+            diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+            diffText.gameObject.SetActive(!PhotonNetwork.IsMasterClient);
 
         foreach (Photon.Realtime.Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
@@ -197,10 +197,10 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         // PhotonNetwork의 customProperties는 Hashtable 구조를 활용
         // 그러나 dotnet의 HashTable이 아닌 간소화 형태의 Hashtable 클래스를 직접 제공
 
-        PhotonHashtable customProps = localPlayer.CustomProperties;
+        Hashtable customProps = PhotonNetwork.LocalPlayer.CustomProperties;
         customProps["Ready"] = isOn;
 
-        localPlayer.SetCustomProperties(customProps);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
         UpdatePlayerReadyState(PhotonNetwork.LocalPlayer.ActorNumber, isOn);
     }
 
@@ -217,6 +217,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
     {
         if (playerEntries.ContainsKey(actorNumber))
         {
+            playerEntries[actorNumber].UpdateReadyStatus(isReady);
 
             if (PhotonNetwork.IsMasterClient)
             {
