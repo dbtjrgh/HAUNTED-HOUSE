@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/_Seokho/1. Scene/Loading.unity
     guid: 52f9a803d294f9947a12184fc872eab9
   - enabled: 1
-    path: Assets/_Seokho/1. Scene/Lobby.unity
+    path: Assets/_Seokho/1. Scene/SingleLobby.unity
     guid: a0e2a994b6d911f44b23b2de53060027
   - enabled: 1
     path: Assets/_Seokho/1. Scene/MultiLobby.unity

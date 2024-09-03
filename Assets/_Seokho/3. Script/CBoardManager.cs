@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class CBoardManager : MonoBehaviourPunCallbacks
 {
@@ -17,6 +19,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public CMenuScreen menu;   // 메뉴 스크린
     public CFindRoom find;     // 방찾기 스크린
     public CRoomScreen room;   // 방 스크린
+    public Transform startPositions;
     #endregion
 
     // 스크린을 이름으로 관리
@@ -25,6 +28,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+
         // 싱글톤 인스턴스 설정
         Instance = this;
 
@@ -106,7 +110,12 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         print("룸에 입장");
         ScreenOpen("Room");
-        //SceneManager.LoadScene("Multi Lobby");
+        GameManager.instance.isConnect = true;
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("MultiLobby");
+
+        }
     }
 
     /// <summary>

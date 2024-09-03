@@ -51,7 +51,7 @@ public class CLoadingScreen : MonoBehaviour
             _panelsToShow[i].DOFade(MinValue, TimeToFade);
             yield return new WaitForSeconds(TimeToFade);
         }
-        SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene("SingleLobby");
 
     }
 }

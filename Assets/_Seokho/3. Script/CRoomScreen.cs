@@ -272,13 +272,6 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
 
-        // 이미 캐릭터가 생성되어 있는지 확인
-        if (PhotonNetwork.LocalPlayer.TagObject != null)
-        {
-            Debug.Log("이미 플레이어 캐릭터가 생성되어 있음. 추가 생성하지 않음.");
-            return;
-        }
-
         var props = PhotonNetwork.CurrentRoom.CustomProperties;
 
         if (props.ContainsKey("Diff"))

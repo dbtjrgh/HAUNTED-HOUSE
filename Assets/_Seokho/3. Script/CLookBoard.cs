@@ -5,11 +5,9 @@ public class CLookBoard : MonoBehaviour
 {
     #region 변수
     [SerializeField]
-    private CinemachineVirtualCamera boardCinemachine; // 보드 카메라
-    [SerializeField]
-    private CinemachineVirtualCamera playerCinemachine; // 플레이어 카메라
-    [SerializeField]
-    private Transform playerTransform; // 플레이어 트랜스폼 기준
+    public CinemachineVirtualCamera boardCinemachine; // 보드 카메라
+    public CinemachineVirtualCamera playerCinemachine; // 플레이어 카메라
+    public Transform playerTransform; // 플레이어 트랜스폼 기준
     [SerializeField]
     private float activationDistance; // 보드와 플레이어 상호작용 거리
 
@@ -17,11 +15,19 @@ public class CLookBoard : MonoBehaviour
     private bool isInBoard = false;
     #endregion
 
+    private void Awake()
+    {
+        // 초기화 시점에 playerCinemachine과 playerTransform이 이미 설정된 경우 처리
+        if (playerCinemachine != null && playerTransform != null)
+        {
+            InitializePlayerCamera();
+        }
+    }
+
     private void Start()
     {
-        // 시작할 때 플레이어 시점 마우스 없애기
-        Cursor.lockState = CursorLockMode.Locked;
-        playerCinemachine.Priority = 0;
+        // Start에서 추가적인 초기화가 필요한 경우 처리
+        // 예: 기본 카메라 설정 등
     }
 
     private void Update()
@@ -71,6 +77,12 @@ public class CLookBoard : MonoBehaviour
     /// </summary>
     private void LookAtBoard()
     {
+        if (playerCinemachine == null)
+        {
+            Debug.LogError("playerCinemachine is not assigned.");
+            return;
+        }
+
         // 보드 카메라가 비활성화면 활성화
         if (!boardCinemachine.gameObject.activeSelf)
         {
@@ -89,6 +101,12 @@ public class CLookBoard : MonoBehaviour
 
     public void ReturnToPlayerCamera()
     {
+        if (playerCinemachine == null)
+        {
+            Debug.LogError("playerCinemachine is not assigned.");
+            return;
+        }
+
         // 카메라 우선순위 변경 | 보드 -> 플레이어
         boardCinemachine.Priority = 0;
         playerCinemachine.Priority = 10;
@@ -96,6 +114,33 @@ public class CLookBoard : MonoBehaviour
         // 보드 카메라 비활성화
         isInBoard = false;
         // 커서 잠금 모드
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    /// <summary>
+    /// PlayerPrefab이 생성될 때 호출하여 playerCinemachine과 playerTransform을 설정하는 메서드
+    /// </summary>
+    /// <param name="playerCam">Player의 Cinemachine 카메라</param>
+    /// <param name="playerTrans">Player의 Transform</param>
+    public void SetPlayerReferences(CinemachineVirtualCamera playerCam, Transform playerTrans)
+    {
+        playerCinemachine = playerCam;
+        playerTransform = playerTrans;
+
+        InitializePlayerCamera();
+    }
+
+    /// <summary>
+    /// 플레이어 카메라 초기화
+    /// </summary>
+    private void InitializePlayerCamera()
+    {
+        if (playerCinemachine != null)
+        {
+            playerCinemachine.Priority = 10; // 기본적으로 플레이어 카메라가 우선순위가 높음
+        }
+
+        // 시작할 때 플레이어 시점 마우스 잠금
         Cursor.lockState = CursorLockMode.Locked;
     }
 }

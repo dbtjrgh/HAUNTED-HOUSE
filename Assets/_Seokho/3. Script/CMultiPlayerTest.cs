@@ -1,8 +1,9 @@
+using Cinemachine;
 using Photon.Pun;
 using System.Linq;
 using UnityEngine;
 
-public class CPlayerTest : MonoBehaviourPunCallbacks
+public class CMultiPlayerTest : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private CharacterController charController;
@@ -12,7 +13,6 @@ public class CPlayerTest : MonoBehaviourPunCallbacks
     private float turnSpeed = 4f;
 
     // 카메라 상하 회전
-    [SerializeField]
     private float _mouseX, _mouseY;
     private float xRotation = 0f;
     private float xRotation_head = 0f;
@@ -29,7 +29,6 @@ public class CPlayerTest : MonoBehaviourPunCallbacks
     [SerializeField]
     private Transform _playerBody;   // 몸 Transform (상체나 전체 몸이 포함된 Transform)
 
-
     // 머리 각도 조절 변수
     [SerializeField]
     private Transform _playerHead;   // 머리 Transform
@@ -37,17 +36,70 @@ public class CPlayerTest : MonoBehaviourPunCallbacks
     private float _currFollowHeadTime = 0f;
     private float _playerHeadOffset = 0f;
 
+    private PhotonView pv;
+    private CinemachineVirtualCamera playerCinemachine;
+
     private void Awake()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         charController = GetComponent<CharacterController>();
         if (_playerBody == null)
         {
             _playerBody = transform.Find("PlayerBody");
+            if (_playerBody == null)
+            {
+                Debug.LogError("PlayerBody not found in PlayerPrefab.");
+            }
         }
-        if(_playerHead == null)
+        if (_playerHead == null)
         {
             _playerHead = FindChildByName("PlayerHead");
+            if (_playerHead == null)
+            {
+                Debug.LogError("PlayerHead not found in PlayerPrefab.");
+            }
         }
+
+        pv = GetComponent<PhotonView>();
+
+        if (pv.IsMine)
+        {
+            // 로컬 플레이어의 경우
+            // _playerHead의 자식 오브젝트에서 CinemachineVirtualCamera 컴포넌트를 찾음
+            playerCinemachine = _playerHead.GetComponentInChildren<CinemachineVirtualCamera>();
+            if (playerCinemachine == null)
+            {
+                Debug.LogError("CinemachineVirtualCamera not found in _playerHead.");
+            }
+
+            // CLookBoard 스크립트를 찾음
+            CLookBoard lookBoard = FindObjectOfType<CLookBoard>();
+            if (lookBoard != null)
+            {
+                // Player의 카메라와 Transform을 CLookBoard에 설정
+                lookBoard.SetPlayerReferences(playerCinemachine, transform);
+            }
+            else
+            {
+                Debug.LogError("CLookBoard script not found in the scene.");
+            }
+        }
+        else
+        {
+            // 네트워크 상의 다른 플레이어의 경우
+            // 플레이어 카메라 비활성화
+            playerCinemachine = _playerHead.GetComponentInChildren<CinemachineVirtualCamera>();
+            if (playerCinemachine != null)
+            {
+                playerCinemachine.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void Start()
+    {
+        // 추가적인 초기화가 필요한 경우 여기서 수행
     }
 
     private Transform FindChildByName(string name)
@@ -57,9 +109,12 @@ public class CPlayerTest : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        moveInput();
-        FollowHead();  // 머리 위치 업데이트 호출
-        PlayerRotation(); // 플레이어 회전
+        if (pv.IsMine)
+        {
+            moveInput();
+            FollowHead();  // 머리 위치 업데이트 호출
+            PlayerRotation(); // 플레이어 회전
+        }
     }
 
     private void moveInput()
@@ -79,7 +134,7 @@ public class CPlayerTest : MonoBehaviourPunCallbacks
         // 이동량 측정
         Vector3 move = _playerBody.forward * Input.GetAxis("Vertical") + _playerBody.right * Input.GetAxis("Horizontal");
 
-        // 이동량을 현재 좌표에 반영(이동량 값 계산할때, charController를 참조해야함. 그렇지 않으면 벽 뚫음.)
+        // 이동량을 현재 좌표에 반영
         charController.Move(move * moveSpeed * Time.deltaTime);
     }
 

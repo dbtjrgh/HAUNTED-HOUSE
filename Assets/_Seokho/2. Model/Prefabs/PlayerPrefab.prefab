@@ -1351,6 +1351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charController: {fileID: 0}
   turnSpeed: 4
+  _mouseX: 0
+  _mouseY: 0
   moveSpeed: 4
   gravity: 3
   _playerBody: {fileID: 0}
