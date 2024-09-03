@@ -26,43 +26,47 @@ public class EMFTrigger : MonoBehaviour
             print(Ghost.instance.state);
             print(Ghost.instance.ghostType);
             
-            if (other.gameObject==ghost)      
+            if (other.CompareTag("Ghost"))      
             {
                 print("Ghost");
-                if (Ghost.instance.state == changwon.GhostState.HUNTTING)
+                float TargetDistance = Vector3.Distance(ghost.transform.position, transform.position);
+                if (TargetDistance < 5)
                 {
-                    for (int i = 0; i < emf.lights.Length; i++)
+                    if (Ghost.instance.state == changwon.GhostState.HUNTTING)
                     {
-                        emf.lights[i].gameObject.SetActive(true);
+                        for (int i = 0; i < emf.lights.Length; i++)
+                        {
+                            emf.lights[i].gameObject.SetActive(true);
+                        }
                     }
-                }
-                else
-                {
-                    switch (Ghost.instance.ghostType)
+                    else
                     {
-                        
-                        case GhostType.BANSHEE:
+                        switch (Ghost.instance.ghostType)
+                        {
+
+                            case GhostType.BANSHEE:
 
 
-                        break;
+                                break;
 
-                        case GhostType.NIGHTMARE:
-                            
-                            for (int i = 0; i < 3; i++)
-                            {
-                                
-                                emf.lights[i].gameObject.SetActive(true);
-                            }
-                            break;
+                            case GhostType.NIGHTMARE:
 
-                        case GhostType.DEMON:
-                            
-                            for (int i = 0; i < emf.lights.Length; i++)
-                            {
-                                
-                                emf.lights[i].gameObject.SetActive(true);
-                            }
-                            break;
+                                for (int i = 0; i < 3; i++)
+                                {
+
+                                    emf.lights[i].gameObject.SetActive(true);
+                                }
+                                break;
+
+                            case GhostType.DEMON:
+
+                                for (int i = 0; i < emf.lights.Length; i++)
+                                {
+
+                                    emf.lights[i].gameObject.SetActive(true);
+                                }
+                                break;
+                        }
                     }
                 }
             }

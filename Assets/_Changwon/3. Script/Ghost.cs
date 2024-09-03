@@ -24,18 +24,22 @@ public enum GhostType
 
 
 
+
+
 public class Ghost : MonoBehaviour
 {
     public static Ghost instance;
 
-    
+
 
     public changwon.GhostState state;
     public GhostType ghostType;
     public NavMeshAgent ghostNav;
     public GameObject target;
-    public Transform returnpos;
+    
     mentalGaugeManager mental;
+    MapManager mapManager;
+
 
 
 
@@ -55,19 +59,19 @@ public class Ghost : MonoBehaviour
                 ghostNav.speed = 7f;
                 break;
         }
-        
+
 
     }
 
-    
+
 
     private void Update()
     {
         target = GameObject.FindGameObjectWithTag("Player");
-        returnpos = GameObject.FindGameObjectWithTag("GhostSpawnPoint").transform;
+        
 
         StartCoroutine(StateMechine());
-        
+
     }
 
     public float currentGhostType()
@@ -104,11 +108,12 @@ public class Ghost : MonoBehaviour
 
     private IEnumerator idle()
     {
-        mental =FindObjectOfType<mentalGaugeManager>();
+        mental = FindObjectOfType<mentalGaugeManager>();
+        print($"Mental : {mental.MentalGauge}");
         while (state == changwon.GhostState.IDLE)
         {
             ghostNav.isStopped = true;
-            if(mental!=null&&mental.MentalGauge==50)
+            if (mental != null && mental.MentalGauge <= 50)
             {
                 ChangeState(changwon.GhostState.HUNTTING);
             }
@@ -125,12 +130,12 @@ public class Ghost : MonoBehaviour
 
     private IEnumerator returnPosition()
     {
-
+        mapManager = FindObjectOfType<MapManager>();
         while (state == changwon.GhostState.RETURN)
         {
             {
                 ghostNav.isStopped = false;
-                ghostNav.SetDestination(returnpos.position);
+                ghostNav.SetDestination(mapManager.returnRandom);
                 yield return new WaitForSeconds(30f);
                 ChangeState(changwon.GhostState.IDLE);
 
@@ -145,7 +150,7 @@ public class Ghost : MonoBehaviour
     {
         while (state == changwon.GhostState.HUNTTING)
         {
-            
+
             if (target != null)
             {
 
@@ -165,7 +170,7 @@ public class Ghost : MonoBehaviour
                     StartCoroutine(ghostBlink());
                 }
 
-                
+
 
 
                 else/*else if 플레이어*/
@@ -195,10 +200,10 @@ public class Ghost : MonoBehaviour
     IEnumerator ghostBlink()
     {
 
-        
+
         Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("ghostBlink");
         yield return new WaitForSeconds(1f);
-        Camera.main.cullingMask^=~(1<<LayerMask.NameToLayer("ghostBlink")); 
+        Camera.main.cullingMask ^= ~(1 << LayerMask.NameToLayer("ghostBlink"));
 
     }
 
