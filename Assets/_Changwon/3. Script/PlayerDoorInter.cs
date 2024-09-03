@@ -72,6 +72,8 @@ public class PlayerDoorInter : MonoBehaviour
         
         StartCoroutine(CheckDoorState());
 
+        LeavePrintsUV();
+
     }
 
     private void FixedUpdate()

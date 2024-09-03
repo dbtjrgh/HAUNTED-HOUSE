@@ -30,8 +30,11 @@ namespace changwon
                 }
                 else
                 {
-                    EMFOnOff = false;
-                    lights[0].gameObject.SetActive(false);
+                    for (int i = 0; i < lights.Length; i++)
+                    {
+                        EMFOnOff = false;
+                        lights[i].gameObject.SetActive(false);
+                    }
                 }
             }
         }
