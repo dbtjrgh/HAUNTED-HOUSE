@@ -74088,7 +74088,7 @@ MonoBehaviour:
   turnSpeed: 4
   _mouseX: 0
   _mouseY: 0
-  moveSpeed: 1
+  moveSpeed: 3
   gravity: 3
   _playerBody: {fileID: 0}
   _playerHead: {fileID: 0}

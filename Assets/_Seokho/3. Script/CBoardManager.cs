@@ -87,7 +87,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         print("로비 입장");
         ScreenOpen("Find");
-        // PhotonNetwork.LoadLevel("Lobby");
+        PhotonNetwork.LoadLevel("MultiLobby");
     }
 
     /// <summary>
@@ -161,15 +161,8 @@ public class CBoardManager : MonoBehaviourPunCallbacks
             room.SetPlayerReady(newPlayer.ActorNumber, (bool)newPlayer.CustomProperties["Ready"]);
         }
 
-        if(!PhotonNetwork.IsMasterClient)
-        {
-            // 새로운 플레이어 3D 오브젝트 생성
-            Vector3 spawnPosition = new Vector3(26, 1, -5);
-            GameObject playerObject = PhotonNetwork.Instantiate("PlayerPrefab", spawnPosition, Quaternion.identity);
-        }
         
     }
-
     /// <summary>
     /// 다른 플레이어가 현재 방에 나갔을 때 불러오는 함수
     /// </summary>

@@ -286,43 +286,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
             print($"방 난이도 변경됨 : {props["Diff"]}");
             diffText.text = ((Difficulty)props["Diff"]).ToString(); // enum형태로 변환
         }
-        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab", Vector3.zero, Quaternion.identity); // 플레이어 재생성
-       
 
-        if (PhotonNetwork.LocalPlayer.TagObject == null)
-        {
-            SpawnPlayer();
-        }
-    }
-
-    private void SpawnPlayer()
-    {
-        // 플레이어 프리팹 불러오기
-        GameObject playerPrefab = Resources.Load<GameObject>("PlayerPrefab");
-        if (playerPrefab == null)
-        {
-            Debug.LogError("플레이어 프리팹을 찾을 수 없습니다. Resources 폴더에 있는지 확인하거나 올바르게 할당하십시오.");
-            return;
-        }
-
-        // 플레이어 프리팹을 스폰 위치에 인스턴스화
-        Vector3 spawnPosition = new Vector3(26, 1, -4); // 스폰 로직을 여기에 정의하십시오.
-        GameObject playerObject = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
-
-        // 플레이어 오브젝트에 필요한 컴포넌트가 있는지 확인
-        if (playerObject.GetComponent<CharacterController>() == null)
-        {
-            Debug.LogError("플레이어 프리팹에 CharacterController 컴포넌트가 없습니다.");
-        }
-        if (playerObject.GetComponent<Transform>() == null)
-        {
-            Debug.LogError("플레이어 프리팹에 Transform 컴포넌트가 없습니다.");
-        }
-
-        // 로컬 플레이어의 TagObject에 생성된 캐릭터를 저장
-        PhotonNetwork.LocalPlayer.TagObject = playerObject;
-
-        // 필요한 경우 여기에 다른 컴포넌트 체크를 추가
     }
 
     /// <summary>
