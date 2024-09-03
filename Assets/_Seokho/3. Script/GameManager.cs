@@ -38,30 +38,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 씬이 로드된 후, 플레이어를 생성하는 코루틴 실행
         if (isConnect)
         {
-            StartCoroutine(CreatePlayer());
+
         }
     }
-
-    private IEnumerator CreatePlayer()
-    {
-        startPositions = GameObject.Find("Initial").GetComponentInChildren<Transform>();
-        if (startPositions == null)
-        {
-            Debug.LogError("Start positions not found in the scene.");
-            yield break;
-        }
-
-        Vector3 pos = startPositions.position;
-        Quaternion rot = startPositions.rotation;
-
-        GameObject playerTemp = PhotonNetwork.Instantiate("PlayerPrefab", pos, rot, 0);
-        if (playerTemp != null)
-        {
-            Debug.Log("Player instantiated successfully.");
-        }
-        else
-        {
-            Debug.LogError("Failed to instantiate player.");
-        }
-    }
+    
 }

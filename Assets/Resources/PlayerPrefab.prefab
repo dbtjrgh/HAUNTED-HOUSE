@@ -570,6 +570,7 @@ GameObject:
   - component: {fileID: 2456366017245170265}
   - component: {fileID: 7767985568915073042}
   - component: {fileID: 491529132463063283}
+  - component: {fileID: 7153112125200391130}
   m_Layer: 7
   m_Name: character
   m_TagString: Untagged
@@ -632,6 +633,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9330737c2e382b04baaa537b1af98eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7153112125200391130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980559746644119779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: isWalking
+  - Type: 9
+    SynchronizeType: 0
+    Name: CrouchTrigger
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsCrouch
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &2997857256098198381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,11 +1321,12 @@ GameObject:
   - component: {fileID: 3047239458808862977}
   - component: {fileID: 1922633432567704103}
   - component: {fileID: 5503897953536761460}
+  - component: {fileID: -3334550961630487757}
   - component: {fileID: 6593969521511218152}
   - component: {fileID: 8732219030986115624}
   m_Layer: 7
   m_Name: PlayerPrefab
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1399,10 +1428,28 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -3334550961630487757}
+  - {fileID: 7153112125200391130}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-3334550961630487757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641043283564678401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!114 &6593969521511218152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1444,6 +1491,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5513804691667281325}
+  - component: {fileID: 4605377897488084256}
+  - component: {fileID: 2308194633964168243}
   m_Layer: 7
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -1469,6 +1518,46 @@ Transform:
   m_Father: {fileID: 3641043283564678395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4605377897488084256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641043284197481445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2308194633964168243}
+  - {fileID: 7153112125200391130}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &2308194633964168243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641043284197481445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &3641043284402905168
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,7 +1568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3641043284402905169}
   - component: {fileID: 3641043284402905175}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fps Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}

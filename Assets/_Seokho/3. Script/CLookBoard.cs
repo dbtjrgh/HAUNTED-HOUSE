@@ -1,7 +1,9 @@
 using UnityEngine;
 using Cinemachine;
+using Photon.Pun;
+using UnityEngine.SceneManagement;
 
-public class CLookBoard : MonoBehaviour
+public class CLookBoard : MonoBehaviourPunCallbacks
 {
     #region 변수
     [SerializeField]
@@ -17,10 +19,10 @@ public class CLookBoard : MonoBehaviour
 
     private void Awake()
     {
-        // 초기화 시점에 playerCinemachine과 playerTransform이 이미 설정된 경우 처리
-        if (playerCinemachine != null && playerTransform != null)
+        // 포톤 내에서 자신의 PlayerPrefab을 찾아서 할당
+        if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
         {
-            InitializePlayerCamera();
+            AssignLocalPlayerReferences();
         }
     }
 
@@ -142,5 +144,56 @@ public class CLookBoard : MonoBehaviour
 
         // 시작할 때 플레이어 시점 마우스 잠금
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    /// <summary>
+    /// 로컬 플레이어의 카메라와 트랜스폼을 자동으로 할당하는 메서드
+    /// </summary>
+    private void AssignLocalPlayerReferences()
+    {
+        // 로컬 플레이어의 CinemachineVirtualCamera 찾기
+        playerCinemachine = FindObjectOfType<CinemachineVirtualCamera>();
+
+        // CinemachineVirtualCamera를 성공적으로 찾았는지 확인
+        if (playerCinemachine == null)
+        {
+            Debug.LogError("로컬 플레이어를 위한 CinemachineVirtualCamera를 찾지 못했습니다.");
+            return;
+        }
+
+
+        // 카메라와 트랜스폼이 모두 할당되었는지 확인한 후 진행
+        if (playerCinemachine != null && playerTransform != null)
+        {
+            InitializePlayerCamera();
+            Debug.Log("로컬 플레이어 레퍼런스가 성공적으로 할당되었습니다.");
+        }
+        else
+        {
+            Debug.Log("로컬 플레이어 레퍼런스를 할당할 수 없습니다. playerCinemachine 또는 playerTransform이 null입니다.");
+        }
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MultiLobby") 
+        {
+            if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
+            {
+                AssignLocalPlayerReferences();
+            }
+        }
     }
 }

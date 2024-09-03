@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class CBoardManager : MonoBehaviourPunCallbacks
 {
@@ -91,7 +89,6 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         print("로비 입장");
         ScreenOpen("Find");
-        PhotonNetwork.LoadLevel("MultiLobby");
     }
 
     /// <summary>
@@ -110,13 +107,39 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         print("룸에 입장");
         ScreenOpen("Room");
-        GameManager.instance.isConnect = true;
-        if(PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel("MultiLobby");
 
+        // 씬 로드 후 플레이어 생성하도록 변경
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        LoadLobbyScene();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MultiLobby")
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded; // 이벤트에서 제거하여 중복 실행 방지
+
+            startPositions = GameObject.Find("Initial").GetComponentInChildren<Transform>();
+            if (startPositions == null)
+            {
+                Debug.LogError("Start positions not found!");
+                return;
+            }
+
+            Vector3 pos = startPositions.position;
+            Quaternion rot = startPositions.rotation;
+
+            GameObject playerTemp = PhotonNetwork.Instantiate("PlayerPrefab", pos, rot, 0);
+            GameManager.instance.isConnect = true;
         }
     }
+
+    public void LoadLobbyScene()
+    {
+        PhotonNetwork.LoadLevel("MultiLobby");
+    }
+
 
     /// <summary>
     /// 랜덤 방 참가에 실패했을 때 불러오는 함수

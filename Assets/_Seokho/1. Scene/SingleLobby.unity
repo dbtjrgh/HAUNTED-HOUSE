@@ -46961,6 +46961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1251207739}
   - component: {fileID: 1251207738}
+  - component: {fileID: 1251207740}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46997,6 +46998,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1251207740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251207737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1251465404
 GameObject:
   m_ObjectHideFlags: 0
@@ -55988,8 +56011,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardCinemachine: {fileID: 1224269844}
-  playerCinemachine: {fileID: 0}
-  playerTransform: {fileID: 0}
+  playerCinemachine: {fileID: 4220889675994018379}
+  playerTransform: {fileID: 4220889676831350503}
   activationDistance: 3
 --- !u!1 &1474563947
 GameObject:
@@ -64667,7 +64690,7 @@ MonoBehaviour:
   menu: {fileID: 553226980}
   find: {fileID: 274140588}
   room: {fileID: 1635347147}
-  startPositions: {fileID: 801292821}
+  startPositions: {fileID: 1425726990}
 --- !u!1001 &1936512645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72195,6 +72218,10 @@ PrefabInstance:
     - target: {fileID: 4360355057582129584, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
       propertyPath: orthographic size
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4360355057582129584, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4087
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4360355057582129587, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}

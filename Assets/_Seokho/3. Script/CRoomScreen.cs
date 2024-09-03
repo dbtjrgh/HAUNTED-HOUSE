@@ -49,6 +49,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         {
             TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData(diff.ToString());
             diffDropdown.options.Add(option);
+
         }
 
         diffDropdown.onValueChanged.AddListener(DifficultyValueChange);
@@ -262,25 +263,15 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(PhotonHashtable props)
     {
-        if(props.ContainsKey("Diff"))
-        {
-            print($"room difficulty changed: {props["Diff"]}");
-            diffText.text = ((Difficulty)props["Diff"]).ToString();
-        }
-    }
-
-    public override void OnJoinedRoom()
-    {
-
-        var props = PhotonNetwork.CurrentRoom.CustomProperties;
+        props = PhotonNetwork.CurrentRoom.CustomProperties;
 
         if (props.ContainsKey("Diff"))
         {
             print($"방 난이도 변경됨 : {props["Diff"]}");
             diffText.text = ((Difficulty)props["Diff"]).ToString(); // enum형태로 변환
         }
-
     }
+
 
     /// <summary>
     /// 방장이 나갔을 때 호출되는 함수로, 방에 참가되어 있는 상태에서 방장의 역할을
