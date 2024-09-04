@@ -50,13 +50,13 @@ public class Ghost : MonoBehaviour
         switch (ghostType)
         {
             case GhostType.NIGHTMARE:
-                ghostNav.speed = 3f;
+                ghostNav.speed = 1f;
                 break;
             case GhostType.BANSHEE:
-                ghostNav.speed = 5f;
+                ghostNav.speed = 2f;
                 break;
             case GhostType.DEMON:
-                ghostNav.speed = 7f;
+                ghostNav.speed = 3f;
                 break;
         }
 
@@ -190,6 +190,10 @@ public class Ghost : MonoBehaviour
 
             }
 
+            else if(mental.MentalGauge>50)
+            {
+                ChangeState(changwon.GhostState.RETURN);
+            }
             else
             {
                 ChangeState(changwon.GhostState.RETURN);
