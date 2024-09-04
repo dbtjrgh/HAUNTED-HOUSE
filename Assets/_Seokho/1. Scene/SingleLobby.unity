@@ -72563,7 +72563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4360355057582129584, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 4087
+      value: 3959
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4360355057582129587, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
@@ -73329,7 +73329,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPlayerRoom: {fileID: 8159145588173166644}
   maxMentalGauge: 100
-  normalRoomGaugeMinus: 0
   secondGaugeMinus: 0
   ghostRoomGaugeMinus: 0
   MentalGauge: 0

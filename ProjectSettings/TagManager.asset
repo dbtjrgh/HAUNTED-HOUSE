@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - FlashLight
   - Items
+  - Ghost
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,8 @@ TagManager:
   - Water
   - UI
   - Ground
-  - MainHero
+  - SinglePlayer
+  - MultiPlayer
   - Interactable
   - Door
   - Photable
@@ -27,7 +29,6 @@ TagManager:
   - GhostOrbs
   - SmudgeObject
   - NightVision
-  - Player
   - IgnoreParts
   - TestObject
   - ghostBlink
