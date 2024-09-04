@@ -37,7 +37,7 @@ public class gaugeFill : MonoBehaviour
                 return;
             }
 
-            else if (playerMentalGauge.MentalGauge > playerMentalGauge.maxMentalGauge)
+            else if (playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
             {
                 useFill = false;
                 Debug.Log("정신력 게이지가 최대치입니다.");

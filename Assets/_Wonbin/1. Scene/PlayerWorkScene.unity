@@ -507,6 +507,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 17
       objectReference: {fileID: 0}
+    - target: {fileID: 6723944009055706394, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
+      propertyPath: secondGaugeMinus
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723944009055706394, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
+      propertyPath: normalRoomGaugeMinus
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7417600376561237691, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
       propertyPath: m_Layer
       value: 17
@@ -570,7 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233217e57e81a9d4cb32ac5b85c6c750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Item: {fileID: 1972037039309670607, guid: c0c7fb19cf1397e4e8917337d98bbd58, type: 3}
+  Item: {fileID: 2358146820083368720, guid: f7bc7d86a7d93c141b36c01f37adb17e, type: 3}
 --- !u!4 &1489167002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5356674429432218462, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}

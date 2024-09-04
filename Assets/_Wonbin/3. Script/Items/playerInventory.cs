@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class playerInventory : MonoBehaviour
 {
@@ -11,7 +13,7 @@ public class playerInventory : MonoBehaviour
     [SerializeField]
     private List<GameObject> inventoryItems = new List<GameObject>(); // 인벤토리 리스트
     private int currentMainSlotIndex = 0; // 현재 메인 슬롯 인덱스
-    flashLight FlashLight;
+    private int newItemsIndex = 0; // 현재 플레이어가 손에 들고 있는 아이템과 새로 추가되는 아이템의 인덱스가 같은지 체크하기 위한 인덱스.
 
     private void Update()
     {
@@ -27,6 +29,8 @@ public class playerInventory : MonoBehaviour
 
         // 새 아이템이 ItemSlot에 추가되었는지 체크
         AddItems();
+        checkCurrentSlot();
+        pullUseSlot();
     }
 
     private void AddItems()
@@ -68,6 +72,51 @@ public class playerInventory : MonoBehaviour
         newMainItem.SetActive(true);
     }
 
+    private void checkCurrentSlot()
+    {
+        if (newItemsIndex >= inventoryItems.Count)
+        {
+            newItemsIndex = 0; // 인덱스가 리스트 크기를 초과하면 초기화
+            return;
+        }
+
+        // 현재 슬롯의 아이템과 새로 추가된 아이템이 동일한 경우
+        if (inventoryItems[currentMainSlotIndex] == inventoryItems[newItemsIndex])
+        {
+            newItemsIndex++; // 인덱스 증가
+        }
+        else
+        {
+            // 새 아이템이 현재 슬롯의 아이템과 다르면, 아이템을 추가하고 새 아이템 비활성화
+            GameObject AddNewItem = inventoryItems[newItemsIndex];
+            AddNewItem.SetActive(false);
+
+            // 다음 아이템 비교를 위해 인덱스 증가
+            newItemsIndex++;
+        }
+    }
+
+
+   
+private void pullUseSlot()
+    {
+        // 리스트가 비어 있지 않고, currentMainSlotIndex가 유효한지 확인
+        if (inventoryItems.Count > 0 && currentMainSlotIndex < inventoryItems.Count)
+        {
+            // 만약 현재 슬롯의 아이템이 null이면 리스트에서 제거
+            if (inventoryItems[currentMainSlotIndex] == null)
+            {
+                inventoryItems.RemoveAt(currentMainSlotIndex);
+
+                // 인덱스 조정
+                if (currentMainSlotIndex >= inventoryItems.Count)
+                {
+                    currentMainSlotIndex = Mathf.Clamp(currentMainSlotIndex - 1, 0, inventoryItems.Count - 1);
+                }
+            }
+        }
+    }
+
     private void DropItem()
     {
         if (inventoryItems.Count == 0)
@@ -98,19 +147,8 @@ public class playerInventory : MonoBehaviour
                 currentMainSlotIndex = Mathf.Clamp(currentMainSlotIndex, 0, inventoryItems.Count - 1);
             }
 
-            flashLight.isInItemSlot = false; // 손전등이 ItemSlot에 없음을 표시
         }
     }
 
-    //private void itemInSlot()
-    //{
-    //    if (inventoryItems.Count > 0)
-    //    {
-    //        foreach (GameObject item in inventoryItems)
-    //        {
-    //            GameObject.Find.tag("Items");
-    //        }
-    //    }
-    //}
 }
 
