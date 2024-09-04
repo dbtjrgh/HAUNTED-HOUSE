@@ -104,6 +104,34 @@ public class UVFlashlight : MonoBehaviour
         }
     }
 
+    public IEnumerator Blink()
+    {
+
+        if (Ghost.instance.state == changwon.GhostState.HUNTTING)
+        {
+
+            float ghostBlinkTargetDistance = Vector3.Distance(Ghost.instance.target.transform.position, Ghost.instance.transform.position);
+            if (ghostBlinkTargetDistance < 30)
+            {
+                myLight.gameObject.SetActive(false);
+                yield return new WaitForSeconds(0.5f);
+                myLight.gameObject.SetActive(true);
+                yield return new WaitForSeconds(0.5f);
+                myLight.gameObject.SetActive(false);
+                yield return new WaitForSeconds(0.5f);
+                myLight.gameObject.SetActive(true);
+                yield return new WaitForSeconds(0.5f);
+                myLight.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+
+            myLight.gameObject.SetActive(true);
+        }
+        yield return null;
+    }
+
 
 
 

@@ -280,87 +280,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!1001 &720787052
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3771156344772757154, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156344772757157, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 27.304998
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -2.0570002
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009334793, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771156345009335283, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: m_Name
-      value: MultiPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 5382792366224767110, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
-      propertyPath: sceneViewId
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 96636adba5c9e8946a659d9e6761a00e, type: 3}
 --- !u!1 &929314274
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +378,7 @@ Transform:
   - {fileID: 1528091124}
   - {fileID: 1429072975}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1153761589
 PrefabInstance:
@@ -709,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233217e57e81a9d4cb32ac5b85c6c750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Item: {fileID: 2481941539538423468, guid: b80e47937a2672b408ca0c4dc487b0a9, type: 3}
+  Item: {fileID: 7472116170703332204, guid: ca039a4e30e347b4384a78cbf7c36f50, type: 3}
 --- !u!1 &1749418372 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3771156345009335283, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
