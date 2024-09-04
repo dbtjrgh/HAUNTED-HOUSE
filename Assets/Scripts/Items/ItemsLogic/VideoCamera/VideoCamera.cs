@@ -50,7 +50,7 @@ namespace Items.ItemsLogic
             _cameraGreen.gameObject.SetActive(true);
             _normalMode = false;
         }
-        private void DisableCamera()
+        private void DisableCamera()            
         {
             _camera.gameObject.SetActive(false);
             _cameraGreen.gameObject.SetActive(false);
