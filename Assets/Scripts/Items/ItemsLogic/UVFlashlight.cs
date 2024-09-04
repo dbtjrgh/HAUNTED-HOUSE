@@ -25,13 +25,13 @@ namespace Items.ItemsLogic
         }
         public void OnMainUse()
         {
-            if (_isEnabled == false)
+            if (_isEnabled == false)            // UV 라이트가 꺼져있을 때
             {
                 _uvLight.EnableUVLight();
                 _light.enabled = true;
                 _isEnabled = true;
             }
-            else
+            else                               // UV 라이트가 켜져있을 때        
             {
                 _uvLight.DisableUVLight();
                 _light.enabled = false;
@@ -40,16 +40,16 @@ namespace Items.ItemsLogic
 
             _audioSource.Play();
         }
-        private void OnDisable()
+        private void OnDisable()                    // UV 라이트 비활성화
         {
             _uvLight.DisableUVLight();
         }
-        private void OnEnable()
+        private void OnEnable()                     // UV 라이트 활성화
         {
             if (_isEnabled) _uvLight.EnableUVLight();
         }
 
-        public void DropItem()
+        public void DropItem()                      
         {
             if (_isEnabled) _uvLight.EnableUVLight();
         }

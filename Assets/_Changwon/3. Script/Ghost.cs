@@ -157,6 +157,11 @@ public class Ghost : MonoBehaviour
                 ghostNav.isStopped = false;
                 ghostNav.SetDestination(target.transform.position);
                 float HunttingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
+                float ghostBlinkTargetDistance = Vector3.Distance(target.transform.position, transform.position);
+                if (ghostBlinkTargetDistance < 5)
+                {
+                    StartCoroutine(ghostBlink());
+                }
                 if (HunttingTargetDistance < 1)
                 {
                     Debug.Log("플레이어를 찾았다");             //플레이어 킬
@@ -167,7 +172,7 @@ public class Ghost : MonoBehaviour
                     ChangeState(changwon.GhostState.HUNTTING);
                     yield return new WaitForSeconds(30f);
                     ChangeState(changwon.GhostState.IDLE);
-                    StartCoroutine(ghostBlink());
+                    
                 }
 
 
