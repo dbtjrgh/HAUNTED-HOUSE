@@ -18,6 +18,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public CFindRoom find;     // 방찾기 스크린
     public CRoomScreen room;   // 방 스크린
     public Transform startPositions;
+    public static CBoardManager instance = null;
     #endregion
 
     // 스크린을 이름으로 관리
@@ -43,6 +44,16 @@ public class CBoardManager : MonoBehaviourPunCallbacks
 
         // 네트워크 이벤트를 위한 포톤의 콜백 타겟으로 등록
         PhotonNetwork.AddCallbackTarget(this);
+
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnDestroy()
@@ -120,7 +131,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         {
             SceneManager.sceneLoaded -= OnSceneLoaded; // 이벤트에서 제거하여 중복 실행 방지
 
-            startPositions = GameObject.Find("Initial").GetComponentInChildren<Transform>();
+            startPositions = GameObject.Find("SpawnPoint").GetComponentInChildren<Transform>();
             if (startPositions == null)
             {
                 Debug.LogError("Start positions not found!");
@@ -130,7 +141,17 @@ public class CBoardManager : MonoBehaviourPunCallbacks
             Vector3 pos = startPositions.position;
             Quaternion rot = startPositions.rotation;
 
-            GameObject playerTemp = PhotonNetwork.Instantiate("PlayerPrefab", pos, rot, 0);
+            // 자신의 플레이어와 다른 플레이어를 구분하여 프리팹 생성
+            // GameObject playerTemp;
+            // if (PhotonNetwork.LocalPlayer.IsMasterClient) // 호스트 또는 조건에 따라 본인인지 판단
+            // {
+            //    playerTemp = PhotonNetwork.Instantiate("SinglePlayer", pos, rot, 0); // 본인의 플레이어 프리팹
+            //}
+            //else
+            //{
+            PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0); // 다른 사람의 플레이어 프리팹
+            //}
+
             GameManager.instance.isConnect = true;
         }
     }
@@ -139,6 +160,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LoadLevel("MultiLobby");
     }
+
 
 
     /// <summary>
@@ -176,6 +198,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         print("메인메뉴 입장");
         ScreenOpen("Menu");
+        PhotonNetwork.LoadLevel("SingleLobby");
     }
 
     /// <summary>

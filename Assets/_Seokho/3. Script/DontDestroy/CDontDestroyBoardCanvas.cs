@@ -1,16 +1,10 @@
-using Photon.Pun;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class CDontDestroyBoardCanvas : MonoBehaviour
 {
-    #region º¯¼ö
-    public static GameManager instance = null;
-    public bool isConnect = false;
-    public Transform startPositions;
-    #endregion
-
+    public static CDontDestroyBoardCanvas instance = null;
     private void Awake()
     {
         if (instance == null)
@@ -23,5 +17,4 @@ public class GameManager : MonoBehaviourPunCallbacks
             Destroy(this.gameObject);
         }
     }
-    
 }

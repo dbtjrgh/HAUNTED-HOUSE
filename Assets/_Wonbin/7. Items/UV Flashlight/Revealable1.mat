@@ -111,7 +111,7 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - lightAngle: 0
+    - lightAngle: 100
     - strenghtScalar: 15
     m_Colors:
     - Color_64eec55fa6284b8c8316e158a2008080: {r: 1, g: 1, b: 1, a: 1}

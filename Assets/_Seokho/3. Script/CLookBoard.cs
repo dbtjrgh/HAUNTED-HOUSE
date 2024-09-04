@@ -160,18 +160,6 @@ public class CLookBoard : MonoBehaviourPunCallbacks
             Debug.LogError("로컬 플레이어를 위한 CinemachineVirtualCamera를 찾지 못했습니다.");
             return;
         }
-
-
-        // 카메라와 트랜스폼이 모두 할당되었는지 확인한 후 진행
-        if (playerCinemachine != null && playerTransform != null)
-        {
-            InitializePlayerCamera();
-            Debug.Log("로컬 플레이어 레퍼런스가 성공적으로 할당되었습니다.");
-        }
-        else
-        {
-            Debug.Log("로컬 플레이어 레퍼런스를 할당할 수 없습니다. playerCinemachine 또는 playerTransform이 null입니다.");
-        }
     }
 
     public override void OnEnable()
