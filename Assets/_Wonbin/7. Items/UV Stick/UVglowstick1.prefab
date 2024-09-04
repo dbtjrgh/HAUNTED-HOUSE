@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7433256821810930324}
   - component: {fileID: 8172594798125334752}
   - component: {fileID: 6404423796902366842}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6908432596322757871}
   - component: {fileID: 5808539432598063465}
   - component: {fileID: 8643453995658726978}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 1520770850305699593}
   - component: {fileID: 4947267045791925342}
   - component: {fileID: 6275628744479204446}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4366300609065803598}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Glowstick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 8300175923731473120}
   - component: {fileID: 327508783351149401}
   - component: {fileID: 6866906292047646316}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Torus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 7390766857074076276}
   - component: {fileID: 150039838580566196}
   - component: {fileID: 6427601463672819743}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +495,7 @@ GameObject:
   - component: {fileID: 5795864029807178414}
   - component: {fileID: 5795864029807178415}
   - component: {fileID: 8740989984652183456}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: UVglowstick1
   m_TagString: Items
   m_Icon: {fileID: 0}
