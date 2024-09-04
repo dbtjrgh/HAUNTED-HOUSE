@@ -1921,11 +1921,11 @@ GameObject:
   - component: {fileID: 1719015220245905492}
   - component: {fileID: 3837723568927978220}
   - component: {fileID: 4179676905045686324}
-  - component: {fileID: 6034122028444378293}
   - component: {fileID: -300934963168756480}
+  - component: {fileID: 3720084613949624532}
   m_Layer: 8
   m_Name: VideoCamera
-  m_TagString: Untagged
+  m_TagString: Items
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1969,29 +1969,12 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.15
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &6034122028444378293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7472116170703332204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 557a59ebe77e81343b6894a92913628f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camera: {fileID: 6751219407713703976}
-  _cameraGreen: {fileID: 97296734978797623}
-  _screenMesh: {fileID: 9086204198761895092}
-  _renderTexture: {fileID: 8400000, guid: dfb0a2cfa869ce947ba1f995cb2fa3a3, type: 2}
-  _renderTextureMat: {fileID: 2100000, guid: 1ea4f8eabe4277944afedf695a8eaec8, type: 2}
 --- !u!114 &-300934963168756480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2006,6 +1989,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitSound: {fileID: 8300000, guid: b38a6bd4e36dfff4790751b8790bdbd0, type: 3}
   _hitVolume: 0.1
+--- !u!114 &3720084613949624532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472116170703332204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d760349ad6ed0da428610bc8cf371f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camcorder: {fileID: 6751219407713703976}
+  greenScreen: {fileID: 97296734978797623}
+  screenMesh: {fileID: 9086204198761895092}
+  renderTexture: {fileID: 8400000, guid: dd0fafb5635b5e14a9dcdaac7187b9b8, type: 2}
+  renderTextureMat: {fileID: 2100000, guid: 5d70bbbacc1dbc44aaf451ef66da07fc, type: 2}
 --- !u!1 &7769032659168192156
 GameObject:
   m_ObjectHideFlags: 0
