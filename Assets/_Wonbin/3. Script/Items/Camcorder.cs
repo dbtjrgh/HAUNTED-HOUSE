@@ -93,20 +93,24 @@ namespace Wonbin
 
         private void CamcorderSetup()
         {
+            // screenMesh의 크기를 가져옴
+            Vector3 meshSize = screenMesh.bounds.size;
+
+            //quad의 RenderTexture 해상도를 수동으로 잡아 화면에 표기 될 수 있게함.
+            int width = Mathf.CeilToInt(meshSize.x * 500);  // 가로 크기
+            int height = Mathf.CeilToInt(meshSize.y * 500); // 세로 크기
+
+            // RenderTexture의 해상도를 Quad 크기에 맞춰 설정
+            renderTexture = new RenderTexture(width, height, 16);  // 깊이 버퍼 16-bit
+
+            // 카메라에 RenderTexture 적용
             camcorder.targetTexture = renderTexture;
             greenScreen.targetTexture = renderTexture;
-            // sharedMaterial을 사용해보세요.
-            screenMesh.sharedMaterial = renderTextureMat;
 
-            // 확인
-            if (screenMesh.sharedMaterial == renderTextureMat)
-            {
-                Debug.Log("screenMesh의 재질(Material)이 renderTextureMat으로 정상적으로 설정되었습니다.");
-            }
-            else
-            {
-                Debug.LogError("screenMesh의 재질(Material)이 renderTextureMat으로 설정되지 않았습니다!");
-            }
+            // screenMesh의 Material에 RenderTexture 적용
+            screenMesh.sharedMaterial = renderTextureMat;
+            screenMesh.sharedMaterial.mainTexture = renderTexture;
+          
         }
     }
 }

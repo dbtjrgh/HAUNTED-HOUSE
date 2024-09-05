@@ -569,7 +569,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1339344289880908855}
   - component: {fileID: 5801349605092091319}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: Ch28_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -712,7 +712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4985090975760823285}
   - component: {fileID: 259378021067618979}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: Ch28_Eyelashes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1145,8 +1145,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3771156344772757154}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.02, z: -0.091}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.01999998, z: -0.09100008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1177,7 +1177,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
-    NearClipPlane: 0.2
+    NearClipPlane: 0.25
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
@@ -1202,11 +1202,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3771156345009334793}
   - component: {fileID: 5356674429432218448}
-  - component: {fileID: 500264010287570709}
-  - component: {fileID: 3214368371623018483}
   - component: {fileID: 5382792366224767110}
   - component: {fileID: 6723944009055706394}
   - component: {fileID: 9222617591134645466}
+  - component: {fileID: 1749418393}
+  - component: {fileID: 1749418396}
+  - component: {fileID: 1749418399}
   m_Layer: 7
   m_Name: SinglePlayer
   m_TagString: Player
@@ -1249,38 +1250,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.05, z: 0}
---- !u!114 &500264010287570709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3771156345009335283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2bfbbb920e9ca04abb93be650c8b2a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charController: {fileID: 5356674429432218448}
-  turnSpeed: 4
-  _mouseX: 0
-  _mouseY: 0
-  moveSpeed: 4
-  gravity: 3
-  _playerBody: {fileID: 5356674429432218463}
-  _playerHead: {fileID: 5356674429432218462}
---- !u!114 &3214368371623018483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3771156345009335283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8fda1627cc29e4418519660dd51841d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5382792366224767110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1317,8 +1286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPlayerRoom: {fileID: 9222617591134645466}
   maxMentalGauge: 100
-  normalRoomGaugeMinus: 0
-  secondGaugeMinus: 0
+  secondGaugeMinus: 1
   ghostRoomGaugeMinus: 0
   MentalGauge: 0
 --- !u!114 &9222617591134645466
@@ -1335,6 +1303,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrRoom: 24
   _nextRooms: 
+--- !u!114 &1749418393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771156345009335283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bfbbb920e9ca04abb93be650c8b2a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charController: {fileID: 5356674429432218448}
+  turnSpeed: 3
+  _mouseX: 0
+  _mouseY: 0
+  moveSpeed: 2
+  gravity: 3
+  _playerBody: {fileID: 5356674429432218463}
+  _playerHead: {fileID: 5356674429432218462}
+--- !u!114 &1749418396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771156345009335283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fda1627cc29e4418519660dd51841d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1749418399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771156345009335283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00ad2e02daffbab4cbfb622c454d019e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSlot: {fileID: 3771156345610260236}
+  maxInventorySize: 3
+  inventoryItems: []
 --- !u!1 &3771156345257201992
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,7 +2187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7524527131104404157}
   - component: {fileID: 7642784125334813884}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: Ch28_Sneakers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2458,7 +2473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9201155090168232688}
   - component: {fileID: 7677279207921411955}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: Ch28_Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2549,7 +2564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1150780940480641859}
   - component: {fileID: 695969923265524783}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: Ch28_Hoody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2795,7 +2810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6184062956422083804}
   - component: {fileID: 53574762167887899}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: Ch28_Pants
   m_TagString: Untagged
   m_Icon: {fileID: 0}
