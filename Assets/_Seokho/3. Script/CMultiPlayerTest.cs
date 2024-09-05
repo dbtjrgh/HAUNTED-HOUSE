@@ -109,10 +109,6 @@ public class CMultiPlayerTest : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (Cursor.visible == true)
-        {
-            return;
-        }
         if (pv.IsMine)
         {
 

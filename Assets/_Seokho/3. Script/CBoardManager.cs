@@ -235,8 +235,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        find.UpdateRoomList(roomList);
+    {        find.UpdateRoomList(roomList);
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
