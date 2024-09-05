@@ -8,7 +8,7 @@ public class ItemInteract : MonoBehaviour
 {
     private RaycastHit hit;
     private Ray ray;
-    float rayCastDistance = 3.0f;
+    float rayCastDistance = 4.0f;
     playerInventory Inventory;
 
 
@@ -41,10 +41,10 @@ public class ItemInteract : MonoBehaviour
         ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.45f, 0));
 
 
-        // 레이어 마스크 설정 (예: "Items" 레이어만 탐지)
+        // 레이어 마스크 설정(Interactable 레이어만 감지)
         int layerMask = LayerMask.GetMask("Interactable");
 
-        // Flash 획득
+      
         if (Physics.Raycast(ray, out hit, rayCastDistance, layerMask))
         {
             if (hit.collider.gameObject.CompareTag("Items"))
