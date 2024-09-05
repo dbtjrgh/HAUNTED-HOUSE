@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 2507987392342402936}
   - component: {fileID: 2507987392342402943}
   - component: {fileID: 535231032125411054}
-  - component: {fileID: 4221308734018767556}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,21 +115,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
---- !u!114 &4221308734018767556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2507987392342402937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaa4ad89bfce85a46ad87d2f3ed9515f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _uvLight: {fileID: 6478076201140614161}
-  myLight: {fileID: 2507987392342402943}
-  _revealableMaterial: {fileID: 2100000, guid: 4c428e4d59f624648a1997a099acd75b, type: 2}
 --- !u!1 &2507987392700069527
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +128,7 @@ GameObject:
   - component: {fileID: 2507987392700069547}
   - component: {fileID: 2507987392700069524}
   - component: {fileID: 2507987392700069525}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: 'UV Flashlight '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7103,10 +7087,11 @@ GameObject:
   - component: {fileID: 5897041756080861817}
   - component: {fileID: 5897041756080861822}
   - component: {fileID: 5897041756080861823}
+  - component: {fileID: 66932445480528581}
   - component: {fileID: 6478076201140614161}
   - component: {fileID: 5208950331711269982}
   - component: {fileID: 1719576856155820494}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: UVflashlight1
   m_TagString: Items
   m_Icon: {fileID: 0}
@@ -7159,6 +7144,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!114 &66932445480528581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5897041756080861818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa4ad89bfce85a46ad87d2f3ed9515f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uvLight: {fileID: 6478076201140614161}
+  myLight: {fileID: 2507987392342402943}
+  _revealableMaterial: {fileID: 2100000, guid: 4c428e4d59f624648a1997a099acd75b, type: 2}
 --- !u!114 &6478076201140614161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7172,7 +7172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _light: {fileID: 2507987392342402943}
-  _revealableMaterial: {fileID: 2100000, guid: 53f93ad3ec988444abffce416195038a, type: 2}
+  _revealableMaterial: {fileID: 2100000, guid: 4c428e4d59f624648a1997a099acd75b, type: 2}
   _lightAngle: 40
 --- !u!114 &5208950331711269982
 MonoBehaviour:

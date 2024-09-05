@@ -17,15 +17,23 @@ namespace Wonbin
         [SerializeField]
         private float turnSpeed = 4f;
 
-        // 카메라 상하 회전
-        [SerializeField]
+        // 카메라 상하 회전   
         private float _mouseX, _mouseY;
         private float xRotation = 0f;
         private float xRotation_head = 0f;
 
         // 이동 속도
         [SerializeField]
-        private float moveSpeed = 4f;
+        private float normalSpeed = 2f;
+
+        private float moveSpeed;
+        private float sprintMultiplier = 2f;
+
+        //앉기 담당 함수
+        private bool _crouch = false;
+        private CrouchAnimation _animControl;
+        private Animator animator;
+
 
         // 중력
         [SerializeField]
@@ -42,13 +50,63 @@ namespace Wonbin
         private Vector3 _headPosition;
         private float _currFollowHeadTime = 0f;
         private float _playerHeadOffset = 0f;
+        private const float FollowHeadTime = 2f;
+
+
+        private void Start()
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
+
 
         private void Update()
         {
             moveInput();
+            Sprint();
             FollowHead();  // 머리 위치 업데이트 호출
             PlayerRotation(); // 플레이어 회전
+            CrouchHandle();
         }
+
+
+
+        private void CrouchHandle()
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                _crouch = !_crouch;
+                animator.SetBool("IsCrouch", _crouch);
+
+                if (!_crouch)
+                {
+                    if (!_animControl.SitDown()) return;
+                    _crouch = true;
+                }
+                else
+                {
+                    if (!_animControl.StandUp()) return;
+                    _crouch = false;
+                }
+                _currFollowHeadTime = FollowHeadTime;
+            }
+        }
+
+
+
+        private void Sprint()
+        {
+            // 기본 이동 속도에 스프린트 배수 적용
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                moveSpeed = normalSpeed * sprintMultiplier;  // 스프린트 중
+            }
+            else
+            {
+                moveSpeed = normalSpeed;  // 기본 속도
+            }
+        }
+
+
 
         private void moveInput()
         {

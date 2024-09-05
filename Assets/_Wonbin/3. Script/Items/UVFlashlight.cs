@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using changwon;
 
 
 public class UVFlashlight : MonoBehaviour
@@ -10,10 +9,6 @@ public class UVFlashlight : MonoBehaviour
 
     [SerializeField]
     private Light myLight; // Light 컴포넌트 관리
-
-
-    [SerializeField]
-    public Material _revealableMaterial;
 
     //private AudioSource _audioSource;
 
@@ -96,43 +91,13 @@ public class UVFlashlight : MonoBehaviour
             Debug.Log(getLight);
             if (Input.GetKeyDown(KeyCode.R))
             {
-                Debug.Log("손전등 사용");
+                Debug.Log("UV라이트 사용");
                 playerGetLight = !playerGetLight; // 손전등 on/off
                 myLight.intensity = playerGetLight ? 10 : 0; // 손전등 밝기 조정
                 myLight.enabled = playerGetLight; // 손전등 활성화/비활성화
             }
         }
     }
-
-    public IEnumerator Blink()
-    {
-
-        if (Ghost.instance.state == changwon.GhostState.HUNTTING)
-        {
-
-            float ghostBlinkTargetDistance = Vector3.Distance(Ghost.instance.target.transform.position, Ghost.instance.transform.position);
-            if (ghostBlinkTargetDistance < 30)
-            {
-                myLight.gameObject.SetActive(false);
-                yield return new WaitForSeconds(0.5f);
-                myLight.gameObject.SetActive(true);
-                yield return new WaitForSeconds(0.5f);
-                myLight.gameObject.SetActive(false);
-                yield return new WaitForSeconds(0.5f);
-                myLight.gameObject.SetActive(true);
-                yield return new WaitForSeconds(0.5f);
-                myLight.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-
-            myLight.gameObject.SetActive(true);
-        }
-        yield return null;
-    }
-
-
 
 
 }

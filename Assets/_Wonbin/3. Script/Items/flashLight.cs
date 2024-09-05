@@ -21,7 +21,7 @@ public class flashLight : MonoBehaviour
         isInItemSlot = false; // 초기 상태는 ItemSlot에 없음
         myLight = GetComponent<Light>(); // flashLight의 Light 컴포넌트를 가져옴
         myLight.intensity = 0; // 시작 시 손전등이 꺼져 있도록 설정
-        myLight.enabled = false; // 시작 시 손전등이 꺼져 있도록 설정
+        myLight.enabled = false;
         itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
     }
 
@@ -70,6 +70,7 @@ public class flashLight : MonoBehaviour
 
     void lightOnOFF()
     {
+        getLight = true;
         if (getLight)
         {
             if (Input.GetKeyDown(KeyCode.R))
