@@ -481,7 +481,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 8055
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: dfb0a2cfa869ce947ba1f995cb2fa3a3, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: dd0fafb5635b5e14a9dcdaac7187b9b8, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -1922,7 +1922,7 @@ GameObject:
   - component: {fileID: 3837723568927978220}
   - component: {fileID: 4179676905045686324}
   - component: {fileID: -300934963168756480}
-  - component: {fileID: 3720084613949624532}
+  - component: {fileID: 233015834}
   m_Layer: 8
   m_Name: VideoCamera
   m_TagString: Items
@@ -1989,7 +1989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitSound: {fileID: 8300000, guid: b38a6bd4e36dfff4790751b8790bdbd0, type: 3}
   _hitVolume: 0.1
---- !u!114 &3720084613949624532
+--- !u!114 &233015834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1998,14 +1998,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7472116170703332204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d760349ad6ed0da428610bc8cf371f70, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ffa48c5306e59e4eaa4550d4d91cd01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camcorder: {fileID: 6751219407713703976}
   greenScreen: {fileID: 97296734978797623}
-  screenMesh: {fileID: 9086204198761895092}
-  renderTexture: {fileID: 8400000, guid: 7edbf6d4e4b8bc54f88b25ba936e4e8e, type: 2}
-  renderTextureMat: {fileID: 2100000, guid: 9086cad37c0ce54459cce3bc732119c5, type: 2}
+  screenMesh: {fileID: 0}
+  renderTexture: {fileID: 0}
+  renderTextureMat: {fileID: 0}
 --- !u!1 &7769032659168192156
 GameObject:
   m_ObjectHideFlags: 0
