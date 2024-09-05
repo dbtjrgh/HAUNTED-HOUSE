@@ -109,11 +109,17 @@ public class CMultiPlayerTest : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        if (Cursor.visible == true)
+        {
+            return;
+        }
         if (pv.IsMine)
         {
+
             moveInput();
-            FollowHead();  // 머리 위치 업데이트 호출
+            FollowHead();// 머리 위치 업데이트 호출
             PlayerRotation(); // 플레이어 회전
+
         }
     }
 

@@ -134,7 +134,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
             startPositions = GameObject.Find("SpawnPoint").GetComponentInChildren<Transform>();
             if (startPositions == null)
             {
-                Debug.LogError("Start positions not found!");
+                Debug.Log("Start positions not found!");
                 return;
             }
 
