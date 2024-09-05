@@ -30,11 +30,11 @@ namespace Items.ItemsLogic
             }
         }
 
-        private void OnDisable()
+        private void OnDisable()        
         {
             _uvLight.DisableUVLight();
         }
-        private void OnEnable()
+        private void OnEnable()     
         {
             if (_isEnabled) _uvLight.EnableUVLight();
         }

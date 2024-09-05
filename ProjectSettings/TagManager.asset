@@ -10,6 +10,8 @@ TagManager:
   - Bullet
   - FlashLight
   - Items
+  - Ghost
+  - Handprint
   layers:
   - Default
   - TransparentFX
