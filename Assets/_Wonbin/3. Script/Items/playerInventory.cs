@@ -9,11 +9,16 @@ public class playerInventory : MonoBehaviour
 
     public GameObject itemSlot; // ItemSlot 오브젝트
     public int maxInventorySize = 3; // 최대 인벤토리 크기
+    public static bool isInItemSlot; // 아이템이 ItemSlot에 있는지 여부를 확인
+
 
     [SerializeField]
     private List<GameObject> inventoryItems = new List<GameObject>(); // 인벤토리 리스트
     private int currentMainSlotIndex = 0; // 현재 메인 슬롯 인덱스
     private int newItemsIndex = 0; // 현재 플레이어가 손에 들고 있는 아이템과 새로 추가되는 아이템의 인덱스가 같은지 체크하기 위한 인덱스.
+
+
+
 
     private void Update()
     {
@@ -33,6 +38,27 @@ public class playerInventory : MonoBehaviour
         pullUseSlot();
     }
 
+
+    public void AddToInventory(GameObject item)
+    {
+        if (inventoryItems.Count < maxInventorySize)
+        {
+            if (itemSlot != null)
+            {
+                item.transform.SetParent(itemSlot.transform); // 아이템을 ItemSlot의 자식으로 설정
+                item.transform.localPosition = Vector3.zero; // 위치 초기화
+                item.transform.localRotation = Quaternion.identity; // 회전 초기화
+
+                Debug.Log("아이템이 인벤토리에 추가되었습니다: " + item.name);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("인벤토리가 가득 찼습니다!");
+        }
+    }
+
+
     private void AddItems()
     {
         foreach (Transform child in itemSlot.transform)
@@ -51,7 +77,7 @@ public class playerInventory : MonoBehaviour
         }
     }
 
-    private void SwapItems()
+    public void SwapItems()
     {
         if (inventoryItems.Count == 0)
         {
