@@ -71,7 +71,7 @@ public class PlayerDoorInter : MonoBehaviour
 
         
         StartCoroutine(CheckDoorState());
-
+        if(Ghost.instance.ghostType==GhostType.BANSHEE||Ghost.instance.ghostType==GhostType.DEMON)
         LeavePrintsUV();
 
     }
