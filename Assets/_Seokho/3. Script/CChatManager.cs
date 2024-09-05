@@ -11,7 +11,7 @@ public class CChatManager : MonoBehaviourPunCallbacks
 {
     #region 변수
     public Button sendBtn; // 채팅 입력버튼
-    public TextMeshProUGUI chatLog; // 채팅 내역
+    public Text chatLog; // 채팅 내역
     public InputField inputField; // 채팅입력 인풋필드
     public TextMeshProUGUI playerList; //참가자 목록
     public Canvas ChatCanvas; // 채팅 캔버스

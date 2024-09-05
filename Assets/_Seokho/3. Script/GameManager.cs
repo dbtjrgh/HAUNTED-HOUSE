@@ -7,12 +7,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     #region º¯¼ö
     public static GameManager instance = null;
-    public bool isConnect = false;
     public Transform startPositions;
     #endregion
 
     private void Awake()
     {
+        
         if (instance == null)
         {
             instance = this;
@@ -22,6 +22,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Destroy(this.gameObject);
         }
+
+        GameObject startPositionsObject = GameObject.Find("PlayerStartPositions");
+        if (startPositionsObject == null)
+        {
+            return;
+        }
+        startPositions = startPositionsObject.GetComponent<Transform>();
+        if (startPositions == null)
+        {
+            return;
+        }
     }
-    
+
+    private void Start()
+    {
+        Vector3 pos = startPositions.position;
+        Quaternion rot = startPositions.rotation;
+
+        PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0);
+    }
+
+
 }

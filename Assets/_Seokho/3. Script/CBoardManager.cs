@@ -17,8 +17,8 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public CMenuScreen menu;   // 메뉴 스크린
     public CFindRoom find;     // 방찾기 스크린
     public CRoomScreen room;   // 방 스크린
-    public Transform startPositions;
     public static CBoardManager instance = null;
+    public Transform startPositions;
     #endregion
 
     // 스크린을 이름으로 관리
@@ -118,50 +118,36 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     {
         print("룸에 입장");
         ScreenOpen("Room");
-
         // 씬 로드 후 플레이어 생성하도록 변경
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.LoadLevel("MultiLobby");
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-        LoadLobbyScene();
     }
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "MultiLobby")
         {
-            SceneManager.sceneLoaded -= OnSceneLoaded; // 이벤트에서 제거하여 중복 실행 방지
+            SceneManager.sceneLoaded -= OnSceneLoaded;
 
-            startPositions = GameObject.Find("SpawnPoint").GetComponentInChildren<Transform>();
+            GameObject startPositionsObject = GameObject.Find("PlayerStartPositions");
+            if (startPositionsObject == null)
+            {
+                return;
+            }
+
+            startPositions = startPositionsObject.GetComponent<Transform>();
             if (startPositions == null)
             {
-                Debug.Log("Start positions not found!");
                 return;
             }
 
             Vector3 pos = startPositions.position;
             Quaternion rot = startPositions.rotation;
 
-            // 자신의 플레이어와 다른 플레이어를 구분하여 프리팹 생성
-            // GameObject playerTemp;
-            // if (PhotonNetwork.LocalPlayer.IsMasterClient) // 호스트 또는 조건에 따라 본인인지 판단
-            // {
-            //    playerTemp = PhotonNetwork.Instantiate("SinglePlayer", pos, rot, 0); // 본인의 플레이어 프리팹
-            //}
-            //else
-            //{
-            PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0); // 다른 사람의 플레이어 프리팹
-            //}
+            PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0);
 
-            GameManager.instance.isConnect = true;
         }
     }
-
-    public void LoadLobbyScene()
-    {
-        PhotonNetwork.LoadLevel("MultiLobby");
-    }
-
-
 
     /// <summary>
     /// 랜덤 방 참가에 실패했을 때 불러오는 함수
