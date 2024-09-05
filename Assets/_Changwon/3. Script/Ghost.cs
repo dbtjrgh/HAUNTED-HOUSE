@@ -150,7 +150,10 @@ public class Ghost : MonoBehaviour
     {
         while (state == changwon.GhostState.HUNTTING)
         {
-
+            if(mental.MentalGauge>50)
+            {
+                ChangeState(changwon.GhostState.RETURN);
+            }
             if (target != null)
             {
 
@@ -190,10 +193,7 @@ public class Ghost : MonoBehaviour
 
             }
 
-            else if(mental.MentalGauge>50)
-            {
-                ChangeState(changwon.GhostState.RETURN);
-            }
+            
             else
             {
                 ChangeState(changwon.GhostState.RETURN);
