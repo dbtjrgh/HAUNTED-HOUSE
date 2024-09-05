@@ -8,7 +8,7 @@ public class ItemInteract : MonoBehaviour
 {
     private RaycastHit hit;
     private Ray ray;
-    float rayCastDistance = 3.0f;
+    float rayCastDistance = 4.0f;
     playerInventory Inventory;
 
 
