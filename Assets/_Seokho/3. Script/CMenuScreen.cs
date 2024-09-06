@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class CMenuScreen : MonoBehaviour
 {
+    public TextMeshProUGUI InfoText;
+
     [Header("Main Menu")]
     public RectTransform mainMenuScreen;
     public TextMeshProUGUI playerName;
@@ -77,6 +79,7 @@ public class CMenuScreen : MonoBehaviour
     /// </summary>
     public void CreateRoomScreenButtonClick()
     {
+        InfoText.text = "방 만들기 입장";
         mainMenuScreen.gameObject.SetActive(false);
         createRoomScreen.gameObject.SetActive(true);
     }
@@ -86,6 +89,7 @@ public class CMenuScreen : MonoBehaviour
     /// </summary>
     public void PlayerNameChangeButtonClick()
     {
+        InfoText.text = "닉네임 변경 완료";
         PhotonNetwork.NickName = playerNameInput.text;
         PhotonNetwork.ConnectUsingSettings();
         playerName.text = PhotonNetwork.LocalPlayer.NickName;
@@ -107,12 +111,12 @@ public class CMenuScreen : MonoBehaviour
     {
         if(PhotonNetwork.IsConnected)
         {
-            Debug.Log("룸에 접속 시도");
+            InfoText.text = "룸에 접속 시도";
             PhotonNetwork.JoinRandomRoom();
         }
         else
         {
-            Debug.Log("마스터 서버와 연결되지 않음.\n접속 재시동 중");
+            InfoText.text = "마스터 서버와 연결되지 않음.\n접속 재시동 중";
             PhotonNetwork.ConnectUsingSettings();
         }
     }

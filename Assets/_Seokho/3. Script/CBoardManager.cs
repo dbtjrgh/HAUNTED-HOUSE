@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public CRoomScreen room;   // 방 스크린
     public static CBoardManager instance = null;
     public Transform startPositions;
+    public TextMeshProUGUI InfoText;
     #endregion
 
     // 스크린을 이름으로 관리
@@ -79,7 +81,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnConnected()
     {
-        print("메인메뉴 입장");
+        InfoText.text = "메인메뉴 입장";
         ScreenOpen("Menu");
     }
 
@@ -89,7 +91,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// <param name="cause"></param>
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log($"disconnected cause : {cause}");
+        InfoText.text = "연결이 끊겼습니다.";
         ScreenOpen("Login");
     }
 
@@ -98,7 +100,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnJoinedLobby()
     {
-        print("로비 입장");
+        InfoText.text = "로비 입장";
         ScreenOpen("Find");
     }
 
@@ -107,7 +109,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnLeftLobby()
     {
-        print("메인메뉴 입장");
+        InfoText.text = "메인메뉴 입장";
         ScreenOpen("Menu");
     }
 
@@ -116,7 +118,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnJoinedRoom()
     {
-        print("룸에 입장");
+        InfoText.text = "룸에 입장";
         ScreenOpen("Room");
         // 씬 로드 후 플레이어 생성하도록 변경
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -144,8 +146,31 @@ public class CBoardManager : MonoBehaviourPunCallbacks
             Vector3 pos = startPositions.position;
             Quaternion rot = startPositions.rotation;
 
-            PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0);
+            // 플레이어 프리팹 인스턴스화
+            GameObject playerPrefab = PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0);
 
+            // 로컬 플레이어가 아닌 경우 레이어를 "OtherPlayer"로 변경
+            PhotonView photonView = playerPrefab.GetComponent<PhotonView>();
+            if (photonView != null && !photonView.IsMine)
+            {
+                SetLayerRecursively(playerPrefab, LayerMask.NameToLayer("MultiPlayer"));
+            }
+        }
+    }
+
+    // 프리팹의 레이어를 재귀적으로 변경하는 함수
+    private void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        if (obj == null) return;
+
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            if (child != null)
+            {
+                SetLayerRecursively(child.gameObject, newLayer);
+            }
         }
     }
 
@@ -157,6 +182,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("랜덤 참가할 방이 없으므로 방 생성");
+
         RoomOptions option = new()
         {
             MaxPlayers = 4
@@ -170,7 +196,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnCreatedRoom()
     {
-        print("룸에 입장");
+        InfoText.text = "룸에 입장";
         base.OnCreatedRoom();
         
         ScreenOpen("Room");
@@ -182,9 +208,9 @@ public class CBoardManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnLeftRoom()
     {
-        print("메인메뉴 입장");
+
+        InfoText.text = "메인메뉴 입장";
         ScreenOpen("Menu");
-        PhotonNetwork.LoadLevel("SingleLobby");
     }
 
     /// <summary>

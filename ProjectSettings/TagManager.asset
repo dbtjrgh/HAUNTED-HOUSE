@@ -11,15 +11,16 @@ TagManager:
   - FlashLight
   - Items
   - Ghost
+  - Handprint
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - MePlayer
   - Water
   - UI
   - Ground
-  - MainHero
+  - OtherPlayer
   - Interactable
   - Door
   - Photable
@@ -32,7 +33,7 @@ TagManager:
   - IgnoreParts
   - TestObject
   - ghostBlink
-  - 
+  - Camera
   - 
   - 
   - 

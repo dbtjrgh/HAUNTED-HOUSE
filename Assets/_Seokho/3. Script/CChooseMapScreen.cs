@@ -8,6 +8,8 @@ public class CChooseMapScreen : MonoBehaviour
     public Button factoryButton; // Factory 맵 선택 버튼
     public Button turkwoodButton; // Turkwood 맵 선택 버튼
     public Button backButton; // 뒤로 가기 버튼
+    public Image factoryImage;
+    public Image turkwoodImage;
 
     private string selectedMap = ""; // 선택된 맵 이름
 
@@ -18,8 +20,8 @@ public class CChooseMapScreen : MonoBehaviour
     {
 
         // 버튼에 리스너 등록
-        factoryButton.onClick.AddListener(() => SelectMap("Factory"));
-        turkwoodButton.onClick.AddListener(() => SelectMap("Turkwood"));
+        factoryButton.onClick.AddListener(() => SelectMap("공장"));
+        turkwoodButton.onClick.AddListener(() => SelectMap("폐허"));
         backButton.onClick.AddListener(BackToRoom);
     }
 
@@ -29,8 +31,19 @@ public class CChooseMapScreen : MonoBehaviour
         selectedMap = mapName;
 
         // 두 버튼의 상태를 설정 (선택된 버튼은 상호작용 불가)
-        factoryButton.interactable = mapName != "Factory";
-        turkwoodButton.interactable = mapName != "Turkwood";
+        factoryButton.interactable = mapName != "공장";
+        turkwoodButton.interactable = mapName != "폐허";
+
+        if ( mapName == "공장")
+        {
+            factoryImage.enabled = true;
+            turkwoodImage.enabled = false;
+        }
+        else if( mapName == "폐허")
+        {
+            factoryImage.enabled = false;
+            turkwoodImage.enabled = true;
+        }
 
         // 선택된 맵 정보를 RoomScreen으로 전달
         roomScreen.GetComponent<CRoomScreen>().ChooseMap(mapName);

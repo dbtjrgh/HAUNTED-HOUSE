@@ -32,7 +32,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
     public TMP_Dropdown diffDropdown;
     public TextMeshProUGUI diffText;
     public TextMeshProUGUI infoText; // 맵 선택 경고 메시지를 위한 텍스트
-    public TextMeshProUGUI mapText; // 모든 플레이어가 확인할 수 있는 선택된 맵 정보 텍스트
+    public Text mapText; // 모든 플레이어가 확인할 수 있는 선택된 맵 정보 텍스트
     public GameObject chooseMapScreen; // 맵 선택 화면 (비활성화된 상태로 두고, 버튼을 통해 활성화)
     private string selectedMap = ""; // 선택된 맵 정보
 
@@ -202,7 +202,15 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            PhotonNetwork.LoadLevel(selectedMap);
+            if(selectedMap == "폐허")
+            {
+                PhotonNetwork.LoadLevel("Factory");
+            }
+            else if(selectedMap == "공장")
+            {
+                PhotonNetwork.LoadLevel("Turkwood");
+            }
+            
         }
     }
 
@@ -365,8 +373,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         CheckReady();
         startButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
         diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
-
-        diffText.gameObject.SetActive(false == PhotonNetwork.IsMasterClient);
+        mapButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
         SortPlayers();
     }
 

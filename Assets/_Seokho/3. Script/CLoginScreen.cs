@@ -23,6 +23,8 @@ public class CLoginScreen : MonoBehaviour
         loginButton.onClick.AddListener(OnLoginButtonClick);
         quitButton.onClick.AddListener(OnQuitButtonClick);
         backButton.onClick.AddListener(OnBackButtonClick);
+
+        InfoText.text = "닉네임을 입력하세요.";
     }
 
     private void Start()
@@ -45,11 +47,7 @@ public class CLoginScreen : MonoBehaviour
     public void OnLoginButtonClick()
     {
         string nickname = nicknameInput.text.Trim();
-        if (string.IsNullOrEmpty(nickname))
-        {
-            InfoText.text = "닉네임을 입력하세요.";
-            return;
-        }
+        
 
         PhotonNetwork.NickName = nickname;
         InfoText.text = "마스터 서버에 접속 중...";
