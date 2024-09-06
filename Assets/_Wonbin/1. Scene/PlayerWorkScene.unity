@@ -588,6 +588,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7863054685715238624, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5536216581336062180, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}

@@ -74,23 +74,54 @@ namespace Wonbin
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                _crouch = !_crouch;
-                animator.SetBool("IsCrouch", _crouch);
+                Debug.Log("C key pressed");
+                Debug.Log($"_crouch before toggle: {_crouch}");
 
-                if (!_crouch)
+                // _crouch 토글
+                _crouch = !_crouch;
+                Debug.Log($"_crouch after toggle: {_crouch}");
+
+                // 애니메이터의 상태 변경
+                if (animator != null)
                 {
-                    if (!_animControl.SitDown()) return;
-                    _crouch = true;
+                    animator.SetBool("IsCrouch", _crouch);
+                    Debug.Log("Animator is not null, IsCrouch set");
                 }
                 else
                 {
-                    if (!_animControl.StandUp()) return;
-                    _crouch = false;
+                    Debug.LogError("Animator is null!");
                 }
+
+                // 앉는 동작 처리
+                if (!_crouch)
+                {
+                    Debug.Log("Attempting to sit down...");
+                    if (_animControl != null && !_animControl.SitDown())
+                    {
+                        Debug.LogWarning("SitDown failed");
+                        return;
+                    }
+                    _crouch = true;
+                    Debug.Log("Successfully sat down");
+                }
+                // 일어나는 동작 처리
+                else
+                {
+                    Debug.Log("Attempting to stand up...");
+                    if (_animControl != null && !_animControl.StandUp())
+                    {
+                        Debug.LogWarning("StandUp failed");
+                        return;
+                    }
+                    _crouch = false;
+                    Debug.Log("Successfully stood up");
+                }
+
+                // 머리 따라가는 시간 초기화
                 _currFollowHeadTime = FollowHeadTime;
+                Debug.Log($"Follow head time set to: {_currFollowHeadTime}");
             }
         }
-
 
 
         private void Sprint()
