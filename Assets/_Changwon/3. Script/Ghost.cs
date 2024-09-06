@@ -23,14 +23,9 @@ public enum GhostType
 }
 
 
-
-
-
 public class Ghost : MonoBehaviour
 {
     public static Ghost instance;
-
-
 
     public changwon.GhostState state;
     public GhostType ghostType;
@@ -39,9 +34,6 @@ public class Ghost : MonoBehaviour
     
     mentalGaugeManager mental;
     MapManager mapManager;
-
-
-
 
     private void Awake()
     {
@@ -59,19 +51,13 @@ public class Ghost : MonoBehaviour
                 ghostNav.speed = 3f;
                 break;
         }
-
-
     }
-
 
 
     private void Update()
     {
         target = GameObject.FindGameObjectWithTag("Player");
-        
-
         StartCoroutine(StateMechine());
-
     }
 
     public float currentGhostType()
@@ -123,9 +109,7 @@ public class Ghost : MonoBehaviour
                 Debug.LogError("mental is null");
             }
             yield return null;
-
         }
-
     }
 
     private IEnumerator returnPosition()
@@ -138,8 +122,6 @@ public class Ghost : MonoBehaviour
                 ghostNav.SetDestination(mapManager.returnRandom);
                 yield return new WaitForSeconds(30f);
                 ChangeState(changwon.GhostState.IDLE);
-
-
             }
             yield return null;
         }
@@ -156,7 +138,6 @@ public class Ghost : MonoBehaviour
             }
             if (target != null)
             {
-
                 ghostNav.isStopped = false;
                 ghostNav.SetDestination(target.transform.position);
                 float HunttingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
@@ -175,13 +156,8 @@ public class Ghost : MonoBehaviour
                     ChangeState(changwon.GhostState.HUNTTING);
                     yield return new WaitForSeconds(30f);
                     ChangeState(changwon.GhostState.IDLE);
-                    
                 }
-
-
-
-
-                else/*else if 플레이어*/
+                else
                 {
                     ghostNav.isStopped = false;
                     yield return new WaitForSeconds(30f);
@@ -189,11 +165,7 @@ public class Ghost : MonoBehaviour
                     yield return new WaitForSeconds(10f);
                     ChangeState(changwon.GhostState.HUNTTING);
                 }
-
-
             }
-
-            
             else
             {
                 ChangeState(changwon.GhostState.RETURN);
@@ -208,19 +180,8 @@ public class Ghost : MonoBehaviour
 
     IEnumerator ghostBlink()
     {
-
-
         Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("ghostBlink");
         yield return new WaitForSeconds(1f);
         Camera.main.cullingMask ^= ~(1 << LayerMask.NameToLayer("ghostBlink"));
-
     }
-
-
-
-
-
-
-
-
 }

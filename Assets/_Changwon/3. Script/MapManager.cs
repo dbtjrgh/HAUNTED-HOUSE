@@ -12,16 +12,11 @@ public class MapManager : MonoBehaviour
     public Vector3 returnRandom;
     
 
-
     private void Awake()
     {
         GhostSpawn();
-        
     }
 
-    
-
-    
 
     public void GhostSpawn()
     {
