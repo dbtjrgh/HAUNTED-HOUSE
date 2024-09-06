@@ -6,47 +6,62 @@ namespace changwon
 {
     public class UVLight : MonoBehaviour
     {
-        public Light uvLight; // UV 라이트 오브젝트
-        public LayerMask handprintLayerMask; // 손자국이 포함된 레이어
+        public Light uvlight;
+        public Material revealableMaterial;
+        public float lightAngle = 360f;
 
-        void Update()
+        private Vector3 curpos;
+        private Vector3 lastpos=new Vector3(0f,0f,0f);
+        public float epsilon = 0.001f;
+        private float distance;
+
+        private bool isEnabled = false;
+
+        private void Start()
         {
-            if (uvLight.enabled)
-            {
-                Ray ray = new Ray(uvLight.transform.position, uvLight.transform.forward);
-                RaycastHit hit;
+            lastpos = transform.position;
+            DisableUVLight();
+        }
 
-                // UV 라이트가 손자국 오브젝트에 닿는지 확인
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, handprintLayerMask))
+        IEnumerator CheckPosition()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(0.02f);
+                if (isEnabled)
                 {
-                    Renderer handprintRenderer = hit.collider.GetComponent<Renderer>();
-                    if (handprintRenderer != null)
+                    curpos = transform.position;
+                    distance = (lastpos - curpos).magnitude;
+
+                    if (distance > epsilon)
                     {
-                        handprintRenderer.enabled = true; // 손자국 보이게 하기
+                        lastpos = curpos;
+                        ChangeMaterialParameters();
                     }
                 }
-                else
-                {
-                    DisableAllHandprints();
-                }
-            }
-            else
-            {
-                DisableAllHandprints();
             }
         }
 
-        void DisableAllHandprints()
+        public void DisableUVLight()
         {
-            // 모든 손자국을 비활성화하는 메서드
-            foreach (GameObject handprint in GameObject.FindGameObjectsWithTag("Handprint"))
-            {
-                Renderer handprintRenderer = handprint.GetComponent<Renderer>();
-                if (handprintRenderer != null)
-                {
-                    handprintRenderer.enabled = false;
-                }
-            }
+            revealableMaterial.SetFloat("lightAngle", 0f);
+            ChangeMaterialParameters();
+            isEnabled = false;
+            StopCoroutine(CheckPosition());
+        }
+
+        public void EnableUVLight()
+        {
+            revealableMaterial.SetFloat("lightAngle", lightAngle);
+            ChangeMaterialParameters();
+            isEnabled = true;
+            StartCoroutine(CheckPosition());
+        }
+
+        private void ChangeMaterialParameters()
+        {
+            revealableMaterial.SetVector("lightPosition", uvlight.transform.position);
+            revealableMaterial.SetVector("lightDirection", uvlight.transform.forward);
         }
     }
 }

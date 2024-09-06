@@ -105,7 +105,7 @@ public class CLookBoard : MonoBehaviourPunCallbacks
     {
         if (playerCinemachine == null)
         {
-            Debug.LogError("playerCinemachine is not assigned.");
+            Debug.Log("playerCinemachine is not assigned.");
             return;
         }
 

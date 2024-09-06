@@ -11,7 +11,7 @@ public class CChatManager : MonoBehaviourPunCallbacks
 {
     #region 변수
     public Button sendBtn; // 채팅 입력버튼
-    public TextMeshProUGUI chatLog; // 채팅 내역
+    public Text chatLog; // 채팅 내역
     public InputField inputField; // 채팅입력 인풋필드
     public TextMeshProUGUI playerList; //참가자 목록
     public Canvas ChatCanvas; // 채팅 캔버스
@@ -20,26 +20,34 @@ public class CChatManager : MonoBehaviourPunCallbacks
 
     public static CChatManager instance = null;
     ScrollRect scroll_rect = null; // 채팅이 많이 쌓일 경우 스크롤바의 위치를 아래로 고정하기 위함
-    private bool hasSentMessage = false; // 메시지가 전송되었는지 여부를 추적하는 플래그
 
     #endregion
     private void Awake()
     {
+        // Singleton 패턴으로 중복된 인스턴스 방지
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject); // 오브젝트가 씬 로드 시 파괴되지 않도록 설정
         }
         else if (instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(this.gameObject); // 중복된 오브젝트는 파괴
         }
     }
+
     private void Start()
     {
         PhotonNetwork.IsMessageQueueRunning = true;
         scroll_rect = GameObject.FindObjectOfType<ScrollRect>();
+
+        if (scroll_rect == null)
+        {
+            Debug.LogError("ScrollRect를 찾을 수 없습니다.");
+        }
+
         sendBtn.onClick.AddListener(SendButtonOnClicked);
+        ChatCanvas.gameObject.SetActive(false); // 채팅 캔버스를 처음엔 비활성화
     }
 
     /// <summary>
@@ -48,63 +56,72 @@ public class CChatManager : MonoBehaviourPunCallbacks
     /// </summary>
     void Update()
     {
+        if (!PhotonNetwork.IsConnected)
+        {
+            return;
+        }
         ChatterUpdate();
 
-        // 채팅창 열고 닫기, 메시지 전송 관련 함수를 처리
-        HandleChatInput();
-
-        // esc 키를 누르면 커서를 활성화
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    Cursor.visible = true;
-        //}
-    }
-
-    /// <summary>
-    /// 엔터키 입력을 처리하는 함수.
-    /// 채팅창을 열고 닫거나 메시지를 전송하는 기능을 처리함.
-    /// </summary>
-    void HandleChatInput()
-    {
-        // 엔터를 눌렀을 때 이 오브젝트가 켜져있고, 인풋 필드가 비어있다면 채팅창을 비활성화
-        if (ChatCanvas.enabled && Input.GetKeyUp(KeyCode.Return) && string.IsNullOrEmpty(inputField.text) && !hasSentMessage)
+        // O 키를 눌러 채팅 캔버스를 온/오프
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            ChatCanvas.enabled = false;
-            Cursor.visible = false;
+            ToggleChatCanvas();
         }
-        // 채팅창이 꺼져있고, 엔터키를 눌렀다면 채팅창을 활성화하고 인풋 필드에 포커스를 맞춤
-        else if (!ChatCanvas.enabled && Input.GetKeyUp(KeyCode.Return))
+
+        // 엔터키나 키패드 엔터키로 메시지를 전송
+        if (Input.GetKeyDown(KeyCode.Return) && ChatCanvas.gameObject.activeSelf)
         {
-            ChatCanvas.enabled = true;
-            Cursor.visible = true;
+            SendButtonOnClicked();
+        }
+        // 비활성화 일 때 엔터키를 누르면 활성화
+        else if (Input.GetKeyDown(KeyCode.Return) && !ChatCanvas.gameObject.activeSelf)
+        {
+            ChatCanvas.gameObject.SetActive(true);
             inputField.ActivateInputField();
-            hasSentMessage = false; // 새로운 입력을 받기 위해 플래그 초기화
-        }
-        // 채팅창이 켜져있고, 인풋 필드가 비어있지 않다면 채팅을 전송하고 인풋 필드를 비움
-        else if (ChatCanvas.enabled && Input.GetKeyUp(KeyCode.Return) && !string.IsNullOrEmpty(inputField.text))
-        {
-            SendButtonOnClicked(); // 채팅 전송 함수 호출
-            hasSentMessage = true; // 메시지가 전송된 것으로 설정
         }
     }
 
     /// <summary>
-    /// 전송 버튼이 눌리면 실행될 메소드. 메세지 전송을 담당함.
+    /// 채팅 캔버스 오브젝트 자체를 온/오프 하는 함수
+    /// </summary>
+    void ToggleChatCanvas()
+    {
+        // 채팅 캔버스 오브젝트가 활성화되어 있으면 비활성화, 비활성화되어 있으면 활성화
+        ChatCanvas.gameObject.SetActive(!ChatCanvas.gameObject.activeSelf);
+
+        // 채팅 캔버스가 활성화된 경우 입력 필드에 포커스를 맞춤
+        if (ChatCanvas.gameObject.activeSelf)
+        {
+            inputField.ActivateInputField();
+        }
+        
+    }
+
+    /// <summary>
+    /// 전송 버튼이 눌리면 실행될 메소드. 메시지 전송을 담당함.
     /// </summary>
     public void SendButtonOnClicked()
     {
-        if (inputField.text.Equals(""))
+        // 입력된 메시지에서 개행 문자 제거
+        string sanitizedMessage = inputField.text.Replace("\n", "").Replace("\r", "");
+
+        // 입력 필드가 비어 있으면 채팅 오브젝트를 자동으로 비활성화
+        if (string.IsNullOrWhiteSpace(sanitizedMessage))
         {
-            Debug.Log("Empty");
+            Debug.Log("Empty message, closing chat.");
+            ChatCanvas.gameObject.SetActive(false); // 입력 필드가 비어 있으면 오브젝트 비활성화
             return;
         }
-        string msg = string.Format("{0} :{1}", PhotonNetwork.LocalPlayer.NickName, inputField.text);
+
+        // 메시지 전송
+        string msg = string.Format("{0} : {1}", PhotonNetwork.LocalPlayer.NickName, sanitizedMessage);
         photonView.RPC("ReceiveMsg", RpcTarget.OthersBuffered, msg);
         ReceiveMsg(msg);
         inputField.text = ""; // 인풋 필드 초기화
-        inputField.ActivateInputField(); // 메세지 전송 후 바로 메세지를 입력할 수 있게 포커스를 Input Field로 옮기는 편의 기능
-        hasSentMessage = true; // 메시지가 전송됨을 표시
+        inputField.ActivateInputField(); // 포커스를 유지하여 계속 입력할 수 있게 설정
     }
+
+
 
     /// <summary>
     /// 채팅 참가자 목록을 업데이트 하는 함수.
@@ -119,27 +136,10 @@ public class CChatManager : MonoBehaviourPunCallbacks
             players += p.NickName + "\n";
         }
         playerList.text = players;
-        
-    }
 
-    /// <summary>
-    /// 포톤 방에서 나갔을 때 불러오는 함수
-    /// </summary>
-    public override void OnLeftRoom()
-    {
-        // 씬 로드 후 싱글로비 씬이면 이 오브젝트 파괴
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if(scene.name == "SingleLobby")
-        {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            Destroy(this.gameObject);
-        }
-    }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {

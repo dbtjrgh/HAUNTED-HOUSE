@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -27,8 +28,14 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
     public Button startButton;
     public Button exitButton;
     public Button readyButton;
+    public Button mapButton;
     public TMP_Dropdown diffDropdown;
     public TextMeshProUGUI diffText;
+    public TextMeshProUGUI infoText; // 맵 선택 경고 메시지를 위한 텍스트
+    public TextMeshProUGUI mapText; // 모든 플레이어가 확인할 수 있는 선택된 맵 정보 텍스트
+    public GameObject chooseMapScreen; // 맵 선택 화면 (비활성화된 상태로 두고, 버튼을 통해 활성화)
+    private string selectedMap = ""; // 선택된 맵 정보
+
 
     // 방장일 경우, 플레이어들의 ready 상태를 저장할 Dictionary
     public Dictionary<int, bool> playersReady;
@@ -44,8 +51,9 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         exitButton.onClick.AddListener(QuitButtonClick);
         readyButton.onClick.AddListener(OnReadyButtonClick);
         diffDropdown.ClearOptions();
+        mapButton.onClick.AddListener(OpenMapSelection);
 
-        foreach(object diff in Enum.GetValues(typeof(Difficulty)))
+        foreach (object diff in Enum.GetValues(typeof(Difficulty)))
         {
             TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData(diff.ToString());
             diffDropdown.options.Add(option);
@@ -80,7 +88,8 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         // 방장이 아니면 게임 시작 버튼 및 난이도 조절 드롭다운 비활성화
         startButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
         diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
-        diffText.gameObject.SetActive(!PhotonNetwork.IsMasterClient);
+        mapButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+
 
         foreach (Photon.Realtime.Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
@@ -140,17 +149,20 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
     public void LeavePlayer(Photon.Realtime.Player leavePlayer)
     {
-        GameObject leaveTarget = playerEntries[leavePlayer.ActorNumber].gameObject;
-        playerEntries.Remove(leavePlayer.ActorNumber);
-        Destroy(leaveTarget);
-
-        if (PhotonNetwork.IsMasterClient)
+        if (playerEntries.ContainsKey(leavePlayer.ActorNumber))
         {
-            playersReady.Remove(leavePlayer.ActorNumber);
-            CheckReady();
-        }
+            GameObject leaveTarget = playerEntries[leavePlayer.ActorNumber].gameObject;
+            playerEntries.Remove(leavePlayer.ActorNumber);
+            Destroy(leaveTarget);
 
-        SortPlayers();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                playersReady.Remove(leavePlayer.ActorNumber);
+                CheckReady();
+            }
+
+            SortPlayers();
+        }
     }
 
     /// <summary>
@@ -159,9 +171,16 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
     /// </summary>
     public void SortPlayers()
     {
-        foreach(int actorNumber in playerEntries.Keys)
+        var sortedEntries = playerEntries.Values
+            .OrderBy(entry => entry.player.ActorNumber)
+            .ToList();
+
+        for (int i = 0; i < sortedEntries.Count; i++)
         {
-            playerEntries[actorNumber].transform.SetSiblingIndex(actorNumber);
+            if (sortedEntries[i] != null)
+            {
+                sortedEntries[i].transform.SetSiblingIndex(i);
+            }
         }
     }
 
@@ -170,15 +189,24 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
     /// </summary>
     public void StartButtonClick()
     {
-        // Photon을 통해 플레이어들과 씬을 동기화하여 로드
+        if (string.IsNullOrEmpty(selectedMap))
+        {
+            infoText.text = "맵을 선택해주세요!";
+            return;
+        }
+
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         if (PhotonNetwork.IsMasterClient && AllPlayersReady())
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            PhotonNetwork.LoadLevel("GameScene");
+            PhotonNetwork.LoadLevel(selectedMap);
         }
     }
+
+    
 
     private bool AllPlayersReady()
     {
@@ -239,7 +267,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         bool allReady = playersReady.Values.All(x => x); // 모든 플레이어가 준비가 되어있을 때 버튼 활성화
         bool anyReady = playersReady.Values.Any(x => x); // 한명이라도 준비가 되어있을 때 버튼 활성화
 
-        startButton.interactable = allReady;
+        startButton.interactable = allReady && !string.IsNullOrEmpty(selectedMap); // 맵 선택 여부 체크
     }
 
     private void DifficultyValueChange(int value)
@@ -268,9 +296,42 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         if (props.ContainsKey("Diff"))
         {
             print($"방 난이도 변경됨 : {props["Diff"]}");
-            diffText.text = ((Difficulty)props["Diff"]).ToString(); // enum형태로 변환
+            diffText.text = ((Difficulty)props["Diff"]).ToString();
         }
+
+        if (props.ContainsKey("Map"))
+        {
+            selectedMap = (string)props["Map"];
+            mapText.text = $"{selectedMap}";
+
+            // 맵이 선택되면 경고 메시지 지우기
+            infoText.text = "";
+        }
+
     }
+
+    // 맵 선택 화면을 열기 위한 메서드
+    public void OpenMapSelection()
+    {
+        this.gameObject.SetActive(false);
+        chooseMapScreen.gameObject.SetActive(true); // 맵 선택 화면 활성화
+    }
+
+    // 맵 선택 후 호출할 메서드
+    public void ChooseMap(string mapName)
+    {
+        selectedMap = mapName;
+
+        // 맵 선택 정보를 모든 플레이어에게 공유
+        var customProps = PhotonNetwork.CurrentRoom.CustomProperties;
+        customProps["Map"] = mapName;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(customProps);
+
+        // 맵 텍스트에 선택된 맵 표시
+        mapText.text = mapName;
+    }
+
+
 
 
     /// <summary>
@@ -306,6 +367,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
 
         diffText.gameObject.SetActive(false == PhotonNetwork.IsMasterClient);
+        SortPlayers();
     }
 
 

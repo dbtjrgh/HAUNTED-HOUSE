@@ -2114,7 +2114,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 16
+  m_VersionIndex: 19
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2364,11 +2364,11 @@ MonoBehaviour:
     \"WASD\" - \uD50C\uB808\uC774\uC5B4 \uC870\uC791\n  \"Shift\" - \uB2EC\uB9AC\uAE30\n 
     \"E\" - \uC544\uC774\uD15C \uC90D\uAE30\n  \"G\" - \uC544\uC774\uD15C \uB193\uAE30\n 
     \"Q\" -  \uC544\uC774\uD15C \uBCC0\uACBD\n  \"T\" - \uC190\uC804\uB4F1 \uCF1C\uAE30\n 
-    \"Space\" - \uBCF4\uB4DC\uD310 \uC5F4\uAE30(\uB85C\uBE44 \uC804\uC6A9)\n  \"J\"
-    - \uC800\uB110 \uC5F4\uAE30 (\uC778\uAC8C\uC784 \uC804\uC6A9)"
+    \"Space\" - \uBCF4\uB4DC\uD310 \uC5F4\uAE30(\uB85C\uBE44 \uC804\uC6A9)\n  \"O\",\"Enter\"
+    - \uCC44\uD305\n  \"J\" - \uC800\uB110 \uC5F4\uAE30 (\uC778\uAC8C\uC784 \uC804\uC6A9)"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a8fe4025c2fd21643a9a41a294e9ff65, type: 2}
-  m_sharedMaterial: {fileID: -5502013732708085031, guid: a8fe4025c2fd21643a9a41a294e9ff65, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e750d04fe2393b441ab55a32cf90568a, type: 2}
+  m_sharedMaterial: {fileID: 7889495060026475714, guid: e750d04fe2393b441ab55a32cf90568a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
