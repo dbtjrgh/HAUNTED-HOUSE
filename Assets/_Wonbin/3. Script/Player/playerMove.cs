@@ -3,8 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using Infrastructure.Services;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.InputSystem;
+
 
 namespace Wonbin
 {
@@ -51,11 +50,13 @@ namespace Wonbin
         private float _currFollowHeadTime = 0f;
         private float _playerHeadOffset = 0f;
         private const float FollowHeadTime = 2f;
-
+        private float initialHeadPositionY; // 서있을 때의 머리의 Y좌표를 저장.
+        public float crouchHeadOffset = -1f; //숙였을때 머리의 Y좌표를 저장.
 
         private void Start()
         {
             animator = GetComponentInChildren<Animator>();
+            initialHeadPositionY = _playerHead.position.y; // 초기 머리 위치 저장
         }
 
 
@@ -74,54 +75,52 @@ namespace Wonbin
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                Debug.Log("C key pressed");
-                Debug.Log($"_crouch before toggle: {_crouch}");
+                Debug.Log("앉기 키를 눌렀습니다.");
 
                 // _crouch 토글
                 _crouch = !_crouch;
-                Debug.Log($"_crouch after toggle: {_crouch}");
 
                 // 애니메이터의 상태 변경
                 if (animator != null)
                 {
                     animator.SetBool("IsCrouch", _crouch);
-                    Debug.Log("Animator is not null, IsCrouch set");
-                }
-                else
-                {
-                    Debug.LogError("Animator is null!");
                 }
 
-                // 앉는 동작 처리
-                if (!_crouch)
+                if (_crouch)
                 {
-                    Debug.Log("Attempting to sit down...");
+                    // 앉는 동작 처리
                     if (_animControl != null && !_animControl.SitDown())
                     {
-                        Debug.LogWarning("SitDown failed");
                         return;
                     }
-                    _crouch = true;
-                    Debug.Log("Successfully sat down");
+
+                    // 머리 위치를 앉은 상태로 조정
+                    AdjustHeadPosition(initialHeadPositionY + crouchHeadOffset);
                 }
-                // 일어나는 동작 처리
                 else
                 {
-                    Debug.Log("Attempting to stand up...");
+                    // 일어나는 동작 처리
                     if (_animControl != null && !_animControl.StandUp())
                     {
-                        Debug.LogWarning("StandUp failed");
                         return;
                     }
-                    _crouch = false;
-                    Debug.Log("Successfully stood up");
-                }
 
-                // 머리 따라가는 시간 초기화
-                _currFollowHeadTime = FollowHeadTime;
-                Debug.Log($"Follow head time set to: {_currFollowHeadTime}");
+                    // 머리 위치를 원래 위치로 초기화
+                    AdjustHeadPosition(initialHeadPositionY);
+                }
             }
         }
+
+        private void AdjustHeadPosition(float targetY)
+        {
+            if (_playerHead != null)
+            {
+                Vector3 currentPosition = _playerHead.position;
+                _playerHead.position = new Vector3(currentPosition.x, targetY, currentPosition.z);
+            }
+        }
+
+     
 
 
         private void Sprint()

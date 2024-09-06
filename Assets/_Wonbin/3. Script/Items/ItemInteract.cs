@@ -12,6 +12,7 @@ public class ItemInteract : MonoBehaviour
     playerInventory Inventory;
 
 
+
     private void Start()
     {
         Inventory = GetComponent<playerInventory>();
@@ -49,11 +50,23 @@ public class ItemInteract : MonoBehaviour
         {
             if (hit.collider.gameObject.CompareTag("Items"))
             {
-                
-                Debug.Log("아이템 감지: " + hit.collider.gameObject.name);
+
+                GameObject item = hit.collider.gameObject;
+                Debug.Log("아이템 감지: " + item.name);
+
+                // 아이템의 Rigidbody 가져오기
+                Rigidbody isHolding = item.GetComponent<Rigidbody>();
+
+                if (isHolding != null)
+                {
+                    // isKinematic을 true로 설정하여 물리 엔진의 영향을 받지 않도록 함
+                    isHolding.isKinematic = true;
+                }
+
+
 
                 // 감지된 아이템을 인벤토리에 추가
-                
+
                 Inventory.AddToInventory(hit.collider.gameObject);
             }
         }

@@ -1,7 +1,9 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class playerInventory : MonoBehaviour
 {
@@ -9,6 +11,11 @@ public class playerInventory : MonoBehaviour
     public GameObject itemSlot; // ItemSlot 오브젝트
     public int maxInventorySize = 3; // 최대 인벤토리 크기
     public static bool isInItemSlot; // 아이템이 ItemSlot에 있는지 여부를 확인
+
+
+    
+    private Rigidbody itemDrop; // 아이템 드랍 시, addforce를 관리하기 위한 변수.
+    private Transform itemTransform; // 아이템의 Transform을 가져오기 위한 변수.
 
 
     [SerializeField]
@@ -49,6 +56,7 @@ public class playerInventory : MonoBehaviour
                 item.transform.localRotation = Quaternion.identity; // 회전 초기화
 
                 Debug.Log("아이템이 인벤토리에 추가되었습니다: " + item.name);
+
             }
         }
         else
@@ -159,8 +167,21 @@ private void pullUseSlot()
             currentMainItem.transform.position = transform.position + transform.forward * 2; // 손 앞에 위치
             currentMainItem.transform.rotation = Quaternion.identity;
 
+            itemDrop = currentMainItem.GetComponent<Rigidbody>(); //현재 아이템의 Rigidbody를 가져옴.
+            itemTransform = currentMainItem.transform; // 현재 아이템의 Transform을 가져옴.
+
+
+            if (itemDrop != null)
+            {
+                itemDrop.isKinematic = false; // isKinematic을 false로 설정하여 물리 엔진의 영향을 받도록 함
+                Vector3 throwDirection = itemTransform.forward; // 던질 방향 설정
+                itemDrop.AddForce(throwDirection * 1, ForceMode.Impulse); // 던지는 힘을 가함.
+            }
+
+
             // 인벤토리에서 아이템 제거
             inventoryItems.RemoveAt(currentMainSlotIndex);
+
 
             // 현재 인덱스 조정
             if (inventoryItems.Count == 0)

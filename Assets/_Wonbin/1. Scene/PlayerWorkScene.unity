@@ -590,7 +590,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7863054685715238624, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5536216581336062180, guid: 5b8e67beecdfb2a489dfce6caee1faa7, type: 3}
@@ -704,7 +704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1564524143
 Transform:
   m_ObjectHideFlags: 0
@@ -1019,4 +1019,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233217e57e81a9d4cb32ac5b85c6c750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Item: {fileID: 3847378341265918505, guid: 70de6fcbe4773ec4998d22b04db077f2, type: 3}
+  Item: {fileID: 2481941539538423468, guid: b80e47937a2672b408ca0c4dc487b0a9, type: 3}

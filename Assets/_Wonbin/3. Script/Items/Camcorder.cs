@@ -10,7 +10,9 @@ namespace Wonbin
         public Camera greenScreen;
         public MeshRenderer screenMesh;
 
-        public RenderTexture renderTexture;
+        [SerializeField]
+        private RenderTexture renderTexture;
+
         public Material renderTextureMat;
 
         private bool normalMode; // 노말 모드인지 고스트 오브 모드인지 확인
@@ -22,6 +24,8 @@ namespace Wonbin
 
         private void Start()
         {
+            renderTexture = Resources.Load<RenderTexture>("RenderTexture1");
+
             CamcorderSetup();
 
             if (screenMesh == null)
@@ -93,6 +97,10 @@ namespace Wonbin
 
         private void CamcorderSetup()
         {
+            //play를 누르면, RenderTexture에 RenderTexture1이 적용되게
+
+
+
             // screenMesh의 크기를 가져옴
             Vector3 meshSize = screenMesh.bounds.size;
 
