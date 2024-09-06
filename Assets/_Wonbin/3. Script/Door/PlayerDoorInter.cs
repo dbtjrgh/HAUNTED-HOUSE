@@ -17,7 +17,13 @@ namespace Wonbin
         public float distance = 1.5f;           // 거리
         public float maxDrugVolume;             // 최대 드래그 볼륨
 
+
+
+        playerMove PlayerMove;
         Ghost ghost;
+
+        private bool playerInteracting = false; // 플레이어가 문에 상호작용 중인지 여부.
+
 
         private Collider col;
         private Rigidbody rb;
@@ -63,6 +69,8 @@ namespace Wonbin
             col = GetComponent<Collider>();
             rb = GetComponent<Rigidbody>();
             Ghost ghost = GetComponent<Ghost>();
+
+            playerInteracting = GameObject.FindWithTag("Player").GetComponent<playerMove>();
 
 
             waitForDoorStateCheck = new WaitForSeconds(checkDoorStateCD);

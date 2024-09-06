@@ -3,8 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using Infrastructure.Services;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.InputSystem;
+
 
 namespace Wonbin
 {
@@ -51,11 +50,13 @@ namespace Wonbin
         private float _currFollowHeadTime = 0f;
         private float _playerHeadOffset = 0f;
         private const float FollowHeadTime = 2f;
-
+        private float initialHeadPositionY; // 서있을 때의 머리의 Y좌표를 저장.
+        public float crouchHeadOffset = -1f; //숙였을때 머리의 Y좌표를 저장.
 
         private void Start()
         {
             animator = GetComponentInChildren<Animator>();
+            initialHeadPositionY = _playerHead.position.y; // 초기 머리 위치 저장
         }
 
 
@@ -74,23 +75,52 @@ namespace Wonbin
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                _crouch = !_crouch;
-                animator.SetBool("IsCrouch", _crouch);
+                Debug.Log("앉기 키를 눌렀습니다.");
 
-                if (!_crouch)
+                // _crouch 토글
+                _crouch = !_crouch;
+
+                // 애니메이터의 상태 변경
+                if (animator != null)
                 {
-                    if (!_animControl.SitDown()) return;
-                    _crouch = true;
+                    animator.SetBool("IsCrouch", _crouch);
+                }
+
+                if (_crouch)
+                {
+                    // 앉는 동작 처리
+                    if (_animControl != null && !_animControl.SitDown())
+                    {
+                        return;
+                    }
+
+                    // 머리 위치를 앉은 상태로 조정
+                    AdjustHeadPosition(initialHeadPositionY + crouchHeadOffset);
                 }
                 else
                 {
-                    if (!_animControl.StandUp()) return;
-                    _crouch = false;
+                    // 일어나는 동작 처리
+                    if (_animControl != null && !_animControl.StandUp())
+                    {
+                        return;
+                    }
+
+                    // 머리 위치를 원래 위치로 초기화
+                    AdjustHeadPosition(initialHeadPositionY);
                 }
-                _currFollowHeadTime = FollowHeadTime;
             }
         }
 
+        private void AdjustHeadPosition(float targetY)
+        {
+            if (_playerHead != null)
+            {
+                Vector3 currentPosition = _playerHead.position;
+                _playerHead.position = new Vector3(currentPosition.x, targetY, currentPosition.z);
+            }
+        }
+
+     
 
 
         private void Sprint()

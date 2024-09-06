@@ -1971,7 +1971,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.15
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
@@ -2004,7 +2004,7 @@ MonoBehaviour:
   camcorder: {fileID: 6751219407713703976}
   greenScreen: {fileID: 97296734978797623}
   screenMesh: {fileID: 9086204198761895092}
-  renderTexture: {fileID: 8400000, guid: 7edbf6d4e4b8bc54f88b25ba936e4e8e, type: 2}
+  renderTexture: {fileID: 0}
   renderTextureMat: {fileID: 2100000, guid: 9086cad37c0ce54459cce3bc732119c5, type: 2}
 --- !u!1 &7769032659168192156
 GameObject:

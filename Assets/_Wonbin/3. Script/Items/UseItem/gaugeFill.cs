@@ -18,7 +18,7 @@ public class gaugeFill : MonoBehaviour
 
     private void Start()
     {
-        playerMentalGauge = GameObject.Find("Player").GetComponent<mentalGaugeManager>();
+        playerMentalGauge = GameObject.FindGameObjectWithTag("Player").GetComponent<mentalGaugeManager>();
         getFill = false;
         isInItemSlot = false;
         useFill = true;
@@ -30,6 +30,9 @@ public class gaugeFill : MonoBehaviour
     private void Update()
     {
 
+        bool isInItemSlot = transform.IsChildOf(itemSlotTransform);
+
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (itemSlotTransform == null)
@@ -37,15 +40,15 @@ public class gaugeFill : MonoBehaviour
                 return;
             }
 
-            else if (playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
+
+
+
+            else if (isInItemSlot = true && playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
             {
                 useFill = false;
                 Debug.Log("정신력 게이지가 최대치입니다.");
 
             }
-
-
-            bool isInItemSlot = transform.IsChildOf(itemSlotTransform);
 
             if (isInItemSlot && useFill == true)
             {
