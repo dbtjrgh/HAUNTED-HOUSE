@@ -15,7 +15,7 @@ public class PlayerDoorInter : MonoBehaviour
     public float distance = 1.5f;           // 거리
     public float maxDrugVolume;             // 최대 드래그 볼륨
 
-    Ghost ghost;
+    
 
     private Collider col;
     private Rigidbody rb;
@@ -60,7 +60,7 @@ public class PlayerDoorInter : MonoBehaviour
         hinge = GetComponent<HingeJoint>();
         col = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
-        Ghost ghost = GetComponent<Ghost>();
+        
 
 
         waitForDoorStateCheck = new WaitForSeconds(checkDoorStateCD);
@@ -86,8 +86,8 @@ public class PlayerDoorInter : MonoBehaviour
 
     public void GhostDrugDoor()
     {
-        ghost=FindObjectOfType<Ghost>();
-        if (ghost.state == changwon.GhostState.HUNTTING)  // 유령이 사냥 중이라면
+        
+        if (Ghost.instance.state == changwon.GhostState.HUNTTING)  // 유령이 사냥 중이라면
         {
             GhostInterrectWithDoor(GenerateForce(), GenerateDirection(), Random.Range(minGhostForceTime, maxGhostForceTime));   // 유령이 문을 드래그        //hunttime이 enum클래스의 huntting이면
         }

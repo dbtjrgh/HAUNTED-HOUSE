@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2507987392342402936}
   - component: {fileID: 2507987392342402943}
   - component: {fileID: 535231032125411054}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 2507987392700069547}
   - component: {fileID: 2507987392700069524}
   - component: {fileID: 2507987392700069525}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: 'UV Flashlight '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7004,7 +7004,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 19
+  m_VersionIndex: 22
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -7089,7 +7089,9 @@ GameObject:
   - component: {fileID: 5897041756080861823}
   - component: {fileID: 5208950331711269982}
   - component: {fileID: 1719576856155820494}
-  m_Layer: 9
+  - component: {fileID: 621894508}
+  - component: {fileID: 621894514}
+  m_Layer: 8
   m_Name: UVflashlight1
   m_TagString: Items
   m_Icon: {fileID: 0}
@@ -7252,3 +7254,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &621894508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5897041756080861818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3479646fbbdc4545b5dc7cfc7c8656b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uvlight: {fileID: 2507987392342402943}
+  revealableMaterial: {fileID: 2100000, guid: 8adebe17d2bc09f429682dfe4c32a9b2, type: 2}
+  lightAngle: 360
+  epsilon: 0.001
+--- !u!114 &621894514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5897041756080861818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ccb77f003c81d40abb57014f4bddb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uvLight: {fileID: 621894508}
+  myLight: {fileID: 2507987392342402943}
+  _revealableMaterial: {fileID: 2100000, guid: 4c428e4d59f624648a1997a099acd75b, type: 2}

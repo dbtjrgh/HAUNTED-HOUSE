@@ -1,35 +1,27 @@
 
-using changwon;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EMFTrigger : MonoBehaviour
 {
-    
-    changwon.EMF emf;
-    
+    public changwon._EMF emf;
     public GameObject ghost;
 
     private void Start()
     {
-        emf = GameObject.Find("EMF").GetComponent<changwon.EMF>();
-        ghost= GameObject.Find("ghost1529(Clone)");
-        
+        emf = GameObject.FindObjectOfType<changwon._EMF>();
+        ghost = GameObject.Find("ghost1529(Clone)");
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (emf.EMFOnOff == true)
+        if (other.CompareTag("Ghost"))
         {
-            print(emf.EMFOnOff);
-            print(Ghost.instance.state);
-            print(Ghost.instance.ghostType);
-            
-            if (other.CompareTag("Ghost"))      
+            float TargetDistance = Vector3.Distance(ghost.transform.position, transform.position);
+            if (emf.EMFOnOff == true)
             {
-                print("Ghost");
-                float TargetDistance = Vector3.Distance(ghost.transform.position, transform.position);
                 if (TargetDistance < 5)
                 {
                     if (Ghost.instance.state == changwon.GhostState.HUNTTING)
@@ -43,17 +35,13 @@ public class EMFTrigger : MonoBehaviour
                     {
                         switch (Ghost.instance.ghostType)
                         {
-
                             case GhostType.BANSHEE:
-
-
                                 break;
 
                             case GhostType.NIGHTMARE:
 
                                 for (int i = 0; i < 3; i++)
                                 {
-
                                     emf.lights[i].gameObject.SetActive(true);
                                 }
                                 break;
@@ -62,7 +50,6 @@ public class EMFTrigger : MonoBehaviour
 
                                 for (int i = 0; i < emf.lights.Length; i++)
                                 {
-
                                     emf.lights[i].gameObject.SetActive(true);
                                 }
                                 break;
@@ -75,10 +62,13 @@ public class EMFTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.name == "ghost1529(Clone)")
+        if (other.CompareTag("Ghost"))
         {
+            for (int i = 1; i < emf.lights.Length; i++)
+            {
+                emf.lights[i].gameObject.SetActive(false);
+            }
             emf.lights[0].gameObject.SetActive(true);
         }
     }
 }
-
