@@ -47,6 +47,8 @@ public class gaugeFill : MonoBehaviour
         }
     }
 
+   
+
     private void Update()
     {
         // itemSlotTransform이 null이 아닌지 확인

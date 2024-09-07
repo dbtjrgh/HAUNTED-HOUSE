@@ -55,10 +55,6 @@ namespace Wonbin
         private void Awake()
         {
             cam = Camera.main;
-        }
-
-        private void Start()
-        {
             hinge = GetComponent<HingeJoint>();
             col = GetComponent<Collider>();
             rb = GetComponent<Rigidbody>();
@@ -82,6 +78,8 @@ namespace Wonbin
             if (Ghost.instance != null && (Ghost.instance.ghostType == GhostType.BANSHEE || Ghost.instance.ghostType == GhostType.DEMON))
                 LeavePrintsUV();
         }
+
+       
 
         private void FixedUpdate()
         {

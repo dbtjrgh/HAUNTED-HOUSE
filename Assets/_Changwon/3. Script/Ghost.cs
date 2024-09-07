@@ -106,7 +106,7 @@ public class Ghost : MonoBehaviour
 
             else if (mental == null)
             {
-                Debug.LogError("mental is null");
+                Debug.Log("mental is null");
             }
             yield return null;
         }

@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 1049881558547088736}
   - component: {fileID: 5136992955241375531}
   - component: {fileID: 1374795838617385977}
-  - component: {fileID: 6115860304552941253}
+  - component: {fileID: 5189999713081141309}
   m_Layer: 3
   m_Name: character
   m_TagString: Untagged
@@ -468,7 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cfde6752b1df8f4f9f41d30a4390780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6115860304552941253
+--- !u!114 &5189999713081141309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -484,13 +484,13 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isWalking
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: CrouchTrigger
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsCrouch
   m_SynchronizeLayers:
   - SynchronizeType: 0
@@ -995,7 +995,7 @@ GameObject:
   - component: {fileID: 402019447934830084}
   - component: {fileID: 4626383944240872705}
   - component: {fileID: 6982523706637373773}
-  - component: {fileID: 2099412725155773272}
+  - component: {fileID: 5242076745718677384}
   m_Layer: 3
   m_Name: MultiPlayer
   m_TagString: Player
@@ -1345,12 +1345,13 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2099412725155773272}
-  - {fileID: 6115860304552941253}
+  - {fileID: 5242076745718677384}
+  - {fileID: 553761602071397996}
+  - {fileID: 5189999713081141309}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2099412725155773272
+--- !u!114 &5242076745718677384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1446,6 +1447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6918609231359142548}
+  - component: {fileID: 553761602071397996}
   m_Layer: 3
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -1471,6 +1473,22 @@ Transform:
   m_Father: {fileID: 2161934274207564738}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &553761602071397996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2161934274834076892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &2161934275529676585
 GameObject:
   m_ObjectHideFlags: 0

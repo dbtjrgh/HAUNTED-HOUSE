@@ -21,14 +21,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             return;
         }
-    }
-
-    private void Start()
-    {
         Vector3 pos = startPositions.position;
         Quaternion rot = startPositions.rotation;
 
         PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0);
+    }
+
+    private void Start()
+    {
+        
 
     }
 }
