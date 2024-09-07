@@ -95,7 +95,7 @@ public class Ghost : MonoBehaviour
     private IEnumerator idle()
     {
         mental = FindObjectOfType<mentalGaugeManager>();
-        print($"Mental : {mental.MentalGauge}");
+        
         while (state == changwon.GhostState.IDLE)
         {
             ghostNav.isStopped = true;
