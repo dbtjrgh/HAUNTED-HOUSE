@@ -3,64 +3,63 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace changwon
 {
     public class _EMF : MonoBehaviour
     {
         public Collider interaction;
+        
         public Light[] lights;
+
         Ghost ghost;
-
-        static bool getEMF;
-        public static bool isInItemSlot; // EMF가 ItemSlot에 있는지 여부
-        private Transform itemSlotTransform;
-        playerInventory Inventory;
-        public bool EMFOnOff = false;
-
-        private void Awake()
-        {
-            ghost = GetComponent<Ghost>();
-        }
 
         private void Start()
         {
             getEMF = false;
             isInItemSlot = false;
+            itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
+        }
 
-            // ItemSlot 오브젝트를 찾고, 없으면 에러 로그 출력
-            GameObject itemSlotObject = GameObject.Find("ItemSlot");
-            if (itemSlotObject != null)
-            {
-                itemSlotTransform = itemSlotObject.transform;
-            }
-            else
-            {
-                Debug.LogError("ItemSlot 오브젝트를 찾을 수 없습니다!");
-            }
+
+        static bool getEMF;
+
+        public static bool isInItemSlot; // EMF가 ItemSlot에 있는지 여부를 확인
+        private Transform itemSlotTransform;
+        playerInventory Inventory;
+
+
+        public bool EMFOnOff = false;
+
+
+        private void Awake()
+        {
+            ghost = GetComponent<Ghost>();
+                     
         }
 
         private void Update()
         {
-            // itemSlotTransform이 null인지 확인
-            if (itemSlotTransform != null)
-            {
-                isInItemSlot = transform.IsChildOf(itemSlotTransform); // EMF가 현재 ItemSlot에 있는지 확인
 
-                if (isInItemSlot)
+
+            bool isInItemSlot = transform.IsChildOf(itemSlotTransform); //Emf가 현재 아이템 슬롯에 들어가 있는지 확인.
+
+            if (isInItemSlot)
+            {
+                EMFSwitching();
+            }
+
+            else
+            {
+                for (int i = 0; i < lights.Length; i++)
                 {
-                    EMFSwitching();
+                    lights[i].gameObject.SetActive(false);
                 }
-                else
-                {
-                    // 아이템 슬롯에 없으면 모든 라이트를 끄기
-                    for (int i = 0; i < lights.Length; i++)
-                    {
-                        lights[i].gameObject.SetActive(false);
-                    }
-                }
+
             }
         }
+
 
         static internal void EMFEquip()
         {
@@ -76,20 +75,15 @@ namespace changwon
                     EMFObject.transform.localPosition = Vector3.zero;
                     EMFObject.transform.localRotation = Quaternion.identity;
 
-                    isInItemSlot = true; // ItemSlot에 추가되었음을 표시
-                }
-                else
-                {
-                    Debug.LogError("ItemSlot 오브젝트를 찾을 수 없습니다!");
+                    isInItemSlot = true; //ItemSlot에 추가되었음을 표시
                 }
             }
-            else
-            {
-                Debug.LogError("EMF 오브젝트를 찾을 수 없습니다!");
-            }
+
+
         }
 
-        public void EMFSwitching()
+
+            public void EMFSwitching()
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -101,10 +95,64 @@ namespace changwon
                 else
                 {
                     EMFOnOff = false;
-                    for (int i = 0; i < lights.Length; i++)
-                        lights[i].gameObject.SetActive(false);
+                    lights[0].gameObject.SetActive(false);
                 }
             }
         }
+
+
+
+        private void OnTriggerStay(Collider other)
+        {
+            other=interaction;
+            if (EMFOnOff == true)
+            {
+                if (other.tag == "Ghost")
+                {
+                    if (ghost.state == GhostState.HUNTTING)
+                    {
+                        for (int i = 0; i < lights.Length; i++)
+                        {
+                            lights[i].gameObject.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        switch (ghost.ghostType)
+                        {
+                            case GhostType.BANSHEE:
+
+                                
+                                break;
+
+                            case GhostType.NIGHTMARE:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    lights[i].gameObject.SetActive(true);
+                                }
+                                break;
+
+                            case GhostType.DEMON:
+                                for (int i = 0; i < lights.Length; i++)
+                                {
+                                    lights[i].gameObject.SetActive(true);
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.tag == "Ghost")
+            {
+                lights[0].gameObject.SetActive(true);
+            }
+        }
     }
+
+
+
 }
