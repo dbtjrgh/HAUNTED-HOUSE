@@ -142,27 +142,21 @@ namespace Wonbin
         {
             // 마우스의 이동량
             float y_RotateSize = Input.GetAxis("Mouse X") * turnSpeed;
+            // 현재 회전값에 새로운 회전값을 더해줌
             float y_Rotate = _playerBody.eulerAngles.y + y_RotateSize;
 
             // 마우스 상하 이동에 따른 이동값 계산
             float x_RotationSize = -Input.GetAxis("Mouse Y") * turnSpeed;
-            xRotation = Mathf.Clamp(xRotation + x_RotationSize, -80f, 80f);
+            xRotation = Mathf.Clamp(xRotation + x_RotationSize, -80f, 80f);  // 상하 회전 범위 제한
 
+            // 몸의 회전값을 몸에 반영(y축 회전)
             _playerBody.eulerAngles = new Vector3(_playerBody.eulerAngles.x, y_Rotate, 0);
 
             // 이동량 측정
             Vector3 move = _playerBody.forward * Input.GetAxis("Vertical") + _playerBody.right * Input.GetAxis("Horizontal");
 
-            // 이동량을 현재 좌표에 반영
+            // 이동량을 현재 좌표에 반영(이동량 값 계산할때, charController를 참조해야함. 그렇지 않으면 벽 뚫음.)
             charController.Move(move * moveSpeed * Time.deltaTime);
-
-            // 애니메이션 상태 업데이트
-            if (animator != null)
-            {
-                // 플레이어가 움직이고 있으면 isWalking을 true로 설정
-                bool isWalking = move.magnitude > 0;
-                animator.SetBool("isWalking", isWalking);
-            }
         }
 
         private void FollowHead()

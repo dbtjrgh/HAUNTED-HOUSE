@@ -38,47 +38,35 @@ namespace Wonbin
             }
             isInItemSlot = false;
             EquipCam = false;
-
-            // ItemSlot 오브젝트 찾기
-            GameObject itemSlotObject = GameObject.Find("ItemSlot");
-            if (itemSlotObject != null)
-            {
-                itemSlotTransform = itemSlotObject.transform;
-            }
-            else
-            {
-                Debug.LogError("ItemSlot을 찾을 수 없습니다!");
-            }
+            itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
         }
 
 
         private void Update()
         {
-            // itemSlotTransform이 null인지 확인
-            if (itemSlotTransform != null)
-            {
-                isInItemSlot = transform.IsChildOf(itemSlotTransform);
+            isInItemSlot = transform.IsChildOf(itemSlotTransform);
 
-                if (isInItemSlot)
+            if (isInItemSlot)
+            {
+                EquipCam = true;
+                // R 키를 눌렀을 때 모드 전환
+                if (Input.GetKeyDown(KeyCode.R))
                 {
-                    EquipCam = true;
-                    // R 키를 눌렀을 때 모드 전환
-                    if (Input.GetKeyDown(KeyCode.R))
-                    {
-                        OnMainUse();
-                    }
+                    OnMainUse();
                 }
-                else
-                {
-                    EquipCam = false;
-                }
+            }
+            else
+            {
+                EquipCam = false;
             }
         }
 
-        public void OnMainUse()
+        public void OnMainUse()    
         {
             if (EquipCam)  // 캠코더가 장착된 상태에서만 모드 전환 가능
             {
+                // 초기에는 노말 모드가 호출. 노말 모드에서는 카메라 화면이 보이고, 고스트 오브 모드에서는 초록색 화면이 보임
+                
                 if (normalMode)
                 {
                     SetGhostOrbMode();
@@ -89,6 +77,7 @@ namespace Wonbin
                 }
             }
         }
+
 
         private void SetNormalMode()
         {
@@ -108,19 +97,28 @@ namespace Wonbin
 
         private void CamcorderSetup()
         {
-            // RenderTexture 설정 및 적용
+            //play를 누르면, RenderTexture에 RenderTexture1이 적용되게
+
+
+
+            // screenMesh의 크기를 가져옴
             Vector3 meshSize = screenMesh.bounds.size;
 
+            //quad의 RenderTexture 해상도를 수동으로 잡아 화면에 표기 될 수 있게함.
             int width = Mathf.CeilToInt(meshSize.x * 500);  // 가로 크기
             int height = Mathf.CeilToInt(meshSize.y * 500); // 세로 크기
 
-            renderTexture = new RenderTexture(width, height, 16);
+            // RenderTexture의 해상도를 Quad 크기에 맞춰 설정
+            renderTexture = new RenderTexture(width, height, 16);  // 깊이 버퍼 16-bit
 
+            // 카메라에 RenderTexture 적용
             camcorder.targetTexture = renderTexture;
             greenScreen.targetTexture = renderTexture;
 
+            // screenMesh의 Material에 RenderTexture 적용
             screenMesh.sharedMaterial = renderTextureMat;
             screenMesh.sharedMaterial.mainTexture = renderTexture;
+          
         }
     }
 }
