@@ -3,28 +3,17 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace changwon
 {
     public class _EMF : MonoBehaviour
     {
         public Collider interaction;
-
         public Light[] lights;
-
         Ghost ghost;
 
-        private void Start()
-        {
-            getEMF = false;
-            isInItemSlot = false;
-            itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
-        }
-
         static bool getEMF;
-
-        public static bool isInItemSlot; // EMF가 ItemSlot에 있는지 여부를 확인
+        public static bool isInItemSlot; // EMF가 ItemSlot에 있는지 여부
         private Transform itemSlotTransform;
         playerInventory Inventory;
         public bool EMFOnOff = false;
@@ -34,25 +23,44 @@ namespace changwon
             ghost = GetComponent<Ghost>();
         }
 
-        private void Update()
+        private void Start()
         {
-            bool isInItemSlot = transform.IsChildOf(itemSlotTransform); //Emf가 현재 아이템 슬롯에 들어가 있는지 확인.
+            getEMF = false;
+            isInItemSlot = false;
 
-            if (isInItemSlot)
+            // ItemSlot 오브젝트를 찾고, 없으면 에러 로그 출력
+            GameObject itemSlotObject = GameObject.Find("ItemSlot");
+            if (itemSlotObject != null)
             {
-                EMFSwitching();
+                itemSlotTransform = itemSlotObject.transform;
             }
-
             else
             {
-                for (int i = 0; i < lights.Length; i++)
-                {
-                    lights[i].gameObject.SetActive(false);
-                }
-
+                Debug.LogError("ItemSlot 오브젝트를 찾을 수 없습니다!");
             }
         }
 
+        private void Update()
+        {
+            // itemSlotTransform이 null인지 확인
+            if (itemSlotTransform != null)
+            {
+                isInItemSlot = transform.IsChildOf(itemSlotTransform); // EMF가 현재 ItemSlot에 있는지 확인
+
+                if (isInItemSlot)
+                {
+                    EMFSwitching();
+                }
+                else
+                {
+                    // 아이템 슬롯에 없으면 모든 라이트를 끄기
+                    for (int i = 0; i < lights.Length; i++)
+                    {
+                        lights[i].gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
 
         static internal void EMFEquip()
         {
@@ -68,11 +76,18 @@ namespace changwon
                     EMFObject.transform.localPosition = Vector3.zero;
                     EMFObject.transform.localRotation = Quaternion.identity;
 
-                    isInItemSlot = true; //ItemSlot에 추가되었음을 표시
+                    isInItemSlot = true; // ItemSlot에 추가되었음을 표시
+                }
+                else
+                {
+                    Debug.LogError("ItemSlot 오브젝트를 찾을 수 없습니다!");
                 }
             }
+            else
+            {
+                Debug.LogError("EMF 오브젝트를 찾을 수 없습니다!");
+            }
         }
-
 
         public void EMFSwitching()
         {

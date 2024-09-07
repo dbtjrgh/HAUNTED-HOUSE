@@ -202,11 +202,11 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            if(selectedMap == "∆Û«„")
+            if(selectedMap == "∞¯¿Â")
             {
                 PhotonNetwork.LoadLevel("Factory");
             }
-            else if(selectedMap == "∞¯¿Â")
+            else if(selectedMap == "∆Û«„")
             {
                 PhotonNetwork.LoadLevel("Turkwood");
             }

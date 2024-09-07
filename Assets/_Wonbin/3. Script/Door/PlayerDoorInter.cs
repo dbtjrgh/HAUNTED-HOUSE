@@ -12,18 +12,14 @@ namespace Wonbin
         public Transform InteractionTransform;  // 상호작용 위치
         public GameObject handprintPrefab;      // 손발자국 프리팹
 
-
         public float forceAmmount = 15f;        // 힘의 양
         public float distance = 1.5f;           // 거리
         public float maxDrugVolume;             // 최대 드래그 볼륨
-
-
 
         playerMove PlayerMove;
         Ghost ghost;
 
         private bool playerInteracting = false; // 플레이어가 문에 상호작용 중인지 여부.
-
 
         private Collider col;
         private Rigidbody rb;
@@ -56,8 +52,6 @@ namespace Wonbin
         private WaitForSeconds waitForDoorStateCheck;       // 문 상태 확인을 위한 대기 시간
         private WaitForSeconds waitForDoorRotationCheck;    // 문 회전 확인을 위한 대기 시간
 
-
-
         private void Awake()
         {
             cam = Camera.main;
@@ -72,25 +66,28 @@ namespace Wonbin
 
             playerInteracting = GameObject.FindWithTag("Player").GetComponent<playerMove>();
 
-
             waitForDoorStateCheck = new WaitForSeconds(checkDoorStateCD);
             waitForDoorRotationCheck = new WaitForSeconds(checkDoorRotationCD);
 
-            openedRotation = hinge.limits.max * hinge.axis.y;       // 문이 완전히 열린 상태의 회전
-            if (openedRotation < -1f) openedRotation += 360f;             // 문이 완전히 열린 상태의 회전
+            // HingeJoint가 없을 경우 코드 실행을 중단
+            if (hinge != null)
+            {
+                openedRotation = hinge.limits.max * hinge.axis.y;  // 문이 완전히 열린 상태의 회전 계산
+                if (openedRotation < -1f) openedRotation += 360f;  // 회전값 조정
 
+                StartCoroutine(CheckDoorState()); // 문 상태 체크 시작
+            }
 
-            StartCoroutine(CheckDoorState());
-            if (Ghost.instance.ghostType == GhostType.BANSHEE || Ghost.instance.ghostType == GhostType.DEMON)
+            // 유령 타입이 BANSHEE 또는 DEMON일 경우 손자국 남기기
+            if (Ghost.instance != null && (Ghost.instance.ghostType == GhostType.BANSHEE || Ghost.instance.ghostType == GhostType.DEMON))
                 LeavePrintsUV();
-
         }
 
         private void FixedUpdate()
         {
             if (isInterracting && !isDoorLocked)  // 상호작용 중이고 문이 잠겨있지 않다면
             {
-                DragDoor();     // 문 드래그
+                DragDoor();  // 문 드래그
             }
         }
 
@@ -99,7 +96,7 @@ namespace Wonbin
             ghost = FindObjectOfType<Ghost>();
             if (ghost.state == changwon.GhostState.HUNTTING)  // 유령이 사냥 중이라면
             {
-                GhostInterrectWithDoor(GenerateForce(), GenerateDirection(), Random.Range(minGhostForceTime, maxGhostForceTime));   // 유령이 문을 드래그        //hunttime이 enum클래스의 huntting이면
+                GhostInterrectWithDoor(GenerateForce(), GenerateDirection(), Random.Range(minGhostForceTime, maxGhostForceTime));  // 유령이 문을 드래그
             }
         }
 
@@ -122,28 +119,33 @@ namespace Wonbin
 
             while (true)
             {
-                if (IsDoorFullyClosed()) { EnableColider(); yield break; }   // 문이 완전히 닫혔다면 콜라이더 활성화     //yield break는 코루틴을 끝내는 역할
+                if (IsDoorFullyClosed()) { EnableColider(); yield break; }  // 문이 완전히 닫혔다면 콜라이더 활성화 후 종료
                 yield return null;
             }
-
         }
 
         private void EnableColider() { col.enabled = true; rb.isKinematic = true; }
+
         private void GhostInterrectWithDoor(float force, float direction, float time)
         {
-            hinge.useMotor = true;          // 모터 사용
-            var motor = hinge.motor;
-            motor.force = motorForce;       // 모터 힘
-            hinge.motor = motor;            // 모터
-            Invoke("StopDruggingDoor", time);  // 문 드래그 멈춤      
-
+            if (hinge != null)
+            {
+                hinge.useMotor = true;  // 모터 사용
+                var motor = hinge.motor;
+                motor.force = motorForce;  // 모터 힘 설정
+                hinge.motor = motor;
+                Invoke("StopDruggingDoor", time);  // 문 드래그 멈춤
+            }
         }
 
         private void StopDruggingDoor()
         {
-            var motor = hinge.motor;
-            motor.targetVelocity = 0f;
-            hinge.motor = motor;
+            if (hinge != null)
+            {
+                var motor = hinge.motor;
+                motor.targetVelocity = 0f;
+                hinge.motor = motor;
+            }
         }
 
         private float GenerateForce() => Random.Range(MinGhostsForcePower, MaxGhostsForcePower);
@@ -168,15 +170,15 @@ namespace Wonbin
 
         private void CheckDoorRotation()
         {
-            doorCurrRotation = transform.localEulerAngles.y;  // 문 현재 회전
-            if (doorCurrRotation < -5f) doorCurrRotation += 360; // 문이 완전히 닫힌 상태의 회전
+            doorCurrRotation = transform.localEulerAngles.y;  // 문 현재 회전값 계산
+            if (doorCurrRotation < -5f) doorCurrRotation += 360;  // 문이 완전히 닫힌 상태의 회전값 조정
 
-            if (Mathf.Abs(transform.localEulerAngles.y) <= epsilon)   // 문이 완전히 닫힌 상태인지 확인    //mathf.abs는 절대값을 반환
+            if (Mathf.Abs(transform.localEulerAngles.y) <= epsilon)  // 문이 완전히 닫힌 상태인지 확인
             {
                 IsDoorClosed = true;
                 IsDoorFullyOpened = false;
             }
-            else if (Mathf.Abs(transform.localEulerAngles.y - openedRotation) <= epsilon) // 문이 완전히 열린 상태인지 확인
+            else if (Mathf.Abs(transform.localEulerAngles.y - openedRotation) <= epsilon)  // 문이 완전히 열린 상태인지 확인
             {
                 IsDoorClosed = false;
                 IsDoorFullyOpened = true;
@@ -193,32 +195,25 @@ namespace Wonbin
         private void DragDoor()
         {
             Ray playerAim = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+            Vector3 nextPos = cam.transform.position + playerAim.direction * distance;  // 다음 위치 계산
+            Vector3 currPos = transform.position;  // 현재 위치 계산
 
-            Vector3 nextPos = cam.transform.position + playerAim.direction * distance;      // 다음 위치
-            Vector3 currPos = transform.position;           //  현재 위치
-
-            rb.velocity = (nextPos - currPos) * forceAmmount;    // rb.velocity는 물리적인 속도를 나타내는 변수
+            rb.velocity = (nextPos - currPos) * forceAmmount;  // 문 드래그 속도 적용
         }
-
-
 
         public void OnDragBegin()
         {
             isInterracting = true;
         }
 
-
         public void OnDragEnd()
         {
             isInterracting = false;
-
-
         }
 
         public void LeavePrintsUV()
         {
             Instantiate(handprintPrefab, InteractionTransform.position, InteractionTransform.rotation, InteractionTransform);
         }
-
     }
 }

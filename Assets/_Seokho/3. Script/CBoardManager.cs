@@ -149,12 +149,6 @@ public class CBoardManager : MonoBehaviourPunCallbacks
             // 플레이어 프리팹 인스턴스화
             GameObject playerPrefab = PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0);
 
-            // 로컬 플레이어가 아닌 경우 레이어를 "OtherPlayer"로 변경
-            PhotonView photonView = playerPrefab.GetComponent<PhotonView>();
-            if (photonView != null && !photonView.IsMine)
-            {
-                SetLayerRecursively(playerPrefab, LayerMask.NameToLayer("MultiPlayer"));
-            }
         }
     }
 
