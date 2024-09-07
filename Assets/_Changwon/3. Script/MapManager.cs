@@ -6,7 +6,6 @@ public class MapManager : MonoBehaviour
 {
     public Transform[] Spawn;    
     public GameObject GhostPrefab;
-    public Camera mainCamera;
     public GameObject GhostOrb;
     Ghost ghost;
     public Vector3 returnRandom;

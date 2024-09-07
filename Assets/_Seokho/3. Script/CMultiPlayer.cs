@@ -1,11 +1,9 @@
 using Infrastructure;
 using UnityEngine;
-using System;
 using System.Collections;
 using Infrastructure.Services;
 using Photon.Pun;
 using Cinemachine;
-
 
 public class CMultiPlayer : MonoBehaviourPunCallbacks
 {
@@ -33,15 +31,18 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     private Wonbin.CrouchAnimation _animControl;
     private Animator animator;
 
-
     // 중력
     [SerializeField]
-    private float gravity = 3f;
+    private float gravity = 5f;  // 중력 값
+    private float verticalVelocity = 0f; // 수직 속도
+    private bool isGrounded; // 플레이어가 지면에 있는지 여부
+
+    // 죽음 여부 체크 변수
+    private bool isDead = false;  // 플레이어가 죽었는지 확인하는 변수
 
     // 몸통 각도 조절 변수
     [SerializeField]
     private Transform _playerBody;   // 몸 Transform (상체나 전체 몸이 포함된 Transform)
-
 
     // 머리 각도 조절 변수
     [SerializeField]
@@ -53,7 +54,6 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     private float initialHeadPositionY; // 서있을 때의 머리의 Y좌표를 저장.
     public float crouchHeadOffset = -1f; //숙였을때 머리의 Y좌표를 저장.
 
-
     private PhotonView pv;
     private CinemachineVirtualCamera playerCinemachine;
 
@@ -61,15 +61,11 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
 
-        // CLookBoard 스크립트를 찾음
         CLookBoard lookBoard = FindObjectOfType<CLookBoard>();
-
         pv = GetComponent<PhotonView>();
 
         if (pv.IsMine)
         {
-            // 로컬 플레이어의 경우
-            // _playerHead의 자식 오브젝트에서 CinemachineVirtualCamera 컴포넌트를 찾음
             playerCinemachine = _playerHead.GetComponentInChildren<CinemachineVirtualCamera>();
             if (playerCinemachine == null)
             {
@@ -77,7 +73,6 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             }
             if (lookBoard != null)
             {
-                // Player의 카메라와 Transform을 CLookBoard에 설정
                 lookBoard.SetPlayerReferences(playerCinemachine, transform);
             }
             else
@@ -87,8 +82,6 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         }
         else
         {
-            // 네트워크 상의 다른 플레이어의 경우
-            // 플레이어 카메라 비활성화
             playerCinemachine = _playerHead.GetComponentInChildren<CinemachineVirtualCamera>();
             if (playerCinemachine != null)
             {
@@ -97,17 +90,15 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
         initialHeadPositionY = _playerHead.position.y; // 초기 머리 위치 저장
     }
 
-
     private void Update()
     {
-        if (pv.IsMine)
+        if (pv.IsMine && !isDead)  // isDead가 false일 때만 조작 허용
         {
             moveInput();
             Sprint();
@@ -115,22 +106,77 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             PlayerRotation(); // 플레이어 회전
             CrouchHandle();
 
-        }
+            // 중력 및 지면 체크
+            isGrounded = charController.isGrounded;
 
+            if (isGrounded && verticalVelocity < 0)
+            {
+                verticalVelocity = -2f;  // 지면에 있을 때 수직 속도를 리셋
+            }
+
+            ApplyGravity();  // 중력 계산 및 적용
+
+            // 수평 이동 계산
+            Vector3 move = GetMoveDirection();
+
+            // **수평 이동만 반영하고, 중력을 따로 적용**
+            move.y = verticalVelocity;
+
+            // 이동 반영
+            charController.Move(move * Time.deltaTime);
+        }
     }
 
+    // 중력 적용 함수
+    private void ApplyGravity()
+    {
+        if (!isGrounded)
+        {
+            verticalVelocity -= gravity * Time.deltaTime;  // 중력에 따라 수직 속도 증가
+        }
+    }
 
+    private Vector3 GetMoveDirection()
+    {
+        // 마우스의 이동량
+        float y_RotateSize = Input.GetAxis("Mouse X") * turnSpeed;
+        float y_Rotate = _playerBody.eulerAngles.y + y_RotateSize;
+
+        // 마우스 상하 이동에 따른 이동값 계산
+        float x_RotationSize = -Input.GetAxis("Mouse Y") * turnSpeed;
+        xRotation = Mathf.Clamp(xRotation + x_RotationSize, -80f, 80f);
+
+        _playerBody.eulerAngles = new Vector3(_playerBody.eulerAngles.x, y_Rotate, 0);
+
+        // 수평 이동량 측정
+        Vector3 move = _playerBody.forward * Input.GetAxis("Vertical") + _playerBody.right * Input.GetAxis("Horizontal");
+
+        // **수평 이동만을 별도로 처리하여, 중력 영향을 받지 않도록 함**
+        Vector3 horizontalMove = new Vector3(move.x, 0, move.z);
+        horizontalMove *= moveSpeed;  // 스프린트 등을 반영한 이동 속도
+
+        return horizontalMove;  // 수평 이동만 반환
+    }
+
+    // 죽음 처리 함수
+    public void Die()
+    {
+        isDead = true;  // 플레이어 사망 상태로 설정
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");  // Die 애니메이션 트리거
+        }
+
+        Debug.Log("Player has died and controls are disabled.");
+    }
 
     private void CrouchHandle()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && !isDead)  // 플레이어가 죽지 않은 경우에만 crouch 허용
         {
-            Debug.Log("앉기 키를 눌렀습니다.");
-
-            // _crouch 토글
             _crouch = !_crouch;
 
-            // 애니메이터의 상태 변경
             if (animator != null)
             {
                 animator.SetBool("IsCrouch", _crouch);
@@ -138,24 +184,10 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
 
             if (_crouch)
             {
-                // 앉는 동작 처리
-                if (_animControl != null && !_animControl.SitDown())
-                {
-                    return;
-                }
-
-                // 머리 위치를 앉은 상태로 조정
                 AdjustHeadPosition(initialHeadPositionY + crouchHeadOffset);
             }
             else
             {
-                // 일어나는 동작 처리
-                if (_animControl != null && !_animControl.StandUp())
-                {
-                    return;
-                }
-
-                // 머리 위치를 원래 위치로 초기화
                 AdjustHeadPosition(initialHeadPositionY);
             }
         }
@@ -170,13 +202,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-
-
-
     private void Sprint()
     {
-        // 기본 이동 속도에 스프린트 배수 적용
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && !isDead)  // 죽지 않은 경우에만 스프린트 허용
         {
             moveSpeed = normalSpeed * sprintMultiplier;  // 스프린트 중
         }
@@ -185,8 +213,6 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             moveSpeed = normalSpeed;  // 기본 속도
         }
     }
-
-
 
     private void moveInput()
     {
@@ -209,7 +235,6 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         // 애니메이션 상태 업데이트
         if (animator != null)
         {
-            // 플레이어가 움직이고 있으면 isWalking을 true로 설정
             bool isWalking = move.magnitude > 0;
             animator.SetBool("isWalking", isWalking);
         }
@@ -236,12 +261,10 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
 
     private void SetHeadPosition()
     {
-        // 머리 위치와 회전 업데이트
         _headPosition = _playerHead.position;
-        _headPosition.y = _playerBody.position.y + _playerHeadOffset; // 머리 위치 조정
+        _headPosition.y = _playerBody.position.y + _playerHeadOffset;
         _playerHead.position = _headPosition;
 
-        // 머리 회전 적용
-        _playerHead.localRotation = Quaternion.Euler(xRotation_head, 0, 0); // 상하 회전
+        _playerHead.localRotation = Quaternion.Euler(xRotation_head, 0, 0);
     }
 }

@@ -1,3 +1,4 @@
+using Cinemachine;
 using JetBrains.Annotations;
 using System;
 using System.Collections;
@@ -7,24 +8,19 @@ using UnityEngine.UIElements;
 
 public class playerInventory : MonoBehaviour
 {
-
     public GameObject itemSlot; // ItemSlot 오브젝트
     public int maxInventorySize = 3; // 최대 인벤토리 크기
     public static bool isInItemSlot; // 아이템이 ItemSlot에 있는지 여부를 확인
 
-
-    
     private Rigidbody itemDrop; // 아이템 드랍 시, addforce를 관리하기 위한 변수.
     private Transform itemTransform; // 아이템의 Transform을 가져오기 위한 변수.
-
 
     [SerializeField]
     private List<GameObject> inventoryItems = new List<GameObject>(); // 인벤토리 리스트
     private int currentMainSlotIndex = 0; // 현재 메인 슬롯 인덱스
     private int newItemsIndex = 0; // 현재 플레이어가 손에 들고 있는 아이템과 새로 추가되는 아이템의 인덱스가 같은지 체크하기 위한 인덱스.
 
-
-
+    public CinemachineVirtualCamera playerCamera; // 플레이어의 카메라를 참조하여 바라보는 방향을 알기 위해 필요.
 
     private void Update()
     {
@@ -44,7 +40,6 @@ public class playerInventory : MonoBehaviour
         pullUseSlot();
     }
 
-
     public void AddToInventory(GameObject item)
     {
         if (inventoryItems.Count < maxInventorySize)
@@ -56,7 +51,6 @@ public class playerInventory : MonoBehaviour
                 item.transform.localRotation = Quaternion.identity; // 회전 초기화
 
                 Debug.Log("아이템이 인벤토리에 추가되었습니다: " + item.name);
-
             }
         }
         else
@@ -64,7 +58,6 @@ public class playerInventory : MonoBehaviour
             Debug.LogWarning("인벤토리가 가득 찼습니다!");
         }
     }
-
 
     private void AddItems()
     {
@@ -129,9 +122,7 @@ public class playerInventory : MonoBehaviour
         }
     }
 
-
-   
-private void pullUseSlot()
+    private void pullUseSlot()
     {
         // 리스트가 비어 있지 않고, currentMainSlotIndex가 유효한지 확인
         if (inventoryItems.Count > 0 && currentMainSlotIndex < inventoryItems.Count)
@@ -164,24 +155,24 @@ private void pullUseSlot()
         {
             currentMainItem.transform.SetParent(null); // ItemSlot에서 분리
             currentMainItem.SetActive(true); // 아이템 활성화
-            currentMainItem.transform.position = transform.position + transform.forward * 2; // 손 앞에 위치
+
+            // 카메라가 바라보고 있는 방향으로 아이템을 떨어뜨림
+            Vector3 dropPosition = playerCamera.transform.position + playerCamera.transform.forward * 1; // 카메라 앞쪽에 위치
+            currentMainItem.transform.position = dropPosition;
             currentMainItem.transform.rotation = Quaternion.identity;
 
-            itemDrop = currentMainItem.GetComponent<Rigidbody>(); //현재 아이템의 Rigidbody를 가져옴.
+            itemDrop = currentMainItem.GetComponent<Rigidbody>(); // 현재 아이템의 Rigidbody를 가져옴.
             itemTransform = currentMainItem.transform; // 현재 아이템의 Transform을 가져옴.
-
 
             if (itemDrop != null)
             {
                 itemDrop.isKinematic = false; // isKinematic을 false로 설정하여 물리 엔진의 영향을 받도록 함
-                Vector3 throwDirection = itemTransform.forward; // 던질 방향 설정
-                itemDrop.AddForce(throwDirection * 1, ForceMode.Impulse); // 던지는 힘을 가함.
+                Vector3 throwDirection = playerCamera.transform.forward; // 던질 방향을 카메라의 앞쪽으로 설정
+                itemDrop.AddForce(throwDirection * 1f, ForceMode.Impulse); // 던지는 힘을 가함
             }
-
 
             // 인벤토리에서 아이템 제거
             inventoryItems.RemoveAt(currentMainSlotIndex);
-
 
             // 현재 인덱스 조정
             if (inventoryItems.Count == 0)
@@ -192,9 +183,6 @@ private void pullUseSlot()
             {
                 currentMainSlotIndex = Mathf.Clamp(currentMainSlotIndex, 0, inventoryItems.Count - 1);
             }
-
         }
     }
-
 }
-

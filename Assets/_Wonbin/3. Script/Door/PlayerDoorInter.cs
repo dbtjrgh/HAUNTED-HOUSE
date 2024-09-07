@@ -64,25 +64,33 @@ namespace Wonbin
             hinge = GetComponent<HingeJoint>();
             col = GetComponent<Collider>();
             rb = GetComponent<Rigidbody>();
-            Ghost ghost = GetComponent<Ghost>();
+
+            // Ensure that hinge exists before trying to use it
+            if (hinge == null)
+            {
+                Debug.Log("No HingeJoint found on this object. Disabling the script to avoid errors.");
+                enabled = false;
+                return;
+            }
 
             playerInteracting = GameObject.FindWithTag("Player").GetComponent<playerMove>();
-
 
             waitForDoorStateCheck = new WaitForSeconds(checkDoorStateCD);
             waitForDoorRotationCheck = new WaitForSeconds(checkDoorRotationCD);
 
-            openedRotation = hinge.limits.max * hinge.axis.y;       // 문이 완전히 열린 상태의 회전
-            if (openedRotation < -1f) openedRotation += 360f;             // 문이 완전히 열린 상태의 회전
-
+            openedRotation = hinge.limits.max * hinge.axis.y;  // 문이 완전히 열린 상태의 회전 계산
+            if (openedRotation < -1f) openedRotation += 360f;  // 회전값 조정
 
             StartCoroutine(CheckDoorState());
-            if (Ghost.instance.ghostType == GhostType.BANSHEE || Ghost.instance.ghostType == GhostType.DEMON)
-                LeavePrintsUV();
 
+            // 유령 타입이 BANSHEE 또는 DEMON일 경우 손자국 남기기
+            if (Ghost.instance != null && (Ghost.instance.ghostType == GhostType.BANSHEE || Ghost.instance.ghostType == GhostType.DEMON))
+            {
+                LeavePrintsUV();
+            }
         }
 
-       
+
 
         private void FixedUpdate()
         {

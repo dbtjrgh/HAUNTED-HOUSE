@@ -19,9 +19,9 @@ EditorBuildSettings:
     guid: a2fab96d5026cf54fa1f283a1db3764f
   - enabled: 1
     path: Assets/_Seokho/1. Scene/Turkwood.unity
-    guid: 63415badac9455846b759efac04f67ec
+    guid: 4e9ca68ea085bac4fa8e7ce67cdbbde9
   - enabled: 1
     path: Assets/_Seokho/1. Scene/Factory.unity
-    guid: 532e56fde18864c4d82dd311e93855c8
+    guid: be54903819b70c84095ca94f89355028
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 30cbcf3296d646843b7183de2422b01f, type: 2}

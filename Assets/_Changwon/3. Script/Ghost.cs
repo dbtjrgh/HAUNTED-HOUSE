@@ -146,12 +146,21 @@ public class Ghost : MonoBehaviour
                 {
                     StartCoroutine(ghostBlink());
                 }
-                if (HunttingTargetDistance < 1)
+                if (HunttingTargetDistance < 0.5)
                 {
-                    Debug.Log("플레이어를 찾았다");             //플레이어 킬
-                    Destroy(target);
+                    Debug.Log("플레이어를 찾았다");
+
+
+                    CMultiPlayer targetPlayer = target.GetComponent<CMultiPlayer>();
+                    if (targetPlayer != null)
+                    {
+                        Debug.Log("죽음");
+                        targetPlayer.Die(); 
+                    }
+
                     ghostNav.isStopped = true;
                     ChangeState(changwon.GhostState.RETURN);
+
                     yield return new WaitForSeconds(30f);
                     ChangeState(changwon.GhostState.HUNTTING);
                     yield return new WaitForSeconds(30f);

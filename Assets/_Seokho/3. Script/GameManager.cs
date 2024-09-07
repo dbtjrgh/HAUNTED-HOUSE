@@ -27,9 +27,4 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0);
     }
 
-    private void Start()
-    {
-        
-
-    }
 }

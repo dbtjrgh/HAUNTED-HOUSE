@@ -24,13 +24,6 @@ public class gaugeFill : MonoBehaviour
         useFill = true;
         itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
     }
-
-<<<<<<< HEAD
-   
-=======
-
->>>>>>> feature/Wonbin
-
     private void Update()
     {
 
@@ -43,9 +36,6 @@ public class gaugeFill : MonoBehaviour
             {
                 return;
             }
-
-
-
 
             else if (isInItemSlot = true && playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
             {

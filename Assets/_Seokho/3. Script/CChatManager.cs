@@ -24,16 +24,22 @@ public class CChatManager : MonoBehaviourPunCallbacks
     #endregion
     private void Awake()
     {
-        // Singleton 패턴으로 중복된 인스턴스 방지
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(this.gameObject); // 오브젝트가 씬 로드 시 파괴되지 않도록 설정
+            Debug.Log("CChatManager instantiated and set to DontDestroyOnLoad");
         }
         else if (instance != this)
         {
+            Debug.Log("Duplicate CChatManager found. Destroying this instance.");
             Destroy(this.gameObject); // 중복된 오브젝트는 파괴
         }
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("챗매니저는 사망");
     }
 
     private void Start()
