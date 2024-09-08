@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
-
 
 namespace Wonbin
 {
@@ -14,7 +11,6 @@ namespace Wonbin
         HUNTTING
     }
 
-
     public enum _GhostType
     {
         NIGHTMARE,
@@ -22,147 +18,127 @@ namespace Wonbin
         DEMON
     }
 
-
-
     public class _Ghost : MonoBehaviour
     {
-
-        public changwon.GhostState state;
-        public GhostType ghostType;
+        public _GhostState state;
+        public _GhostType ghostType;
         public NavMeshAgent ghostNav;
         public GameObject target;
         public Transform returnpos;
 
-
-
         private void Awake()
         {
-            ghosttypeRandom(value: Random.Range(0, 3));
+            if (ghostNav == null)
+            {
+                Debug.LogWarning("Ghost NavMeshAgent not assigned. Disabling the _Ghost script.");
+                this.enabled = false; // Disable this script if the ghostNav is not assigned.
+                return;
+            }
+
+            ghosttypeRandom(Random.Range(0, 3));
+
+            // Assign ghost speed based on type
             switch (ghostType)
             {
-                case GhostType.NIGHTMARE:
+                case _GhostType.NIGHTMARE:
                     ghostNav.speed = 5f;
                     break;
-                case GhostType.BANSHEE:
+                case _GhostType.BANSHEE:
                     ghostNav.speed = 7f;
                     break;
-                case GhostType.DEMON:
+                case _GhostType.DEMON:
                     ghostNav.speed = 10f;
                     break;
             }
-
         }
 
         private void Update()
         {
-            target = GameObject.FindGameObjectWithTag("Player");
+            // Ensure the NavMeshAgent is assigned
+            if (!this.enabled) return;
 
+            target = GameObject.FindGameObjectWithTag("Player");
             StartCoroutine(StateMechine());
         }
-
-
-
 
         public IEnumerator StateMechine()
         {
             switch (state)
             {
-                case changwon.GhostState.IDLE:
+                case _GhostState.IDLE:
                     yield return StartCoroutine(idle());
                     break;
 
-                case changwon.GhostState.HUNTTING:
+                case _GhostState.HUNTTING:
                     yield return StartCoroutine(Hunting());
                     break;
             }
-
         }
 
-        public void ChangeState(changwon.GhostState newstate)
+        public void ChangeState(_GhostState newState)
         {
-            state = newstate;
+            state = newState;
         }
 
         private IEnumerator idle()
         {
-            while (state == changwon.GhostState.IDLE)
+            while (state == _GhostState.IDLE)
             {
                 ghostNav.isStopped = true;
-                /*if(*//*플레이어 정신력*//*)
-                {
-                    ChangeState(changwon.GhostState.HUNTTING);
+
+                // Example condition to change state
+                /* if (player mental gauge condition) {
+                    ChangeState(_GhostState.HUNTTING);
                 }*/
+
                 yield return null;
-
             }
-
         }
 
         private IEnumerator returnPosition()
         {
-            if (/*player kill*/target == null)
-                while (state == changwon.GhostState.RETURN)
-                {
-                    {
-                        ghostNav.SetDestination(returnpos.position);
-
-
-                    }
-                    yield return null;
-                }
-        }
-
-
-        private IEnumerator Hunting()
-        {
-            while (state == changwon.GhostState.HUNTTING)
+            while (state == _GhostState.RETURN)
             {
-                /*if(정신력게이지)*/
-                if (target != null)
-                {
-
-                    ghostNav.isStopped = false;
-                    ghostNav.SetDestination(target.transform.position);
-                    float HunttingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
-                    if (HunttingTargetDistance < 1)
-                    {
-                        Debug.Log("플레이어를 찾았다");             //플레이어 킬
-                        ghostNav.isStopped = true;
-                        ChangeState(changwon.GhostState.RETURN);
-                        yield return new WaitForSeconds(30f);
-                        ChangeState(changwon.GhostState.HUNTTING);
-                        yield return new WaitForSeconds(30f);
-                        ChangeState(changwon.GhostState.IDLE);
-                    }
-                    else/*else if 플레이어*/
-                    {
-                        ghostNav.isStopped = false;
-                        yield return new WaitForSeconds(30f);
-                        ChangeState(changwon.GhostState.IDLE);
-                        yield return new WaitForSeconds(10f);
-                        ChangeState(changwon.GhostState.HUNTTING);
-                    }
-
-
-                }
-
-                else
-                {
-                    ChangeState(changwon.GhostState.RETURN);
-                }
+                ghostNav.SetDestination(returnpos.position);
                 yield return null;
             }
         }
-        public void ghosttypeRandom(int value)
+
+        private IEnumerator Hunting()
         {
-            ghostType = (GhostType)value;
+            while (state == _GhostState.HUNTTING)
+            {
+                if (target != null)
+                {
+                    ghostNav.isStopped = false;
+                    ghostNav.SetDestination(target.transform.position);
+
+                    float huntingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
+                    if (huntingTargetDistance < 1)
+                    {
+                        Debug.Log("플레이어를 찾았다"); // Player found
+                        // Trigger player kill logic (e.g., call the death animation)
+                        ghostNav.isStopped = true;
+                        ChangeState(_GhostState.RETURN);
+
+                        yield return new WaitForSeconds(30f);
+                        ChangeState(_GhostState.HUNTTING);
+                        yield return new WaitForSeconds(30f);
+                        ChangeState(_GhostState.IDLE);
+                    }
+
+                    yield return new WaitForSeconds(30f);
+                }
+                else
+                {
+                    ChangeState(_GhostState.RETURN);
+                }
+            }
         }
 
-
-
-
+        public void ghosttypeRandom(int value)
+        {
+            ghostType = (_GhostType)value;
+        }
     }
-
-
-
 }

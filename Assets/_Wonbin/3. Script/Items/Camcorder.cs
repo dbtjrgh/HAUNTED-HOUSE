@@ -22,7 +22,7 @@ namespace Wonbin
         private Transform itemSlotTransform;
 
 
-        private void Start()
+        private void Awake()
         {
             renderTexture = Resources.Load<RenderTexture>("RenderTexture1");
 

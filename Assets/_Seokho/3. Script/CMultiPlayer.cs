@@ -69,7 +69,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             playerCinemachine = _playerHead.GetComponentInChildren<CinemachineVirtualCamera>();
             if (playerCinemachine == null)
             {
-                Debug.LogError("CinemachineVirtualCamera not found in _playerHead.");
+                Debug.Log("CinemachineVirtualCamera not found in _playerHead.");
             }
             if (lookBoard != null)
             {
@@ -77,7 +77,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             }
             else
             {
-                Debug.LogError("CLookBoard script not found in the scene.");
+                Debug.Log("CLookBoard script not found in the scene.");
             }
         }
         else
