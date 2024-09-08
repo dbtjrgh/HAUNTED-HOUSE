@@ -1,10 +1,14 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Wonbin
 {
-    public class Camcorder : MonoBehaviour
+    [RequireComponent(typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonTransformView))]
+    [RequireComponent(typeof(PhotonRigidbodyView))]
+    public class Camcorder : MonoBehaviourPun
     {
         public Camera camcorder;
         public Camera greenScreen;
@@ -24,7 +28,7 @@ namespace Wonbin
 
         private void Awake()
         {
-            renderTexture = Resources.Load<RenderTexture>("RenderTexture1");
+            renderTexture = Resources.Load<RenderTexture>("Render");
 
             CamcorderSetup();
 

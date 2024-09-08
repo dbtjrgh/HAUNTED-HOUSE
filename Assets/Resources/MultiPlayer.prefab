@@ -1133,10 +1133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ad2e02daffbab4cbfb622c454d019e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSlot: {fileID: 2161934275884148423}
-  maxInventorySize: 3
   inventoryItems: []
-  playerCamera: {fileID: 2161934274511220590}
+  dropPoint: {fileID: 6918609231359142549}
 --- !u!114 &6538545626502952808
 MonoBehaviour:
   m_ObjectHideFlags: 0

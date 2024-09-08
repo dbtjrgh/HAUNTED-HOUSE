@@ -1,10 +1,14 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.ProBuilder.MeshOperations;
 
-public class flashLight : MonoBehaviour
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonTransformView))]
+[RequireComponent(typeof(PhotonRigidbodyView))]
+public class flashLight : MonoBehaviourPun
 {
     bool playerGetLight; // 플레이어가 손전등을 on한 상태인지 확인
     static bool getLight; // 손전등 획득 여부 확인
@@ -12,7 +16,7 @@ public class flashLight : MonoBehaviour
     public static bool isInItemSlot; // 손전등이 ItemSlot에 있는지 여부를 확인
     private Transform itemSlotTransform;
 
-    playerInventory Inventory;
+    PlayerInventory Inventory;
 
     private void Start()
     {

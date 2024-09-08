@@ -1,8 +1,12 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class gaugeFill : MonoBehaviour
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonTransformView))]
+[RequireComponent(typeof(PhotonRigidbodyView))]
+public class gaugeFill : MonoBehaviourPun
 {
     mentalGaugeManager playerMentalGauge;
 

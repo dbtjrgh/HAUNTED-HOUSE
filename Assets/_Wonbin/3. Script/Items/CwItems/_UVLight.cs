@@ -12,7 +12,7 @@ namespace changwon
         public static bool isInItemSlot; // UV 라이트가 ItemSlot에 있는지 여부를 확인
         private Transform itemSlotTransform;
 
-        playerInventory Inventory;
+        PlayerInventory Inventory;
 
         private void Start() // 선언한 변수들 값 초기화
         {

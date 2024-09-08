@@ -2007,7 +2007,7 @@ MonoBehaviour:
   camcorder: {fileID: 6751219407713703976}
   greenScreen: {fileID: 97296734978797623}
   screenMesh: {fileID: 9086204198761895092}
-  renderTexture: {fileID: 0}
+  renderTexture: {fileID: 8400000, guid: 5ab3c4bd83c26424f9bb88630e179a1a, type: 2}
   renderTextureMat: {fileID: 2100000, guid: 9086cad37c0ce54459cce3bc732119c5, type: 2}
 --- !u!114 &-6924765116094174393
 MonoBehaviour:

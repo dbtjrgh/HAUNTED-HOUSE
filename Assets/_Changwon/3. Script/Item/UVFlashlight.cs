@@ -1,10 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using Photon.Pun;
 
 
 namespace changwon
 {
-    public class UVFlashlight : MonoBehaviour
+    [RequireComponent(typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonTransformView))]
+    [RequireComponent(typeof(PhotonRigidbodyView))]
+    public class UVFlashlight : MonoBehaviourPun
     {
         [SerializeField]
         private changwon.UVLight uvLight; //핸드 프린트 상호작용
@@ -27,7 +31,7 @@ namespace changwon
         public static bool isInItemSlot; // 손전등이 ItemSlot에 있는지 여부를 확인
         private Transform itemSlotTransform;
 
-        playerInventory Inventory;
+        PlayerInventory Inventory;
 
         private void Start()
         {

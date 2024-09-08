@@ -19,7 +19,7 @@ public class UVFlashlight : MonoBehaviour
     public static bool isInItemSlot; // 손전등이 ItemSlot에 있는지 여부를 확인
     private Transform itemSlotTransform;
 
-    playerInventory Inventory;
+    PlayerInventory Inventory;
 
     private void Start()
     {

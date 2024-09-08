@@ -1,5 +1,6 @@
 using ExitGames.Client.Photon;
 using JetBrains.Annotations;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,11 @@ using UnityEngine.UIElements;
 
 namespace changwon
 {
-    public class _EMF : MonoBehaviour
+    [RequireComponent(typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonTransformView))]
+    [RequireComponent(typeof(PhotonRigidbodyView))]
+
+    public class _EMF : MonoBehaviourPun
     {
         public Collider interaction;
         
@@ -27,7 +32,7 @@ namespace changwon
 
         public static bool isInItemSlot; // EMF가 ItemSlot에 있는지 여부를 확인
         private Transform itemSlotTransform;
-        playerInventory Inventory;
+        PlayerInventory Inventory;
 
 
         public bool EMFOnOff = false;

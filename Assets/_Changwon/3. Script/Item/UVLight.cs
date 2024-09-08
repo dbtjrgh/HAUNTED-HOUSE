@@ -1,10 +1,14 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace changwon
 {
-    public class UVLight : MonoBehaviour
+    [RequireComponent(typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonTransformView))]
+    [RequireComponent(typeof(PhotonRigidbodyView))]
+    public class UVLight : MonoBehaviourPun
     {
         public Light uvlight;
         public Material revealableMaterial;

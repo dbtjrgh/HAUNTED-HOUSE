@@ -1,60 +1,75 @@
-using Player.Inventory;
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
-using Photon.Pun; // Photon 관련 네임스페이스 추가
 
-public class ItemInteract : MonoBehaviourPun // MonoBehaviour에서 MonoBehaviourPun으로 변경
+public class ItemInteract : MonoBehaviourPun
 {
     private RaycastHit hit;
     private Ray ray;
-    float rayCastDistance = 4.0f;
-    playerInventory Inventory;
+    private float rayCastDistance = 4.0f;
+    private PlayerInventory inventory;
 
     private void Start()
     {
-        Inventory = GetComponent<playerInventory>();
+        inventory = GetComponent<PlayerInventory>();
     }
 
     private void Update()
     {
-        // 로컬 플레이어만 상호작용할 수 있도록 조건 추가
-        if (photonView.IsMine)
+        if (photonView.IsMine && Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                pickupItem();
-            }
+            TryPickupItem();
         }
     }
 
-    void pickupItem()
+    void TryPickupItem()
     {
-        // Ray의 시작 위치를 카메라의 중앙에서 약간 아래로 조정
-        ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.45f, 0));
-
-        // 레이어 마스크 설정(Interactable 레이어만 감지)
+        ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         int layerMask = LayerMask.GetMask("Interactable");
 
         if (Physics.Raycast(ray, out hit, rayCastDistance, layerMask))
         {
-            if (hit.collider.gameObject.CompareTag("Items"))
+            if (hit.collider.CompareTag("Items"))
             {
                 GameObject item = hit.collider.gameObject;
-                Debug.Log("아이템 감지: " + item.name);
+                PhotonView itemPhotonView = item.GetComponent<PhotonView>();
 
-                // 아이템의 Rigidbody 가져오기
-                Rigidbody isHolding = item.GetComponent<Rigidbody>();
-
-                if (isHolding != null)
+                if (itemPhotonView != null)
                 {
-                    // isKinematic을 true로 설정하여 물리 엔진의 영향을 받지 않도록 함
-                    isHolding.isKinematic = true;
+                    // 아이템을 줍기 전에 PhotonView가 유효한지 확인합니다.
+                    photonView.RPC("PickupItem", RpcTarget.AllBuffered, itemPhotonView.ViewID);
                 }
-
-                // 감지된 아이템을 인벤토리에 추가
-                Inventory.AddToInventory(hit.collider.gameObject);
+                else
+                {
+                    Debug.LogError("아이템에 PhotonView가 없습니다: " + item.name);
+                }
             }
         }
     }
+
+
+    [PunRPC]
+    void PickupItem(int itemViewID)
+    {
+        PhotonView itemPhotonView = PhotonView.Find(itemViewID);
+
+        if (itemPhotonView == null)
+        {
+            Debug.LogError($"PhotonView를 찾을 수 없습니다. itemViewID: {itemViewID}");
+            return;
+        }
+
+        GameObject item = itemPhotonView.gameObject;
+
+        // 인벤토리에 추가할 수 있는지 확인 후 추가
+        if (inventory.CanAddItem(item))
+        {
+            inventory.AddToInventory(item);
+            item.SetActive(false);  // 아이템을 줍고 나면 비활성화
+        }
+        else
+        {
+            Debug.LogWarning("인벤토리가 가득 찼습니다.");
+        }
+    }
+
 }

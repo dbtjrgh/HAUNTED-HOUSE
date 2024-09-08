@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 4458891765883502211}
   - component: {fileID: 3251261514548133605}
   - component: {fileID: 3045411406127366749}
-  - component: {fileID: 2206199643716032312}
+  - component: {fileID: 6878293733044278637}
   m_Layer: 8
   m_Name: EMF
   m_TagString: Items
@@ -586,7 +586,8 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3045411406127366749}
-  - {fileID: 2206199643716032312}
+  - {fileID: 6878293733044278637}
+  - {fileID: 1826149769114216449}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -606,7 +607,7 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &2206199643716032312
+--- !u!114 &6878293733044278637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -864,6 +865,7 @@ GameObject:
   - component: {fileID: 2238407732837850603}
   - component: {fileID: 4104077443799279905}
   - component: {fileID: 227187589786686064}
+  - component: {fileID: 1826149769114216449}
   m_Layer: 8
   m_Name: emfmodel
   m_TagString: Untagged
@@ -950,6 +952,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.0020437855, y: 0.0017961722, z: 0.004733845}
   m_Center: {x: -0.000021892547, y: 0.0000053639246, z: -0.00002367585}
+--- !u!114 &1826149769114216449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590802067404015860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &4797982761916852957
 GameObject:
   m_ObjectHideFlags: 0
