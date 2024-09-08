@@ -44,14 +44,12 @@ public class gaugeFill : MonoBehaviourPun
             else if (isInItemSlot = true && playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
             {
                 useFill = false;
-                Debug.Log("정신력 게이지가 최대치입니다.");
 
             }
 
             if (isInItemSlot && useFill == true)
             {
                 fillUse();
-                Debug.Log("정신력 게이지가 채워졌습니다.");
             }
         }
     }

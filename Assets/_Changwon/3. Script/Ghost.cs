@@ -173,7 +173,7 @@ public class Ghost : MonoBehaviour
                     ChangeState(changwon.GhostState.IDLE);
                     yield return new WaitForSeconds(10f);
                     ChangeState(changwon.GhostState.HUNTTING);
-                }
+                }   
             }
             else
             {

@@ -2,6 +2,7 @@ using UnityEngine;
 using Utilities.Constants;
 using GameFeatures;
 using System.Collections;
+using myRooms;
 
 namespace Ghosts.Mood
 {

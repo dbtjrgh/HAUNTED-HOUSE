@@ -19,6 +19,9 @@ public class ItemInteract : MonoBehaviourPun
         {
             TryPickupItem();
         }
+
+        // 레이캐스트를 시각적으로 표시 (디버그 용도)
+        DebugRaycast();
     }
 
     void TryPickupItem()
@@ -35,8 +38,7 @@ public class ItemInteract : MonoBehaviourPun
 
                 if (itemPhotonView != null)
                 {
-                    // 아이템을 줍기 전에 PhotonView가 유효한지 확인합니다.
-                    photonView.RPC("PickupItem", RpcTarget.AllBuffered, itemPhotonView.ViewID);
+                    photonView.RPC("PickupItem", RpcTarget.AllBuffered, itemPhotonView.ViewID, photonView.ViewID);
                 }
                 else
                 {
@@ -46,30 +48,35 @@ public class ItemInteract : MonoBehaviourPun
         }
     }
 
+    // 레이캐스트를 시각적으로 표시
+    void DebugRaycast()
+    {
+        ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));  // 화면 중앙에서 발사
+        Debug.DrawRay(ray.origin, ray.direction * rayCastDistance, Color.green);  // 레이의 경로를 그린다
+    }
 
     [PunRPC]
-    void PickupItem(int itemViewID)
+    void PickupItem(int itemViewID, int playerViewID)
     {
         PhotonView itemPhotonView = PhotonView.Find(itemViewID);
+        PhotonView playerPhotonView = PhotonView.Find(playerViewID);
 
-        if (itemPhotonView == null)
+        if (itemPhotonView == null || playerPhotonView == null)
         {
-            Debug.LogError($"PhotonView를 찾을 수 없습니다. itemViewID: {itemViewID}");
+            Debug.LogError($"PhotonView를 찾을 수 없습니다. itemViewID: {itemViewID}, playerViewID: {playerViewID}");
             return;
         }
 
         GameObject item = itemPhotonView.gameObject;
+        PlayerInventory playerInventory = playerPhotonView.GetComponent<PlayerInventory>();
 
-        // 인벤토리에 추가할 수 있는지 확인 후 추가
-        if (inventory.CanAddItem(item))
+        if (playerInventory.CanAddItem(item))
         {
-            inventory.AddToInventory(item);
-            item.SetActive(false);  // 아이템을 줍고 나면 비활성화
+            playerInventory.AddToInventory(item);
         }
         else
         {
             Debug.LogWarning("인벤토리가 가득 찼습니다.");
         }
     }
-
 }

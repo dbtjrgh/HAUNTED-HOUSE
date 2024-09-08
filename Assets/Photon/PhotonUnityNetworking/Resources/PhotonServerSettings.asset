@@ -49,6 +49,14 @@ MonoBehaviour:
   - UpdateItemState
   - DropItemRPC
   - PickupItem
+  - SetItemParent
+  - UpdateItemPositionRotation
+  - SyncLightState
+  - SyncUVLightState
+  - SyncEMFState
+  - SyncLights
+  - lightOnOFF
+  - SyncEnableUVLight
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

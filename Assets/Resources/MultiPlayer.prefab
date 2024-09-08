@@ -1009,14 +1009,12 @@ GameObject:
   - component: {fileID: 6918609231359142555}
   - component: {fileID: 8576351226361165009}
   - component: {fileID: 8576351226361165010}
-  - component: {fileID: 6172249974374843665}
-  - component: {fileID: 3050464666810165335}
-  - component: {fileID: 3050464666810165332}
-  - component: {fileID: 6538545626502952808}
+  - component: {fileID: 2057823193222180472}
   - component: {fileID: 402019447934830084}
   - component: {fileID: 4626383944240872705}
   - component: {fileID: 6982523706637373773}
   - component: {fileID: 5242076745718677384}
+  - component: {fileID: 8763893459323535168}
   m_Layer: 3
   m_Name: MultiPlayer
   m_TagString: Player
@@ -1071,10 +1069,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea7233f67b8004ab25966152431697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayerRoom: {fileID: 6172249974374843665}
+  currentPlayerRoom: {fileID: 0}
   maxMentalGauge: 100
-  secondGaugeMinus: 1
-  ghostRoomGaugeMinus: 0
+  secondGaugeMinus: 0.5
+  ghostRoomGaugeMinus: 3
   MentalGauge: 0
 --- !u!114 &8576351226361165010
 MonoBehaviour:
@@ -1095,7 +1093,7 @@ MonoBehaviour:
   _playerBody: {fileID: 6918609231359142548}
   _playerHead: {fileID: 6918609231359142549}
   crouchHeadOffset: -0.5
---- !u!114 &6172249974374843665
+--- !u!114 &2057823193222180472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1104,56 +1102,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2161934274207564344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd5dc42422d49d4d9da1e952038853e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrRoom: 24
-  _nextRooms: 
---- !u!114 &3050464666810165335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2161934274207564344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8fda1627cc29e4418519660dd51841d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3050464666810165332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2161934274207564344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00ad2e02daffbab4cbfb622c454d019e, type: 3}
+  m_Script: {fileID: 11500000, guid: b213fb2cc85ea7646b4169e75e67af0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItems: []
-  dropPoint: {fileID: 6918609231359142549}
---- !u!114 &6538545626502952808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2161934274207564344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adca0d9bff8eb844c84c9b81bfe16112, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
-  InteractionTransform: {fileID: 0}
-  handprintPrefab: {fileID: 0}
-  forceAmmount: 15
-  distance: 1.5
-  maxDrugVolume: 0
+  dropPoint: {fileID: 2161934275884148422}
+  handPosition: {fileID: 2161934275884148422}
 --- !u!82 &402019447934830084
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1388,6 +1342,20 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &8763893459323535168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2161934274207564344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2158ea2c68c2b42a38d84ed72bfac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrRoom: 24
+  _nextRooms: 
 --- !u!1 &2161934274511220585
 GameObject:
   m_ObjectHideFlags: 0

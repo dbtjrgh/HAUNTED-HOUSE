@@ -128,7 +128,6 @@ GameObject:
   - component: {fileID: 2507987392700069547}
   - component: {fileID: 2507987392700069524}
   - component: {fileID: 2507987392700069525}
-  - component: {fileID: 8388382503673101569}
   m_Layer: 8
   m_Name: 'UV Flashlight '
   m_TagString: Untagged
@@ -7077,22 +7076,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &8388382503673101569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2507987392700069527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &5897041756080861818
 GameObject:
   m_ObjectHideFlags: 0
@@ -7143,7 +7126,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5897041756080861818}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.06451225, y: 0.072155595, z: 0.2827139}
@@ -7325,7 +7308,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: -487819730340973951}
-  - {fileID: 8388382503673101569}
+  - {fileID: 5598840920786967867}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

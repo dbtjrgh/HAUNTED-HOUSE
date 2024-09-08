@@ -95,7 +95,7 @@ namespace changwon
             }
         }
 
-        void lightOnOFF()
+        public void lightOnOFF()
         {
             Debug.Log("사용 로직 호출됨.");
             getLight = true;

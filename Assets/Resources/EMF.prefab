@@ -864,8 +864,8 @@ GameObject:
   - component: {fileID: 2936259461922591310}
   - component: {fileID: 2238407732837850603}
   - component: {fileID: 4104077443799279905}
-  - component: {fileID: 227187589786686064}
   - component: {fileID: 1826149769114216449}
+  - component: {fileID: 3208032200156801324}
   m_Layer: 8
   m_Name: emfmodel
   m_TagString: Untagged
@@ -939,19 +939,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &227187589786686064
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2590802067404015860}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.0020437855, y: 0.0017961722, z: 0.004733845}
-  m_Center: {x: -0.000021892547, y: 0.0000053639246, z: -0.00002367585}
 --- !u!114 &1826149769114216449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -968,6 +955,19 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!65 &3208032200156801324
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590802067404015860}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0020437874, y: 0.0017961725, z: 0.0047338456}
+  m_Center: {x: -0.00002189254, y: 0.0000053639255, z: -0.000023675853}
 --- !u!1 &4797982761916852957
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,7 +978,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6739152807599787536}
   - component: {fileID: 8250397646683880759}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: triggerEMF
   m_TagString: Untagged
   m_Icon: {fileID: 0}

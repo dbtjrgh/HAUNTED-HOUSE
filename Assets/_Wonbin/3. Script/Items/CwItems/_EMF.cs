@@ -65,7 +65,23 @@ namespace changwon
             }
         }
 
-
+        public void ToggleEMFState()
+        {
+            EMFOnOff = !EMFOnOff;
+            if (photonView.IsMine)
+            {
+                photonView.RPC("SyncEMFState", RpcTarget.All, EMFOnOff); // 모든 클라이언트에 동기화
+            }
+        }
+        [PunRPC]
+        void SyncEMFState(bool state)
+        {
+            EMFOnOff = state;
+            foreach (var light in lights)
+            {
+                light.gameObject.SetActive(state);
+            }
+        }
         static internal void EMFEquip()
         {
             getEMF = true;

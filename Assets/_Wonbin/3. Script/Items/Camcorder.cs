@@ -31,15 +31,6 @@ namespace Wonbin
             renderTexture = Resources.Load<RenderTexture>("Render");
 
             CamcorderSetup();
-
-            if (screenMesh == null)
-            {
-                Debug.LogError("screenMesh가 할당되지 않았습니다! 확인해주세요.");
-            }
-            else
-            {
-                Debug.Log("screenMesh가 정상적으로 할당되었습니다.");
-            }
             isInItemSlot = false;
             EquipCam = false;
             itemSlotTransform = GameObject.Find("ItemSlot")?.transform;

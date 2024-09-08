@@ -921,12 +921,7 @@ GameObject:
   - component: {fileID: 1617625924822775065}
   - component: {fileID: 7525967432201149504}
   - component: {fileID: 7535830188156331926}
-  - component: {fileID: 9184845088773784074}
-  - component: {fileID: 6762842411323536330}
   - component: {fileID: 6762842411323536331}
-  - component: {fileID: 2460971464308678284}
-  - component: {fileID: 2460971464308678287}
-  - component: {fileID: 5967227085310132659}
   - component: {fileID: 1001505005532885215}
   - component: {fileID: 5207984564762856410}
   m_Layer: 3
@@ -994,37 +989,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &9184845088773784074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617625924822775011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea7233f67b8004ab25966152431697, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPlayerRoom: {fileID: 6762842411323536330}
-  maxMentalGauge: 100
-  secondGaugeMinus: 1
-  ghostRoomGaugeMinus: 0
-  MentalGauge: 0
---- !u!114 &6762842411323536330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617625924822775011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd5dc42422d49d4d9da1e952038853e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrRoom: 24
-  _nextRooms: 
 --- !u!114 &6762842411323536331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,52 +1008,6 @@ MonoBehaviour:
   _playerBody: {fileID: 7525967432201149519}
   _playerHead: {fileID: 7525967432201149518}
   crouchHeadOffset: -0.5
---- !u!114 &2460971464308678284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617625924822775011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8fda1627cc29e4418519660dd51841d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2460971464308678287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617625924822775011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00ad2e02daffbab4cbfb622c454d019e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemSlot: {fileID: 1617625924221833244}
-  maxInventorySize: 3
-  inventoryItems: []
---- !u!114 &5967227085310132659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617625924822775011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adca0d9bff8eb844c84c9b81bfe16112, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
-  InteractionTransform: {fileID: 0}
-  handprintPrefab: {fileID: 0}
-  forceAmmount: 15
-  distance: 1.5
-  maxDrugVolume: 0
 --- !u!82 &1001505005532885215
 AudioSource:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Utilities.Constants;
 using Utilities;
 using System.Collections;
+using myRooms;
 
 public class PatrolWalk : MonoBehaviour
 {

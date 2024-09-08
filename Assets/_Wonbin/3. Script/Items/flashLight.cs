@@ -1,118 +1,49 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.ProBuilder.MeshOperations;
 
-[RequireComponent(typeof(PhotonView))]
-[RequireComponent(typeof(PhotonTransformView))]
 [RequireComponent(typeof(PhotonRigidbodyView))]
 public class flashLight : MonoBehaviourPun
 {
-    bool playerGetLight; // 플레이어가 손전등을 on한 상태인지 확인
-    static bool getLight; // 손전등 획득 여부 확인
-    Light myLight; // Light 컴포넌트 관리
-    public static bool isInItemSlot; // 손전등이 ItemSlot에 있는지 여부를 확인
-    private Transform itemSlotTransform;
-
-    PlayerInventory Inventory;
+    private Light myLight;
+    private bool isLightOn = false;
+    private Rigidbody rb;
 
     private void Start()
     {
-        playerGetLight = false;
-        getLight = false;
-        isInItemSlot = false; // 초기 상태는 ItemSlot에 없음
-        myLight = GetComponent<Light>(); // flashLight의 Light 컴포넌트를 가져옴
-        myLight.intensity = 0; // 시작 시 손전등이 꺼져 있도록 설정
-        myLight.enabled = false;
-        itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
+        myLight = GetComponentInChildren<Light>();
+        rb = GetComponent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
+        if (myLight != null)
+        {
+            myLight.intensity = 0; // 시작할 때 손전등 꺼짐 상태
+        }
+
+        // Rigidbody 설정: 처음에는 물리적 상호작용 비활성화
+        rb.isKinematic = true;
     }
 
-    private void Update()
+    public void lightOnOFF()
     {
-        if (itemSlotTransform == null)
-        {
-            // ItemSlot이 존재하지 않을 때
-            myLight.enabled = false;
-            return;
-        }
-
-        // 손전등이 ItemSlot의 자식인지 확인
-        bool isInItemSlot = transform.IsChildOf(itemSlotTransform);
-
-        if (isInItemSlot)
-        {
-            lightOnOFF(); // 손전등이 ItemSlot에 있을 때만 호출
-        }
-        else
-        {
-            myLight.enabled = false; // 손전등이 ItemSlot에 없을 때 비활성화
-        }
-
+        photonView.RPC("SyncLightState", RpcTarget.All);
     }
 
-    static internal void lightEquip()
+    [PunRPC]
+    public void SyncLightState()
     {
-        getLight = true;
-        GameObject flashLightObject = GameObject.FindGameObjectWithTag("Items");
+        if (myLight == null) return;
 
-        if (flashLightObject != null)
-        {
-            GameObject itemSlot = GameObject.Find("ItemSlot");
-            if (itemSlot != null)
-            {
-                flashLightObject.transform.SetParent(itemSlot.transform);
-                flashLightObject.transform.localPosition = Vector3.zero; // 위치 초기화
-                flashLightObject.transform.localRotation = Quaternion.identity; // 회전 초기화
+        // 손전등 상태를 토글
+        isLightOn = !isLightOn;
+        myLight.intensity = isLightOn ? 10 : 0;
 
-                isInItemSlot = true; // ItemSlot에 추가되었음을 표시
-
-            }
-        }
+        // 모든 클라이언트에서 손전등이 활성화되도록 보장
+        gameObject.SetActive(true);
     }
 
-    void lightOnOFF()
+    // 아이템을 드롭할 때 Rigidbody 물리 활성화
+    public void DropItem(Vector3 dropPosition)
     {
-        getLight = true;
-        if (getLight)
-        {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                playerGetLight = !playerGetLight; // 손전등 on/off
-                myLight.intensity = playerGetLight ? 10 : 0; // 손전등 밝기 조정
-                myLight.enabled = playerGetLight; // 손전등 활성화/비활성화
-            }
-        }
+        // PhotonRigidbodyView로 동기화되는 동안 물리 활성화
+        rb.isKinematic = false;
+        rb.AddForce(dropPosition * 2.0f, ForceMode.Impulse); // 아이템을 드롭 위치로 밀어냄
     }
-
-    public IEnumerator Blink()
-    {
-
-        if (Ghost.instance.state == changwon.GhostState.HUNTTING)
-        {
-
-            float ghostBlinkTargetDistance = Vector3.Distance(Ghost.instance.target.transform.position, Ghost.instance.transform.position);
-            if (ghostBlinkTargetDistance < 30)
-            {
-                myLight.gameObject.SetActive(false);
-                yield return new WaitForSeconds(0.5f);
-                myLight.gameObject.SetActive(true);
-                yield return new WaitForSeconds(0.5f);
-                myLight.gameObject.SetActive(false);
-                yield return new WaitForSeconds(0.5f);
-                myLight.gameObject.SetActive(true);
-                yield return new WaitForSeconds(0.5f);
-                myLight.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-
-            myLight.gameObject.SetActive(true);
-        }
-        yield return null;
-    }
-
-
 }
