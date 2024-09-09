@@ -190,7 +190,9 @@ public class Ghost : MonoBehaviour
     IEnumerator ghostBlink()
     {
         Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("ghostBlink");
-        yield return new WaitForSeconds(1f);
-        Camera.main.cullingMask ^= ~(1 << LayerMask.NameToLayer("ghostBlink"));
+        
+        yield return null;
+        
+        
     }
 }
