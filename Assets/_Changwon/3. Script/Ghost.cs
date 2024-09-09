@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
+using Wonbin;
 
 
 namespace changwon
@@ -31,7 +32,7 @@ public class Ghost : MonoBehaviour
     public GhostType ghostType;
     public NavMeshAgent ghostNav;
     public GameObject target;
-    
+
     mentalGaugeManager mental;
     MapManager mapManager;
 
@@ -95,7 +96,7 @@ public class Ghost : MonoBehaviour
     private IEnumerator idle()
     {
         mental = FindObjectOfType<mentalGaugeManager>();
-        
+
         while (state == changwon.GhostState.IDLE)
         {
             ghostNav.isStopped = true;
@@ -132,7 +133,7 @@ public class Ghost : MonoBehaviour
     {
         while (state == changwon.GhostState.HUNTTING)
         {
-            if(mental.MentalGauge>50)
+            if (mental.MentalGauge > 50)
             {
                 ChangeState(changwon.GhostState.RETURN);
             }
@@ -142,9 +143,11 @@ public class Ghost : MonoBehaviour
                 ghostNav.SetDestination(target.transform.position);
                 float HunttingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
                 float ghostBlinkTargetDistance = Vector3.Distance(target.transform.position, transform.position);
+                StartCoroutine(ghostInter());
                 if (ghostBlinkTargetDistance < 5)
                 {
                     StartCoroutine(ghostBlink());
+                    
                 }
                 if (HunttingTargetDistance < 0.5)
                 {
@@ -155,16 +158,17 @@ public class Ghost : MonoBehaviour
                     if (targetPlayer != null)
                     {
                         Debug.Log("Á×À½");
-                        targetPlayer.Die(); 
+                        targetPlayer.Die();
                     }
 
                     ghostNav.isStopped = true;
                     ChangeState(changwon.GhostState.RETURN);
 
-                    yield return new WaitForSeconds(30f);
-                    ChangeState(changwon.GhostState.HUNTTING);
-                    yield return new WaitForSeconds(30f);
+                    yield return new WaitForSeconds(25f);
                     ChangeState(changwon.GhostState.IDLE);
+                    yield return new WaitForSeconds(10f);
+                    ChangeState(changwon.GhostState.HUNTTING);
+                    
                 }
                 else
                 {
@@ -173,7 +177,7 @@ public class Ghost : MonoBehaviour
                     ChangeState(changwon.GhostState.IDLE);
                     yield return new WaitForSeconds(10f);
                     ChangeState(changwon.GhostState.HUNTTING);
-                }   
+                }
             }
             else
             {
@@ -201,6 +205,33 @@ public class Ghost : MonoBehaviour
             Camera.main.cullingMask &= ~(1 << ghostLayer);
             yield return new WaitForSeconds(0.5f); // ÃÊ µ¿¾È Ghost ·¹ÀÌ¾î°¡ ¼û±è
         }
+    }
+
+    IEnumerator ghostInter()
+    {
+        CMultiPlayer player = FindObjectOfType<CMultiPlayer>();
+        
+        
+        
+        switch (ghostType)
+        {
+            case GhostType.BANSHEE:
+                player.sprintMultiplier = 1f;
+                break;
+            case GhostType.NIGHTMARE:
+                
+                
+                float LightBlinkTargetDistance = Vector3.Distance(target.transform.position, transform.position);
+                if (LightBlinkTargetDistance<10)
+                {
+                    player.GetComponentInChildren<Light>().enabled = true;
+                    yield return new WaitForSeconds(1f);
+                    player.GetComponentInChildren<Light>().enabled = false;
+                    
+                }
+                break;
+        }
+        yield return null;
     }
 
 }

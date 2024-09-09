@@ -1071,6 +1071,7 @@ MonoBehaviour:
   charController: {fileID: 6918609231359142555}
   turnSpeed: 3
   normalSpeed: 2
+  sprintMultiplier: 2
   gravity: 3
   isDead: 0
   _playerBody: {fileID: 6918609231359142548}

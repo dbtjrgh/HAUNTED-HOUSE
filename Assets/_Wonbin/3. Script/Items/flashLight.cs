@@ -5,7 +5,7 @@ using UnityEngine;
 public class flashLight : MonoBehaviourPun
 {
     private Light myLight;
-    private bool isLightOn = false;
+    public bool isLightOn = false;
     private Rigidbody rb;
 
     private void Start()
