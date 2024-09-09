@@ -38,7 +38,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     private bool isGrounded; // 플레이어가 지면에 있는지 여부
 
     // 죽음 여부 체크 변수
-    private bool isDead = false;  // 플레이어가 죽었는지 확인하는 변수
+    public bool isDead = false;  // 플레이어가 죽었는지 확인하는 변수
 
     // 몸통 각도 조절 변수
     [SerializeField]
@@ -165,11 +165,19 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
 
         if (animator != null)
         {
-            animator.SetTrigger("Die");  // Die 애니메이션 트리거
+            animator.SetBool("Die", true);  // Die 애니메이션 트리거
         }
 
         Debug.Log("Player has died and controls are disabled.");
+
+        // GameManager에서 사망 여부 확인
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.CheckAllPlayersDead();
+        }
     }
+
 
     private void CrouchHandle()
     {

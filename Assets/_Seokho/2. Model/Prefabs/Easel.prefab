@@ -2114,7 +2114,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 22
+  m_VersionIndex: 25
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2359,15 +2359,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n                    \uC870\uC791\uBC95\n\n  \"R\" - \uB4E4\uACE0 \uC788\uB294
+  m_text: "\n                      \uC870\uC791\uBC95\n\n  \"R\" - \uB4E4\uACE0 \uC788\uB294
     \uC544\uC774\uD15C \uC0AC\uC6A9\n  \"WASD\" - \uD50C\uB808\uC774\uC5B4 \uC870\uC791\n 
     \"Shift\" - \uB2EC\uB9AC\uAE30\n  \"E\" - \uC544\uC774\uD15C \uC90D\uAE30\n 
-    \"G\" - \uC544\uC774\uD15C \uB193\uAE30\n  \"Q\" -  \uC544\uC774\uD15C \uBCC0\uACBD\n 
-    \"Space\" - \uBCF4\uB4DC\uD310 \uC5F4\uAE30(\uB85C\uBE44 \uC804\uC6A9)\n  \"O\",\"Enter\"
-    - \uCC44\uD305\n  \"J\" - \uC800\uB110 \uC5F4\uAE30 (\uC778\uAC8C\uC784 \uC804\uC6A9)"
+    \"G\" - \uC544\uC774\uD15C \uB193\uAE30\n  \"Q\" -  \uC544\uC774\uD15C \uBCC0\uACBD\"\n 
+    \"Space\" - \uBCF4\uB4DC\uD310 \uC5F4\uAE30(\uB85C\uBE44 \uC804\uC6A9)\n  \"J\"
+    - \uC800\uB110 \uC5F4\uAE30 (\uC778\uAC8C\uC784 \uC804\uC6A9)\n  \"\uB9C8\uC6B0\uC2A4
+    \uC88C\uD074\uB9AD\" - \uBB38 \uC5F4\uAE30 \uB2EB\uAE30\n  \"T\" - \uAF2D \uB204\uB974\uBA74
+    \uBB38 \uC7A0\uADF8\uAE30, \uD574\uC81C\uD558\uAE30"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e750d04fe2393b441ab55a32cf90568a, type: 2}
-  m_sharedMaterial: {fileID: 7889495060026475714, guid: e750d04fe2393b441ab55a32cf90568a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: eebf13be89c59d144950d4ba1ce80b31, type: 2}
+  m_sharedMaterial: {fileID: -2783447488330409013, guid: eebf13be89c59d144950d4ba1ce80b31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2391,8 +2393,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.06
-  m_fontSizeBase: 0.06
+  m_fontSize: 0.05
+  m_fontSizeBase: 0.05
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

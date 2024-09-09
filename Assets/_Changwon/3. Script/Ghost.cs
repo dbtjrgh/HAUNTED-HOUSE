@@ -189,8 +189,18 @@ public class Ghost : MonoBehaviour
 
     IEnumerator ghostBlink()
     {
-        Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("ghostBlink");
-        yield return new WaitForSeconds(1f);
-        Camera.main.cullingMask ^= ~(1 << LayerMask.NameToLayer("ghostBlink"));
+        int ghostLayer = LayerMask.NameToLayer("Ghost");
+
+        for (int i = 0; i < 5; i++) // 5번 반복하도록 설정
+        {
+            // Ghost 레이어를 포함시키는 부분
+            Camera.main.cullingMask |= 1 << ghostLayer;
+            yield return new WaitForSeconds(0.5f); // 초 동안 Ghost 레이어가 보임
+
+            // Ghost 레이어를 제외하는 부분
+            Camera.main.cullingMask &= ~(1 << ghostLayer);
+            yield return new WaitForSeconds(0.5f); // 초 동안 Ghost 레이어가 숨김
+        }
     }
+
 }

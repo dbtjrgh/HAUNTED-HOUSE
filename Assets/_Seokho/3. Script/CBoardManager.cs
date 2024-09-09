@@ -14,6 +14,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
 
     #region 변수
     [Header("Screen")]
+    public GameObject BoardCanvas; 
     public CLoginScreen login; // 로그인 스크린
     public CMenuScreen menu;   // 메뉴 스크린
     public CFindRoom find;     // 방찾기 스크린
@@ -125,10 +126,18 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("MultiLobby");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // 씬 이름이 SingleLobby일 경우 BoardCanvas 비활성화
+        if (scene.name == "Turkwood" || scene.name == "Factory")
+        {
+            BoardCanvas.gameObject.SetActive(false);
+            return; // 다른 작업을 하지 않도록 리턴
+        }
+
         if (scene.name == "MultiLobby")
         {
+            BoardCanvas.gameObject.SetActive(true);
             SceneManager.sceneLoaded -= OnSceneLoaded;
 
             GameObject startPositionsObject = GameObject.Find("PlayerStartPositions");
