@@ -6,32 +6,35 @@ using UnityEngine.UI;
 
 public class journalBook : MonoBehaviour
 {
-    //메뉴 버튼 3가지
+    //상단 메뉴 버튼 3가지
     public Button homeMark;
     public Button evidenceMark;
     public Button ghostInfoMark;
 
-    //페이지 3가지
+    //페이지 할당
     private GameObject homePage;
     private GameObject evidencePage;
     private GameObject ghostInfoPage;
 
-
-    // 페이지 넘기기 위한 숫자
+    // 페이지 넘기기 위한 기능
     private int currentPage = 0;
     public TextMeshProUGUI leftNumber; // 좌측하단 페이지 표기
     public TextMeshProUGUI rightNumber; // 우측하단 페이지 표기
-
+    public Button leftButton;
+    public Button rightButton;
+   
 
     //멘탈 게이지 상속 후 UI에 표기
     public TextMeshProUGUI mentalGaugeText; //갱신 받아오는 게이지 값
-    private mentalGaugeManager mental; //멘탈 게이지 매니저를 상속하기 위한 변수
 
     //증거 페이지 증거 체크 토글
     public Toggle[] evidenceItemCheck = new Toggle[3];
     public ToggleGroup ghostToggleGroup;
 
     // 고스트 정보 페이지 할당 변수
+    [SerializeField]
+    private ghostObject[] ghostObjects = new ghostObject[3]; //고스트 object
+
     public TextMeshProUGUI ghostName;
     public TextMeshProUGUI ghostDescription;
     public TextMeshProUGUI relatedItem;
@@ -39,47 +42,40 @@ public class journalBook : MonoBehaviour
     //UI 배치요소들 자동 할당 구성
     void Start()
     {
-
-        assignComponent();
+        //0번은 remainUI임.
+        homePage = transform.GetChild(1).gameObject;
+        evidencePage = transform.GetChild(2).gameObject;
+        ghostInfoPage = transform.GetChild(3).gameObject;
 
         //상단 버튼 기능 할당
         homeMark.onClick.AddListener(ShowHomePage);
         evidenceMark.onClick.AddListener(ShowEvidencePage);
         ghostInfoMark.onClick.AddListener(ShowGhostInfoPage);
 
+        // 페이지 전환 버튼 기능 할당
+
+        leftButton.onClick.AddListener(ShowPreviousPage);
+        rightButton.onClick.AddListener(ShowNextPage);
+
+        gameObject.SetActive(false);
     }
 
-    // 오브젝트를 자동으로 할당해주는 함수
-    void assignComponent()
+    void Update()
     {
-        // 'journal' 태그를 가진 오브젝트의 자식들을 찾아 할당
-        GameObject playerBook = GameObject.FindGameObjectWithTag("journal");
-
-        // 버튼들 할당
-        homeMark = playerBook.transform.Find("HomeButton").GetComponent<Button>();
-        evidenceMark = playerBook.transform.Find("EvidenceButton").GetComponent<Button>();
-        ghostInfoMark = playerBook.transform.Find("GhostInfoButton").GetComponent<Button>();
-
-        // 페이지 넘버 텍스트 할당
-        leftNumber = playerBook.transform.Find("LeftNumberText").GetComponent<TextMeshProUGUI>();
-        rightNumber = playerBook.transform.Find("RightNumberText").GetComponent<TextMeshProUGUI>();
-
-        // 멘탈 게이지 텍스트 할당
-        mentalGaugeText = playerBook.transform.Find("MentalGaugeText").GetComponent<TextMeshProUGUI>();
-
-        // 증거 체크 토글 할당
-        for (int i = 0; i < evidenceItemCheck.Length; i++)
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            evidenceItemCheck[i] = playerBook.transform.Find($"EvidenceItemToggle{i + 1}").GetComponent<Toggle>();
+            // 현재 스크립트가 붙어 있는 오브젝트의 활성화 상태를 반전
+            gameObject.SetActive(!gameObject.activeSelf);
         }
 
-        // 고스트 정보 페이지 텍스트 할당
-        ghostName = playerBook.transform.Find("GhostNameText").GetComponent<TextMeshProUGUI>();
-        ghostDescription = playerBook.transform.Find("GhostDescriptionText").GetComponent<TextMeshProUGUI>();
-        relatedItem = playerBook.transform.Find("RelatedItemText").GetComponent<TextMeshProUGUI>();
+        showMentalGauge(); // 플레이어의 멘탈게이지가 변화할 때마다 상시 갱신.
+
+        // 고스트 정보 페이지가 활성화되어 있을 때만 정보 업데이트
+        if (ghostInfoPage.activeSelf)
+        {
+            UpdateGhostInfo();
+        }
     }
-
-
 
     void ShowHomePage()
     {
@@ -100,6 +96,55 @@ public class journalBook : MonoBehaviour
         homePage.SetActive(false);
         evidencePage.SetActive(false);
         ghostInfoPage.SetActive(true);
+        UpdateGhostInfo(); // 고스트 정보 업데이트
+    }
+
+
+    //멘탈 게이지를 표기해주는 메서드
+    void showMentalGauge()
+    {
+        mentalGaugeManager mentalGaugeManager = GameObject.FindWithTag("Player").GetComponent<mentalGaugeManager>();
+        mentalGaugeText.text = mentalGaugeManager.MentalGauge.ToString(); // 멘탈게이지 텍스트를 플레이어의 MentalGauge에서 상속받아 표기.
+    }
+
+    void UpdateGhostInfo()
+    {
+        if (ghostObjects.Length > 0)
+        {
+            ghostObject currentGhostObjects = ghostObjects[currentPage];
+            ghostName.text = currentGhostObjects.ghostName;
+            ghostDescription.text = currentGhostObjects.description;
+            relatedItem.text = currentGhostObjects.relatedItem;
+
+            // 페이지 번호 업데이트
+            leftNumber.text = (currentPage + 1).ToString();
+            rightNumber.text = ghostObjects.Length.ToString();
+        }
+    }
+
+    void ShowPreviousPage()
+    {
+        Debug.Log("버튼 호출 완료");
+        if (ghostObjects.Length > 0)
+        {
+            currentPage = (currentPage - 1 + ghostObjects.Length) % ghostObjects.Length;
+            UpdateGhostInfo();
+            Debug.Log("페이지 넘김 완료");
+        }
+
+        else
+        {
+            Debug.Log("페이지 넘김 실패");
+        }
+    }
+
+    void ShowNextPage()
+    {
+        if (ghostObjects.Length > 0)
+        {
+            currentPage = (currentPage + 1) % ghostObjects.Length;
+            UpdateGhostInfo();
+        }
     }
 
 }

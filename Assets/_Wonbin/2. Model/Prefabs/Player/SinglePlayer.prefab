@@ -1037,11 +1037,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ad3db9163e7af943bbec413f794d29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  ghostType: 0
-  ghostNav: {fileID: 0}
-  target: {fileID: 0}
-  returnpos: {fileID: 0}
 --- !u!1 &3668127375453706256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,8 +1220,6 @@ GameObject:
   - component: {fileID: 9222617591134645466}
   - component: {fileID: 1749418393}
   - component: {fileID: 1749418396}
-  - component: {fileID: 1749418399}
-  - component: {fileID: 8136027508085350051}
   - component: {fileID: 3441084355767431119}
   - component: {fileID: 7665507942746264778}
   m_Layer: 7
@@ -1306,7 +1299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea7233f67b8004ab25966152431697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayerRoom: {fileID: 9222617591134645466}
+  currentPlayerRoom: {fileID: 0}
   maxMentalGauge: 100
   secondGaugeMinus: 1
   ghostRoomGaugeMinus: 0
@@ -1356,41 +1349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8fda1627cc29e4418519660dd51841d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1749418399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3771156345009335283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00ad2e02daffbab4cbfb622c454d019e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemSlot: {fileID: 3771156345610260236}
-  maxInventorySize: 3
-  inventoryItems: []
-  playerCamera: {fileID: 0}
---- !u!114 &8136027508085350051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3771156345009335283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adca0d9bff8eb844c84c9b81bfe16112, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
-  InteractionTransform: {fileID: 0}
-  handprintPrefab: {fileID: 0}
-  forceAmmount: 15
-  distance: 1.5
-  maxDrugVolume: 0
 --- !u!82 &3441084355767431119
 AudioSource:
   m_ObjectHideFlags: 0
