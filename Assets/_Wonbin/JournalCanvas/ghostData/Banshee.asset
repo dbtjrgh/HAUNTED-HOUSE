@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f005f8b636bae489f12747df9fb74b, type: 3}
   m_Name: Banshee
   m_EditorClassIdentifier: 
-  ghostName: "\uBCA4\uC2DC"
-  description: "\uB178\uB798\uB85C \uD76C\uC0DD\uC790\uB97C \uB04C\uC5B4\uB4E4\uC774\uB294
+  ghostName: "\uADC0\uC2E0\uBA85 : \uBCA4\uC2DC"
+  description: "\uD2B9\uC9D5 : \uB178\uB798\uB85C \uD76C\uC0DD\uC790\uB97C \uB04C\uC5B4\uB4E4\uC774\uB294
     \uC0AC\uC774\uB80C\uC785\uB2C8\uB2E4. \uD0C0\uAC9F\uC73C\uB85C \uC0BC\uC740 \uC774\uAC00
     \uB9E4\uB825\uC744 \uB290\uB07C\uB294 \uC810\uC744 \uD749\uB0B4\uB0B4\uBBC0\uB85C
-    \uD604\uD639\uB418\uC9C0 \uC54A\uAC8C \uC8FC\uC758\uD574\uC57C \uD569\uB2C8\uB2E4."
-  relatedItem: UV Light, Ghost Orb
+    \uD604\uD639\uB418\uC9C0 \uC54A\uAC8C \uC8FC\uC758\uD574\uC57C \uD569\uB2C8\uB2E4.\n"
+  relatedItem: "\uD2B9\uC815 \uC544\uC774\uD15C : UV Light, Ghost Orb"
+  ghostImage: {fileID: 0}
