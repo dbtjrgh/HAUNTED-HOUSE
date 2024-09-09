@@ -25,8 +25,8 @@ namespace Wonbin
         [SerializeField]
         private float normalSpeed = 2f;
 
-        private float moveSpeed;
-        private float sprintMultiplier = 2f;
+        public float moveSpeed;
+        public float sprintMultiplier = 2f;
 
         //앉기 담당 함수
         private bool _crouch = false;
@@ -120,7 +120,7 @@ namespace Wonbin
             }
         }
 
-     
+
 
 
         private void Sprint()
