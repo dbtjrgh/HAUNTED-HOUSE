@@ -1032,7 +1032,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3427046249772168721}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ad3db9163e7af943bbec413f794d29b, type: 3}
   m_Name: 
@@ -1289,7 +1289,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 6723944009055706394}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1370,6 +1371,7 @@ MonoBehaviour:
   itemSlot: {fileID: 3771156345610260236}
   maxInventorySize: 3
   inventoryItems: []
+  playerCamera: {fileID: 0}
 --- !u!114 &8136027508085350051
 MonoBehaviour:
   m_ObjectHideFlags: 0

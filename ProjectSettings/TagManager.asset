@@ -12,6 +12,8 @@ TagManager:
   - Items
   - Ghost
   - Handprint
+  - journal
+  - Truck
   layers:
   - Default
   - TransparentFX
