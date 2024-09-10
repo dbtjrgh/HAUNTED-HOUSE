@@ -1,3 +1,4 @@
+using GameFeatures;
 using System.Collections;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class CPlayerDoorInter : MonoBehaviour
     public Transform InteractionTransform;  // 상호작용 위치
     public GameObject handprintPrefab;      // 손발자국 프리팹
     public float detectionRadius = 3.0f;    // 플레이어 감지 범위
+    private bool handprintCreated = false;  // 손자국이 한 번만 생성되도록 하는 플래그
+    private Collider[] colliders;           // 감지된 충돌체들
 
     public float forceAmmount = 15f;        // 힘의 양
     public float distance = 1.5f;           // 거리
@@ -52,20 +55,6 @@ public class CPlayerDoorInter : MonoBehaviour
         StartCoroutine(CheckDoorState());
     }
 
-    private void Start()
-    {
-        if (ghost != null)
-        {
-            if (ghost.ghostType != 0)
-            {
-                LeavePrintsUV();
-            }
-        }
-        else
-        {
-            return;
-        }
-    }
 
     private void Update()
     {
@@ -117,10 +106,16 @@ public class CPlayerDoorInter : MonoBehaviour
         {
             OnDragEnd(); // 상호작용 강제 종료
         }
+        // 한 번만 손자국 생성이 되도록 설정
+       
     }
 
     private void FixedUpdate()
-    {
+    { 
+        if (!handprintCreated)
+        {
+            DetectPlayerNearby();
+        }
         if (isInterracting && !isDoorLocked)
         {
             // 상호작용 중에도 플레이어가 계속 근처에 있는지 확인
@@ -212,14 +207,35 @@ public class CPlayerDoorInter : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            if (collider.CompareTag("Player"))  // 태그가 Player인 오브젝트가 있으면
+            // Ghost 객체가 null인지 먼저 확인
+            if (ghost == null)
+            {
+                return false;
+            }
+
+            // Player 태그를 가진 오브젝트가 있는지 확인
+            if (collider.CompareTag("Player"))
             {
                 return true;  // 플레이어가 근처에 있음
+            }
+
+            // Room 컴포넌트가 있는지 확인
+            Room room = collider.GetComponent<Room>();
+            if (!handprintCreated && collider.CompareTag("Room") && room != null)
+            {
+                if (room.RoomType == myRooms.Rooms.RoomsEnum.GhostRoom && ghost.ghostType != 0)
+                {
+                    handprintCreated = true;  // 손자국이 생성되었음을 표시
+                    Debug.Log("손자국 프리팹 형성");
+                    LeavePrintsUV();  // 손자국 프리팹 생성
+                }
             }
         }
 
         return false;  // 플레이어가 근처에 없음
     }
+
+
 
     private void OnDrawGizmosSelected()
     {

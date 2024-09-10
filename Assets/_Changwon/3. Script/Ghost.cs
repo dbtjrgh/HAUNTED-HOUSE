@@ -73,8 +73,9 @@ public class Ghost : MonoBehaviour
         if (findRoom && other.CompareTag("Room"))
         {
             room = other.GetComponent<Room>();
-            findRoom = false;
+            room.RoomType = myRooms.Rooms.RoomsEnum.GhostRoom;
             Debug.Log("고스트방 설정");
+            findRoom = false;
         }
         else
         {

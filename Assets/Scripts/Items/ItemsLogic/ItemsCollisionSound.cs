@@ -10,12 +10,12 @@ using UnityEngine;
 public class ItemsCollisionSound : MonoBehaviourPun
 {
     [SerializeField]
-    private AudioClip _hitSound;
+    public AudioClip _hitSound;
     [SerializeField]
     private float _hitVolume = 0.1f;
 
     private Rigidbody _rigidbody;
-    private AudioSource _audioSource;
+    public AudioSource _audioSource;
 
     private void Start()
     {

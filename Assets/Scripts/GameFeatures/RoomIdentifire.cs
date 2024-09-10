@@ -25,7 +25,7 @@ namespace GameFeatures
             }
             else
             {
-                Debug.Log("mentalGaugeManager가 정상적으로 연결되었습니다.");
+                return;
             }
         }
 
@@ -78,13 +78,14 @@ namespace GameFeatures
             OnRoomChanged?.Invoke();
 
             // 방을 바꿀 때마다 멘탈 게이지 감소
-            if (mentalGaugeManager != null && CurrRoom != RoomsEnum.NormalRoom)
-            {
-                mentalGaugeManager.TakeMentalGauge(mentalGaugeManager.changeRoomGaugeMinus); // 방을 옮길 때마다 멘탈 게이지 5 감소
-            }
-            else if (mentalGaugeManager != null && CurrRoom == RoomsEnum.GhostRoom)
+            // 귀신방에 들어가면 2배 감소
+            if (mentalGaugeManager != null && CurrRoom == RoomsEnum.GhostRoom)
             {
                 mentalGaugeManager.TakeMentalGauge(mentalGaugeManager.ghostRoomGaugeMinus);
+            }
+            else if (mentalGaugeManager != null && CurrRoom != RoomsEnum.NormalRoom)
+            {
+                mentalGaugeManager.TakeMentalGauge(mentalGaugeManager.changeRoomGaugeMinus); // 방을 옮길 때마다 멘탈 게이지 5 감소
             }
             else
             {
