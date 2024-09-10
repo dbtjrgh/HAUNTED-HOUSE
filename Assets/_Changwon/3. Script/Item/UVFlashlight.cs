@@ -44,7 +44,7 @@ namespace changwon
             {
                 myLight = GetComponent<Light>(); // 필요한 경우 다시 할당
             }
-            
+
 
             itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
             uvLight = GetComponent<changwon.UVLight>();
@@ -52,25 +52,12 @@ namespace changwon
 
         private void Update()
         {
-            if (itemSlotTransform == null)
-            {
-                // ItemSlot이 존재하지 않을 때
-                myLight.enabled = false;
-                return;
-            }
-
             // 손전등이 ItemSlot의 자식인지 확인
             bool isInItemSlot = transform.IsChildOf(itemSlotTransform);
 
-
             if (isInItemSlot)
             {
-                Debug.Log("손전등이 ItemSlot에 있음");
                 lightOnOFF(); // 손전등이 ItemSlot에 있을 때만 호출
-            }
-            else
-            {
-                myLight.enabled = false; // 손전등이 ItemSlot에 없을 때 비활성화
             }
 
         }
@@ -97,62 +84,43 @@ namespace changwon
 
         public void lightOnOFF()
         {
-            Debug.Log("사용 로직 호출됨.");
             getLight = true;
             if (getLight)
             {
-                Debug.Log(getLight);
                 if (Input.GetKeyDown(KeyCode.R))
                 {
-                    Debug.Log("손전등 사용");
                     playerGetLight = !playerGetLight; // 손전등 on/off
                     myLight.intensity = playerGetLight ? 10 : 0; // 손전등 밝기 조정
-                    myLight.enabled = playerGetLight; // 손전등 활성화/비활성화
-                    
+
                     if (playerGetLight)
                     {
-                        print("eeeee");
                         uvLight.EnableUVLight();
                     }
                     else
                     {
 
-                       uvLight.DisableUVLight();
+                        uvLight.DisableUVLight();
                     }
                 }
             }
         }
-
         public IEnumerator Blink()
         {
-
             if (Ghost.instance.state == changwon.GhostState.HUNTTING)
             {
-
                 float ghostBlinkTargetDistance = Vector3.Distance(Ghost.instance.target.transform.position, Ghost.instance.transform.position);
                 if (ghostBlinkTargetDistance < 30)
                 {
-                    myLight.gameObject.SetActive(false);
+                    myLight.intensity = 0;
                     yield return new WaitForSeconds(0.5f);
-                    myLight.gameObject.SetActive(true);
-                    yield return new WaitForSeconds(0.5f);
-                    myLight.gameObject.SetActive(false);
-                    yield return new WaitForSeconds(0.5f);
-                    myLight.gameObject.SetActive(true);
-                    yield return new WaitForSeconds(0.5f);
-                    myLight.gameObject.SetActive(false);
+                    myLight.intensity = 10;
                 }
             }
             else
             {
-
-                myLight.gameObject.SetActive(true);
+                myLight.intensity = 10;
             }
             yield return null;
         }
-
-
-
-
     }
 }

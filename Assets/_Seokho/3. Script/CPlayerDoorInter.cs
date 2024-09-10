@@ -16,6 +16,7 @@ public class CPlayerDoorInter : MonoBehaviour
 
     private Collider col;
     private Rigidbody rb;
+    Ghost ghost;
 
     private Camera cam;
     private bool isInterracting = false;    // 문과 상호작용 중인지 여부
@@ -28,12 +29,14 @@ public class CPlayerDoorInter : MonoBehaviour
 
     private float tKeyHoldTime = 0f;        // T 키 누른 시간
 
+
     private void Awake()
     {
         cam = Camera.main;
         hinge = GetComponent<HingeJoint>();
         col = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
+        ghost = FindAnyObjectByType<Ghost>();
 
         if (hinge == null)
         {
@@ -47,6 +50,21 @@ public class CPlayerDoorInter : MonoBehaviour
         if (openedRotation < -1f) openedRotation += 360f;
 
         StartCoroutine(CheckDoorState());
+    }
+
+    private void Start()
+    {
+        if (ghost != null)
+        {
+            if (ghost.ghostType != 0)
+            {
+                LeavePrintsUV();
+            }
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void Update()

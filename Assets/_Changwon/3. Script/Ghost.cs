@@ -1,3 +1,4 @@
+using GameFeatures;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,8 @@ public class Ghost : MonoBehaviour
     public GhostType ghostType;
     public NavMeshAgent ghostNav;
     public GameObject target;
+    private bool findRoom = true;
+    Room room;
 
     mentalGaugeManager mental;
     MapManager mapManager;
@@ -61,6 +64,26 @@ public class Ghost : MonoBehaviour
     {
         target = FindClosestLivingPlayer(); // 죽은 플레이어가 아닌 가장 가까운 플레이어를 찾음
     }
+
+    // 시작하자마자 고스트가 있는곳이 고스트방으로 처리
+    private void OnTriggerEnter(Collider other)
+    {
+        // 레이어를 'Room'이라는 이름으로 가져옵니다.
+        int roomLayer = LayerMask.NameToLayer("Room");
+
+        // 충돌한 오브젝트의 레이어가 'Room'인지 확인합니다.
+        if (findRoom && other.gameObject.layer == roomLayer)
+        {
+            room = other.GetComponent<Room>();
+            findRoom = false;
+            Debug.Log("고스트방 설정");
+        }
+        else
+        {
+            return;
+        }
+    }
+
 
     // 죽은 플레이어가 아닌 가장 가까운 플레이어 찾기
     private GameObject FindClosestLivingPlayer()

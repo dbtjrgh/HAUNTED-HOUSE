@@ -15,7 +15,7 @@ namespace changwon
         public float lightAngle = 360f;
 
         private Vector3 curpos;
-        private Vector3 lastpos=new Vector3(0f,0f,0f);
+        private Vector3 lastpos = new Vector3(0f, 0f, 0f);
         public float epsilon = 0.001f;
         private float distance;
 

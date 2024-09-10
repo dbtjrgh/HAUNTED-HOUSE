@@ -3691,9 +3691,9 @@ GameObject:
   - component: {fileID: 196245683}
   - component: {fileID: 196245685}
   - component: {fileID: 196245684}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall6
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4308,9 +4308,9 @@ GameObject:
   - component: {fileID: 244399468}
   - component: {fileID: 244399470}
   - component: {fileID: 244399469}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall4
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10058,9 +10058,9 @@ GameObject:
   - component: {fileID: 493886443}
   - component: {fileID: 493886445}
   - component: {fileID: 493886444}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: LivingRoom1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10356,9 +10356,9 @@ GameObject:
   - component: {fileID: 511653205}
   - component: {fileID: 511653207}
   - component: {fileID: 511653206}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BathRoom3
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12817,9 +12817,9 @@ GameObject:
   - component: {fileID: 574904201}
   - component: {fileID: 574904203}
   - component: {fileID: 574904202}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: MasterRoom
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13119,9 +13119,9 @@ GameObject:
   - component: {fileID: 593759705}
   - component: {fileID: 593759707}
   - component: {fileID: 593759706}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: WorkShop
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27802,9 +27802,9 @@ GameObject:
   - component: {fileID: 1346768520}
   - component: {fileID: 1346768522}
   - component: {fileID: 1346768521}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Kithcen1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27871,9 +27871,9 @@ GameObject:
   - component: {fileID: 1361209898}
   - component: {fileID: 1361209900}
   - component: {fileID: 1361209899}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: LivingRoom2
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29709,9 +29709,9 @@ GameObject:
   - component: {fileID: 1418001555}
   - component: {fileID: 1418001556}
   - component: {fileID: 1418001557}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32087,9 +32087,9 @@ GameObject:
   - component: {fileID: 1528192341}
   - component: {fileID: 1528192343}
   - component: {fileID: 1528192342}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BathRoom2
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33555,9 +33555,9 @@ GameObject:
   - component: {fileID: 1558438399}
   - component: {fileID: 1558438401}
   - component: {fileID: 1558438400}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall2
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36491,9 +36491,9 @@ GameObject:
   - component: {fileID: 1744073083}
   - component: {fileID: 1744073082}
   - component: {fileID: 1744073081}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Stairs
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37594,9 +37594,9 @@ GameObject:
   - component: {fileID: 1777199830}
   - component: {fileID: 1777199832}
   - component: {fileID: 1777199831}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BathRoom1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38705,9 +38705,9 @@ GameObject:
   - component: {fileID: 1826275857}
   - component: {fileID: 1826275859}
   - component: {fileID: 1826275858}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BedRoom1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40429,9 +40429,9 @@ GameObject:
   - component: {fileID: 1924459868}
   - component: {fileID: 1924459870}
   - component: {fileID: 1924459869}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall3
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41442,9 +41442,9 @@ GameObject:
   - component: {fileID: 1965091345}
   - component: {fileID: 1965091347}
   - component: {fileID: 1965091346}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: LivingRoom3
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43066,9 +43066,9 @@ GameObject:
   - component: {fileID: 2067541320}
   - component: {fileID: 2067541322}
   - component: {fileID: 2067541321}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall5
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

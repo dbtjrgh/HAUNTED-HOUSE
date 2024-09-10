@@ -14,6 +14,7 @@ TagManager:
   - Handprint
   - journal
   - Truck
+  - Room
   layers:
   - Default
   - TransparentFX

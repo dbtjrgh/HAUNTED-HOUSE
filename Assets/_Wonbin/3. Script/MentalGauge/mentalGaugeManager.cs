@@ -10,11 +10,11 @@ public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
     private RoomIdentifire currentPlayerRoom; // RoomIdentifire 컴포넌트 참조
 
     public float maxMentalGauge = 100f;
-    public float secondGaugeMinus;
-    public float ghostRoomGaugeMinus;
+    public float secondGaugeMinus = 0.5f;
+    public float ghostRoomGaugeMinus = 10f; // 고스트 방
+    public float changeRoomGaugeMinus = 5f;
     public float MentalGauge;
-    private float gaugeModifier = 1f;
-
+    private float gaugeModifier = 1f; // 난이도에 따라 다르게
     private Coroutine dropCoroutine;
 
     private void Start()
@@ -27,11 +27,10 @@ public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
             currentPlayerRoom = GetComponent<RoomIdentifire>();
         }
 
-        // currentPlayerRoom이 null인지 확인
         if (currentPlayerRoom == null)
         {
             Debug.LogError("currentPlayerRoom이 설정되지 않았습니다! RoomIdentifire 컴포넌트를 확인하세요.");
-            return; // currentPlayerRoom이 없으면 더 이상 진행하지 않음
+            return;
         }
 
         if (photonView.IsMine)
@@ -47,7 +46,7 @@ public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
 
     public void TakeMentalGauge(float ToTake)
     {
-        if (photonView.IsMine) // Only update if this is the local player
+        if (photonView.IsMine)
         {
             MentalGauge -= (ToTake * gaugeModifier);
             MentalGauge = Mathf.Clamp(MentalGauge, 0, maxMentalGauge);
@@ -69,13 +68,28 @@ public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
         }
     }
 
+    public void SecondTakeMentalGauge()
+    {
+        if (photonView.IsMine)
+        {
+            MentalGauge -= (secondGaugeMinus * gaugeModifier);
+            MentalGauge = Mathf.Clamp(MentalGauge, 0, maxMentalGauge);
+            Debug.Log("초당 멘탈 게이지 감소: " + secondGaugeMinus + " 남은 게이지: " + MentalGauge);
+        }
+        else
+        {
+            Debug.LogWarning("이 플레이어의 멘탈 게이지가 아닙니다.");
+        }
+    }
+
     private void DropMentalGauge()
     {
         if (photonView.IsMine && currentPlayerRoom != null)
         {
+            // 고스트 방에서의 게이지 감소는 ChangeRoom에서 처리됨
             if (currentPlayerRoom.CurrRoom != RoomsEnum.NormalRoom)
             {
-                TakeMentalGauge(secondGaugeMinus);
+                SecondTakeMentalGauge();
             }
         }
     }

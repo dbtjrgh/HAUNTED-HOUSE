@@ -40,7 +40,6 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     private Transform _playerHead;
     private Vector3 _headPosition;
     private float _currFollowHeadTime = 0f;
-    private const float FollowHeadTime = 2f;
     private float initialHeadPositionY;
     public float crouchHeadOffset;
 
@@ -48,7 +47,6 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     private CinemachineVirtualCamera playerCinemachine;
 
     private float smoothTime = 0.2f; // 카메라 위치 전환을 위한 시간
-    private float headVelocity = 0f; // 카메라 이동 속도
 
     private void Awake()
     {

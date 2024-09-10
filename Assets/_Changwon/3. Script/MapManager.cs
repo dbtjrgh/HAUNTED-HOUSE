@@ -49,7 +49,7 @@ public class MapManager : MonoBehaviourPun
             }
             else
             {
-                Debug.LogError("No Ghost found in the scene.");
+                Debug.Log("No Ghost found in the scene.");
             }
         }
     }
