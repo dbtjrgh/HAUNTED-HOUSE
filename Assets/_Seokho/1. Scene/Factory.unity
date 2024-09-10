@@ -3865,6 +3865,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameResultUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1469425105205807667, guid: 1fa3a5a6c58161c48b27dfdda0aa230c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fa3a5a6c58161c48b27dfdda0aa230c, type: 3}
 --- !u!1001 &213011164
@@ -4472,6 +4476,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1352708887}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -14425,6 +14430,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1113681826}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -16413,6 +16419,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 837380526}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -16632,6 +16639,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1353707935}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -17761,6 +17769,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1464550640}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -22685,6 +22694,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1865522620}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -26699,6 +26709,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 627444469}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -37410,6 +37421,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 788689156}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -41415,6 +41427,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1215853659}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -43613,6 +43626,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1828914815}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -78983,6 +78997,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 2069931295}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -105246,6 +105261,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 994117739}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -115287,6 +115303,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 868604578}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1

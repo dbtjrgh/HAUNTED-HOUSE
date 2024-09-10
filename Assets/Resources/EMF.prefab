@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2481941538894910086}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 2481941539045457720}
   - component: {fileID: 2481941539045457723}
   - component: {fileID: 5154451568134979640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 2481941539116936984}
   - component: {fileID: 2481941539116936987}
   - component: {fileID: 7985056180564263857}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 2481941539226079029}
   - component: {fileID: 2481941539226079028}
   - component: {fileID: 924030460}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16b23757b0d9bf4988b31a9ec0e2363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interaction: {fileID: 8250397646683880759}
+  interaction: {fileID: 103880550798881127}
   lights:
   - {fileID: 2481941539226079028}
   - {fileID: 2481941539116936987}
@@ -634,7 +634,7 @@ GameObject:
   - component: {fileID: 2481941539918484353}
   - component: {fileID: 2481941539918484352}
   - component: {fileID: 2303558211926128185}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,7 +749,7 @@ GameObject:
   - component: {fileID: 2481941540283316878}
   - component: {fileID: 2481941540283316873}
   - component: {fileID: 8602923560773555150}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -977,8 +977,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6739152807599787536}
-  - component: {fileID: 8250397646683880759}
-  m_Layer: 0
+  - component: {fileID: 103880550798881127}
+  m_Layer: 8
   m_Name: triggerEMF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1000,8 +1000,8 @@ Transform:
   m_Father: {fileID: 2481941539538423471}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8250397646683880759
-BoxCollider:
+--- !u!135 &103880550798881127
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1011,5 +1011,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}

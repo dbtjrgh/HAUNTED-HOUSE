@@ -104,7 +104,6 @@ public class CSinglePlayer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("앉기 키를 눌렀습니다.");
 
             // _crouch 토글
             _crouch = !_crouch;

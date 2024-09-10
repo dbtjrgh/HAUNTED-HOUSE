@@ -82,7 +82,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void ShowDeathUI()
     {
         deathUI.SetActive(true); // »ç¸Á UI È°¼ºÈ­
-        Debug.Log("All players are dead. Showing death UI.");
     }
 
     public void OnBackButtonClick()

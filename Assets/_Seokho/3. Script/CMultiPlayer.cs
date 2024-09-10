@@ -1,6 +1,5 @@
-using Infrastructure;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 using Infrastructure.Services;
 using Photon.Pun;
 using Cinemachine;
@@ -10,52 +9,46 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     [SerializeField]
     private CharacterController charController;
 
-    // 카메라 회전 속도
     [SerializeField]
     private float turnSpeed = 4f;
 
-    // 카메라 상하 회전   
     private float _mouseX, _mouseY;
     private float xRotation = 0f;
     private float xRotation_head = 0f;
 
-    // 이동 속도
     [SerializeField]
     private float normalSpeed = 2f;
 
     private float moveSpeed;
     public float sprintMultiplier = 2f;
 
-    //앉기 담당 함수
     private bool _crouch = false;
     private Wonbin.CrouchAnimation _animControl;
     private Animator animator;
 
-    // 중력
     [SerializeField]
-    private float gravity = 5f;  // 중력 값
-    private float verticalVelocity = 0f; // 수직 속도
-    private bool isGrounded; // 플레이어가 지면에 있는지 여부
+    private float gravity = 5f;
+    private float verticalVelocity = 0f;
+    private bool isGrounded;
 
-    // 죽음 여부 체크 변수
-    public bool isDead = false;  // 플레이어가 죽었는지 확인하는 변수
+    public bool isDead = false;
 
-    // 몸통 각도 조절 변수
     [SerializeField]
-    private Transform _playerBody;   // 몸 Transform (상체나 전체 몸이 포함된 Transform)
+    private Transform _playerBody;
 
-    // 머리 각도 조절 변수
     [SerializeField]
-    private Transform _playerHead;   // 머리 Transform
+    private Transform _playerHead;
     private Vector3 _headPosition;
     private float _currFollowHeadTime = 0f;
-    private float _playerHeadOffset = 0f;
     private const float FollowHeadTime = 2f;
-    private float initialHeadPositionY; // 서있을 때의 머리의 Y좌표를 저장.
-    public float crouchHeadOffset = -1f; //숙였을때 머리의 Y좌표를 저장.
+    private float initialHeadPositionY;
+    public float crouchHeadOffset;
 
     private PhotonView pv;
     private CinemachineVirtualCamera playerCinemachine;
+
+    private float smoothTime = 0.2f; // 카메라 위치 전환을 위한 시간
+    private float headVelocity = 0f; // 카메라 이동 속도
 
     private void Awake()
     {
@@ -98,79 +91,66 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (pv.IsMine && !isDead)  // isDead가 false일 때만 조작 허용
+        if (pv.IsMine && !isDead)
         {
             moveInput();
             Sprint();
-            FollowHead();  // 머리 위치 업데이트 호출
-            PlayerRotation(); // 플레이어 회전
+            FollowHead();
+            PlayerRotation();
             CrouchHandle();
 
-            // 중력 및 지면 체크
             isGrounded = charController.isGrounded;
 
             if (isGrounded && verticalVelocity < 0)
             {
-                verticalVelocity = -2f;  // 지면에 있을 때 수직 속도를 리셋
+                verticalVelocity = -2f;
             }
 
-            ApplyGravity();  // 중력 계산 및 적용
+            ApplyGravity();
 
-            // 수평 이동 계산
             Vector3 move = GetMoveDirection();
-
-            // **수평 이동만 반영하고, 중력을 따로 적용**
             move.y = verticalVelocity;
-
-            // 이동 반영
             charController.Move(move * Time.deltaTime);
         }
     }
 
-    // 중력 적용 함수
     private void ApplyGravity()
     {
         if (!isGrounded)
         {
-            verticalVelocity -= gravity * Time.deltaTime;  // 중력에 따라 수직 속도 증가
+            verticalVelocity -= gravity * Time.deltaTime;
         }
     }
 
     private Vector3 GetMoveDirection()
     {
-        // 마우스의 이동량
         float y_RotateSize = Input.GetAxis("Mouse X") * turnSpeed;
         float y_Rotate = _playerBody.eulerAngles.y + y_RotateSize;
 
-        // 마우스 상하 이동에 따른 이동값 계산
         float x_RotationSize = -Input.GetAxis("Mouse Y") * turnSpeed;
         xRotation = Mathf.Clamp(xRotation + x_RotationSize, -80f, 80f);
 
         _playerBody.eulerAngles = new Vector3(_playerBody.eulerAngles.x, y_Rotate, 0);
 
-        // 수평 이동량 측정
         Vector3 move = _playerBody.forward * Input.GetAxis("Vertical") + _playerBody.right * Input.GetAxis("Horizontal");
 
-        // **수평 이동만을 별도로 처리하여, 중력 영향을 받지 않도록 함**
         Vector3 horizontalMove = new Vector3(move.x, 0, move.z);
-        horizontalMove *= moveSpeed;  // 스프린트 등을 반영한 이동 속도
+        horizontalMove *= moveSpeed;
 
-        return horizontalMove;  // 수평 이동만 반환
+        return horizontalMove;
     }
 
-    // 죽음 처리 함수
     public void Die()
     {
-        isDead = true;  // 플레이어 사망 상태로 설정
+        isDead = true;
 
         if (animator != null)
         {
-            animator.SetBool("Die", true);  // Die 애니메이션 트리거
+            animator.SetBool("Die", true);
         }
 
         Debug.Log("Player has died and controls are disabled.");
 
-        // GameManager에서 사망 여부 확인
         GameManager gameManager = FindObjectOfType<GameManager>();
         if (gameManager != null)
         {
@@ -178,10 +158,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-
     private void CrouchHandle()
     {
-        if (Input.GetKeyDown(KeyCode.C) && !isDead)  // 플레이어가 죽지 않은 경우에만 crouch 허용
+        if (Input.GetKeyDown(KeyCode.C) && !isDead)
         {
             _crouch = !_crouch;
 
@@ -190,57 +169,64 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
                 animator.SetBool("IsCrouch", _crouch);
             }
 
+            // 앉았을 때 속도 감소 및 머리 위치 조정
             if (_crouch)
             {
-                AdjustHeadPosition(initialHeadPositionY + crouchHeadOffset);
+                moveSpeed = normalSpeed / 2f;  // 앉은 상태에서는 이동 속도를 절반으로 감소
+                StartCoroutine(SmoothHeadPosition(initialHeadPositionY + crouchHeadOffset));  // 앉는 위치로 부드럽게 이동
             }
             else
             {
-                AdjustHeadPosition(initialHeadPositionY);
+                // 일어설 때는 다시 서 있는 머리 위치로 복구
+                moveSpeed = normalSpeed;  // 다시 일어나면 속도 원상복구
+                StartCoroutine(SmoothHeadPosition(initialHeadPositionY));  // 서 있는 머리 위치로 부드럽게 복구
             }
         }
     }
 
-    private void AdjustHeadPosition(float targetY)
+    private IEnumerator SmoothHeadPosition(float targetY)
     {
-        if (_playerHead != null)
+        float startY = _playerHead.position.y; // 시작 Y 위치
+        float timeElapsed = 0f; // 경과 시간
+
+        while (timeElapsed < smoothTime)
         {
-            Vector3 currentPosition = _playerHead.position;
-            _playerHead.position = new Vector3(currentPosition.x, targetY, currentPosition.z);
+            float newY = Mathf.Lerp(startY, targetY, timeElapsed / smoothTime); // Lerp 사용
+            _playerHead.position = new Vector3(_playerHead.position.x, newY, _playerHead.position.z);
+            timeElapsed += Time.deltaTime;
+            yield return null;
         }
+
+        // 마지막으로 정확하게 목표 위치에 도달하게 설정
+        _playerHead.position = new Vector3(_playerHead.position.x, targetY, _playerHead.position.z);
     }
 
     private void Sprint()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && !isDead)  // 죽지 않은 경우에만 스프린트 허용
+        if (Input.GetKey(KeyCode.LeftShift) && !isDead)
         {
-            moveSpeed = normalSpeed * sprintMultiplier;  // 스프린트 중
+            moveSpeed = normalSpeed * sprintMultiplier;
         }
         else
         {
-            moveSpeed = normalSpeed;  // 기본 속도
+            moveSpeed = normalSpeed;
         }
     }
 
     private void moveInput()
     {
-        // 마우스의 이동량
         float y_RotateSize = Input.GetAxis("Mouse X") * turnSpeed;
         float y_Rotate = _playerBody.eulerAngles.y + y_RotateSize;
 
-        // 마우스 상하 이동에 따른 이동값 계산
         float x_RotationSize = -Input.GetAxis("Mouse Y") * turnSpeed;
         xRotation = Mathf.Clamp(xRotation + x_RotationSize, -80f, 80f);
 
         _playerBody.eulerAngles = new Vector3(_playerBody.eulerAngles.x, y_Rotate, 0);
 
-        // 이동량 측정
         Vector3 move = _playerBody.forward * Input.GetAxis("Vertical") + _playerBody.right * Input.GetAxis("Horizontal");
 
-        // 이동량을 현재 좌표에 반영
         charController.Move(move * moveSpeed * Time.deltaTime);
 
-        // 애니메이션 상태 업데이트
         if (animator != null)
         {
             bool isWalking = move.magnitude > 0;
@@ -270,7 +256,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     private void SetHeadPosition()
     {
         _headPosition = _playerHead.position;
-        _headPosition.y = _playerBody.position.y + _playerHeadOffset;
+        _headPosition.y = _playerBody.position.y + crouchHeadOffset;
         _playerHead.position = _headPosition;
 
         _playerHead.localRotation = Quaternion.Euler(xRotation_head, 0, 0);

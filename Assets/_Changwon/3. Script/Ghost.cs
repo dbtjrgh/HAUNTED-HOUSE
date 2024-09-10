@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
 using Wonbin;
-
 
 namespace changwon
 {
@@ -22,7 +20,6 @@ public enum GhostType
     BANSHEE,
     DEMON
 }
-
 
 public class Ghost : MonoBehaviour
 {
@@ -54,138 +51,206 @@ public class Ghost : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        // StateMechine 코루틴을 한 번만 시작
+        StartCoroutine(StateMechine());
+    }
 
     private void Update()
     {
-        target = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(StateMechine());
+        target = FindClosestLivingPlayer(); // 죽은 플레이어가 아닌 가장 가까운 플레이어를 찾음
     }
+
+    // 죽은 플레이어가 아닌 가장 가까운 플레이어 찾기
+    private GameObject FindClosestLivingPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject closestPlayer = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject player in players)
+        {
+            CMultiPlayer playerScript = player.GetComponent<CMultiPlayer>();
+
+            if (playerScript != null && !playerScript.isDead) // 살아있는 플레이어만 타겟으로 지정
+            {
+                float distanceToGhost = Vector3.Distance(transform.position, player.transform.position);
+                if (distanceToGhost < closestDistance)
+                {
+                    closestDistance = distanceToGhost;
+                    closestPlayer = player;
+                }
+            }
+        }
+
+        return closestPlayer; // 가장 가까운 살아있는 플레이어 반환 (없으면 null 반환)
+    }
+
 
     public float currentGhostType()
     {
         return (float)ghostType;
     }
 
-
-
-
     public IEnumerator StateMechine()
     {
-        switch (state)
+        while (true)
         {
-            case changwon.GhostState.IDLE:
-                yield return StartCoroutine(idle());
-                break;
+            switch (state)
+            {
+                case changwon.GhostState.IDLE:
+                    yield return StartCoroutine(idle());
+                    break;
 
-            case changwon.GhostState.HUNTTING:
-                yield return StartCoroutine(Hunting());
-                break;
+                case changwon.GhostState.HUNTTING:
+                    yield return StartCoroutine(Hunting());
+                    break;
 
-            case changwon.GhostState.RETURN:
-                yield return StartCoroutine(returnPosition());
-                break;
+                case changwon.GhostState.RETURN:
+                    yield return StartCoroutine(returnPosition());
+                    break;
+            }
+
+            yield return null; // 다음 프레임으로 넘어가기 위해 필요
         }
-
     }
 
     public void ChangeState(changwon.GhostState newstate)
     {
-        state = newstate;
+        if (state != newstate)
+        {
+            state = newstate;
+            Debug.Log($"State changed to: {state}");
+        }
     }
 
     private IEnumerator idle()
     {
         mental = FindObjectOfType<mentalGaugeManager>();
+        mapManager = FindObjectOfType<MapManager>();
 
         while (state == changwon.GhostState.IDLE)
         {
-            ghostNav.isStopped = true;
+            ghostNav.isStopped = false;
+
+            // 무작위 위치로 이동
+            Vector3 randomPosition = GetRandomNavMeshPosition(transform.position, 10f); // 반경 10 내에서 무작위 위치 선택
+            ghostNav.SetDestination(randomPosition);
+
+            // 일정 시간 기다린 후 다시 무작위로 이동
+            yield return new WaitForSeconds(5f); // 5초 후에 다시 무작위로 이동
+
+            // 정신 게이지에 따른 상태 전환
             if (mental != null && mental.MentalGauge <= 50)
             {
                 ChangeState(changwon.GhostState.HUNTTING);
+                yield break; // 현재 코루틴 종료
             }
-
             else if (mental == null)
             {
                 Debug.Log("mental is null");
             }
+
             yield return null;
         }
+    }
+
+    // 무작위로 NavMesh 상에서 위치를 찾는 함수
+    private Vector3 GetRandomNavMeshPosition(Vector3 origin, float distance)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * distance; // 주어진 거리 내에서 무작위 방향
+        randomDirection += origin; // 시작 위치를 더해 줍니다.
+
+        NavMeshHit navHit;
+        NavMesh.SamplePosition(randomDirection, out navHit, distance, NavMesh.AllAreas); // 유효한 NavMesh 위의 위치 찾기
+
+        return navHit.position;
     }
 
     private IEnumerator returnPosition()
     {
         mapManager = FindObjectOfType<MapManager>();
+
         while (state == changwon.GhostState.RETURN)
         {
+            ghostNav.isStopped = false;
+            ghostNav.SetDestination(mapManager.returnRandom); // 랜덤 위치로 이동
+
+            // 목적지로 이동 중
+            while (ghostNav.remainingDistance > ghostNav.stoppingDistance)
             {
-                ghostNav.isStopped = false;
-                ghostNav.SetDestination(mapManager.returnRandom);
-                yield return new WaitForSeconds(30f);
-                ChangeState(changwon.GhostState.IDLE);
+                yield return null; // 계속 대기하며 목표에 도달할 때까지 기다림
             }
-            yield return null;
+
+            // 목적지에 도착하면 IDLE 상태로 전환
+            Debug.Log("Return 목적지에 도착, IDLE 상태로 전환.");
+            ChangeState(changwon.GhostState.IDLE);
+
+            // 상태 전환 후에는 코루틴 종료
+            yield break;
         }
     }
 
 
     private IEnumerator Hunting()
     {
+        mental = FindObjectOfType<mentalGaugeManager>();
+        float huntingTimer = 0f; // 헌팅 상태 유지 시간을 계산할 타이머
+        float maxHuntingDuration = 30f; // 헌팅 상태에서 최대 유지 시간
+
         while (state == changwon.GhostState.HUNTTING)
         {
-            if (mental.MentalGauge > 50)
+            huntingTimer += Time.deltaTime; // 헌팅 상태에서 경과 시간 증가
+
+            if (mental != null && (mental.MentalGauge > 50 || huntingTimer >= maxHuntingDuration)) // 정신 게이지가 50 이상이거나, 일정 시간이 지나면
             {
-                ChangeState(changwon.GhostState.RETURN);
+                Debug.Log("헌팅 실패, Return 상태로 전환.");
+                ChangeState(changwon.GhostState.RETURN); // 헌팅 실패 시 Return 상태로 전환
+                yield break; // 현재 코루틴 종료
             }
-            if (target != null)
+
+            if (target != null) // 타겟이 존재할 때
             {
                 ghostNav.isStopped = false;
                 ghostNav.SetDestination(target.transform.position);
-                float HunttingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
+
+                float huntingTargetDistance = Vector3.Distance(target.transform.position, transform.position);
                 float ghostBlinkTargetDistance = Vector3.Distance(target.transform.position, transform.position);
-                StartCoroutine(ghostInter());
+
+                StartCoroutine(ghostInter()); // 인터랙션 처리
                 if (ghostBlinkTargetDistance < 5)
                 {
                     StartCoroutine(ghostBlink());
-                    
                 }
-                if (HunttingTargetDistance < 0.5)
+                if (huntingTargetDistance < 0.5f) // 타겟에 도착한 경우
                 {
                     Debug.Log("플레이어를 찾았다");
-
 
                     CMultiPlayer targetPlayer = target.GetComponent<CMultiPlayer>();
                     if (targetPlayer != null)
                     {
                         Debug.Log("죽음");
-                        targetPlayer.Die();
+                        targetPlayer.Die(); // 플레이어 죽이기
                     }
 
                     ghostNav.isStopped = true;
-                    ChangeState(changwon.GhostState.RETURN);
-
-                    yield return new WaitForSeconds(25f);
-                    ChangeState(changwon.GhostState.IDLE);
-                    yield return new WaitForSeconds(10f);
-                    ChangeState(changwon.GhostState.HUNTTING);
-                    
-                }
-                else
-                {
-                    ghostNav.isStopped = false;
-                    yield return new WaitForSeconds(30f);
-                    ChangeState(changwon.GhostState.IDLE);
-                    yield return new WaitForSeconds(10f);
-                    ChangeState(changwon.GhostState.HUNTTING);
+                    ChangeState(changwon.GhostState.RETURN); // 타겟을 찾았을 때 Return 상태로 전환
+                    yield break; // 현재 코루틴 종료
                 }
             }
             else
             {
-                ChangeState(changwon.GhostState.RETURN);
+                Debug.Log("타겟을 잃어 Return 상태로 전환");
+                ChangeState(changwon.GhostState.RETURN); // 타겟을 잃었을 때 바로 Return 상태로 전환
+                yield break; // 현재 코루틴 종료
             }
+
             yield return null;
         }
     }
+
+
     public void ghosttypeRandom(int value)
     {
         ghostType = (GhostType)value;
@@ -199,39 +264,42 @@ public class Ghost : MonoBehaviour
         {
             // Ghost 레이어를 포함시키는 부분
             Camera.main.cullingMask |= 1 << ghostLayer;
-            yield return new WaitForSeconds(0.5f); // 초 동안 Ghost 레이어가 보임
+            yield return new WaitForSeconds(0.5f); // 0.5초 동안 Ghost 레이어가 보임
 
             // Ghost 레이어를 제외하는 부분
             Camera.main.cullingMask &= ~(1 << ghostLayer);
-            yield return new WaitForSeconds(0.5f); // 초 동안 Ghost 레이어가 숨김
+            yield return new WaitForSeconds(0.5f); // 0.5초 동안 Ghost 레이어가 숨김
         }
     }
 
     IEnumerator ghostInter()
     {
         CMultiPlayer player = FindObjectOfType<CMultiPlayer>();
-        
-        
-        
+
+        if (player == null)
+        {
+            yield break;
+        }
+
         switch (ghostType)
         {
             case GhostType.BANSHEE:
                 player.sprintMultiplier = 1f;
                 break;
             case GhostType.NIGHTMARE:
-                
-                
                 float LightBlinkTargetDistance = Vector3.Distance(target.transform.position, transform.position);
-                if (LightBlinkTargetDistance<10)
+                if (LightBlinkTargetDistance < 10)
                 {
-                    player.GetComponentInChildren<Light>().enabled = true;
-                    yield return new WaitForSeconds(1f);
-                    player.GetComponentInChildren<Light>().enabled = false;
-                    
+                    Light playerLight = player.GetComponentInChildren<Light>();
+                    if (playerLight != null)
+                    {
+                        playerLight.enabled = true;
+                        yield return new WaitForSeconds(1f);
+                        playerLight.enabled = false;
+                    }
                 }
                 break;
         }
         yield return null;
     }
-
 }

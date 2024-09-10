@@ -1,24 +1,26 @@
 using ExitGames.Client.Photon;
-using JetBrains.Annotations;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace changwon
 {
     [RequireComponent(typeof(PhotonView))]
     [RequireComponent(typeof(PhotonTransformView))]
     [RequireComponent(typeof(PhotonRigidbodyView))]
-
     public class _EMF : MonoBehaviourPun
     {
         public Collider interaction;
-        
         public Light[] lights;
+        private Ghost ghost; // 귀신의 스크립트를 동적으로 가져옴
 
-        Ghost ghost;
+        static bool getEMF;
+        public static bool isInItemSlot;
+        private Transform itemSlotTransform;
+        PlayerInventory Inventory;
+
+        public bool EMFOnOff = false;
 
         private void Start()
         {
@@ -27,41 +29,20 @@ namespace changwon
             itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
         }
 
-
-        static bool getEMF;
-
-        public static bool isInItemSlot; // EMF가 ItemSlot에 있는지 여부를 확인
-        private Transform itemSlotTransform;
-        PlayerInventory Inventory;
-
-
-        public bool EMFOnOff = false;
-
-
-        private void Awake()
-        {
-            ghost = GetComponent<Ghost>();
-                     
-        }
-
         private void Update()
         {
-
-
-            bool isInItemSlot = transform.IsChildOf(itemSlotTransform); //Emf가 현재 아이템 슬롯에 들어가 있는지 확인.
+            bool isInItemSlot = transform.IsChildOf(itemSlotTransform);
 
             if (isInItemSlot)
             {
                 EMFSwitching();
             }
-
             else
             {
                 for (int i = 0; i < lights.Length; i++)
                 {
                     lights[i].gameObject.SetActive(false);
                 }
-
             }
         }
 
@@ -70,9 +51,10 @@ namespace changwon
             EMFOnOff = !EMFOnOff;
             if (photonView.IsMine)
             {
-                photonView.RPC("SyncEMFState", RpcTarget.All, EMFOnOff); // 모든 클라이언트에 동기화
+                photonView.RPC("SyncEMFState", RpcTarget.All, EMFOnOff);
             }
         }
+
         [PunRPC]
         void SyncEMFState(bool state)
         {
@@ -82,6 +64,7 @@ namespace changwon
                 light.gameObject.SetActive(state);
             }
         }
+
         static internal void EMFEquip()
         {
             getEMF = true;
@@ -95,16 +78,12 @@ namespace changwon
                     EMFObject.transform.SetParent(itemSlot.transform);
                     EMFObject.transform.localPosition = Vector3.zero;
                     EMFObject.transform.localRotation = Quaternion.identity;
-
-                    isInItemSlot = true; //ItemSlot에 추가되었음을 표시
+                    isInItemSlot = true;
                 }
             }
-
-
         }
 
-
-            public void EMFSwitching()
+        public void EMFSwitching()
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -121,59 +100,77 @@ namespace changwon
             }
         }
 
-
+        private void OnTriggerEnter(Collider other)
+        {
+            if (EMFOnOff && other.CompareTag("Ghost")) // 귀신에 닿았을 때
+            {
+                ghost = other.GetComponent<Ghost>(); // 귀신의 Ghost 스크립트 가져옴
+                if (ghost != null)
+                {
+                    HandleGhostDetection();
+                }
+            }
+        }
 
         private void OnTriggerStay(Collider other)
         {
-            other=interaction;
-            if (EMFOnOff == true)
+            if (EMFOnOff && other.CompareTag("Ghost"))
             {
-                if (other.tag == "Ghost")
+                if (ghost == null) // 충돌 시 이미 스크립트를 가져오지 못한 경우 다시 가져옴
                 {
-                    if (ghost.state == GhostState.HUNTTING)
-                    {
-                        for (int i = 0; i < lights.Length; i++)
-                        {
-                            lights[i].gameObject.SetActive(true);
-                        }
-                    }
-                    else
-                    {
-                        switch (ghost.ghostType)
-                        {
-                            case GhostType.BANSHEE:
+                    ghost = other.GetComponent<Ghost>();
+                }
 
-                                
-                                break;
-
-                            case GhostType.NIGHTMARE:
-                                for (int i = 0; i < 3; i++)
-                                {
-                                    lights[i].gameObject.SetActive(true);
-                                }
-                                break;
-
-                            case GhostType.DEMON:
-                                for (int i = 0; i < lights.Length; i++)
-                                {
-                                    lights[i].gameObject.SetActive(true);
-                                }
-                                break;
-                        }
-                    }
+                if (ghost != null)
+                {
+                    HandleGhostDetection();
                 }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag == "Ghost")
+            if (other.CompareTag("Ghost"))
             {
-                lights[0].gameObject.SetActive(true);
+                lights[0].gameObject.SetActive(false); // 귀신이 사라지면 EMF 끔
+            }
+        }
+
+        private void HandleGhostDetection()
+        {
+            if (ghost.state == GhostState.HUNTTING)
+            {
+                for (int i = 0; i < lights.Length; i++)
+                {
+                    lights[i].gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                switch (ghost.ghostType)
+                {
+                    case GhostType.BANSHEE:
+                        // BANSHEE 관련 처리
+                        Debug.Log("밴시라 패스");
+                        break;
+
+                    case GhostType.NIGHTMARE:
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Debug.Log("나이트메어 인식");
+                            lights[i].gameObject.SetActive(true);
+                        }
+                        break;
+
+                    case GhostType.DEMON:
+                        for (int i = 0; i < lights.Length; i++)
+                        {
+                            Debug.Log("데몬 인식");
+                            lights[i].gameObject.SetActive(true);
+                        }
+                        break;
+                }
             }
         }
     }
-
-
-
 }
