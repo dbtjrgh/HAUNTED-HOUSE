@@ -66,13 +66,11 @@ public class Ghost : MonoBehaviour
     }
 
     // 시작하자마자 고스트가 있는곳이 고스트방으로 처리
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        // 레이어를 'Room'이라는 이름으로 가져옵니다.
-        int roomLayer = LayerMask.NameToLayer("Room");
 
         // 충돌한 오브젝트의 레이어가 'Room'인지 확인합니다.
-        if (findRoom && other.gameObject.layer == roomLayer)
+        if (findRoom && other.CompareTag("Room"))
         {
             room = other.GetComponent<Room>();
             findRoom = false;

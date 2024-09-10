@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea7233f67b8004ab25966152431697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayerRoom: {fileID: 0}
+  currentPlayerRoom: {fileID: 8763893459323535168}
   maxMentalGauge: 100
   secondGaugeMinus: 0.5
   ghostRoomGaugeMinus: 10
@@ -1339,7 +1339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2158ea2c68c2b42a38d84ed72bfac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrRoom: 24
+  CurrRoom: 25
   _nextRooms: 
 --- !u!1 &2161934274511220585
 GameObject:
@@ -1397,7 +1397,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
-    NearClipPlane: 0.1
+    NearClipPlane: 0.2
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0

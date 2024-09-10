@@ -558,7 +558,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16b23757b0d9bf4988b31a9ec0e2363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interaction: {fileID: 0}
   lights:
   - {fileID: 2481941539226079028}
   - {fileID: 2481941539116936987}

@@ -20,7 +20,6 @@ public class MapManager : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             int randomIndex = Random.Range(0, Spawn.Length);
-            print(randomIndex);
 
             // GhostPrefab을 네트워크에서 모든 플레이어가 공유할 수 있도록 Master Client가 생성
             GameObject ghostInstance = PhotonNetwork.Instantiate("Ghost", Spawn[randomIndex].position, Quaternion.identity);

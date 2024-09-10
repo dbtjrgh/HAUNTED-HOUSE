@@ -11,32 +11,18 @@ namespace changwon
     [RequireComponent(typeof(PhotonRigidbodyView))]
     public class _EMF : MonoBehaviourPun
     {
-        public Collider interaction;
         public Light[] lights;
         private Ghost ghost; // 귀신의 스크립트를 동적으로 가져옴
 
-        static bool getEMF;
         public static bool isInItemSlot;
         private Transform itemSlotTransform;
-        PlayerInventory Inventory;
 
         public bool EMFOn = false;
 
         private void Start()
         {
-            getEMF = false;
             isInItemSlot = false;
             itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
-
-            // 자식 오브젝트의 InteractionTrigger에 이 스크립트를 연결
-            if (interaction != null)
-            {
-                CEMFTrigger interactionTrigger = interaction.GetComponent<CEMFTrigger>();
-                if (interactionTrigger != null)
-                {
-                    interactionTrigger.parentEMF = this;
-                }
-            }
         }
 
         private void Update()
@@ -77,7 +63,6 @@ namespace changwon
 
         static internal void EMFEquip()
         {
-            getEMF = true;
             GameObject EMFObject = GameObject.FindGameObjectWithTag("Items");
 
             if (EMFObject != null)

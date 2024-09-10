@@ -15,7 +15,6 @@ public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
     public float changeRoomGaugeMinus = 5f;
     public float MentalGauge;
     private float gaugeModifier = 1f; // 난이도에 따라 다르게
-    private Coroutine dropCoroutine;
 
     private void Start()
     {
@@ -36,7 +35,7 @@ public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
         if (photonView.IsMine)
         {
             Debug.Log("멘탈 게이지 관리 시작");
-            dropCoroutine = StartCoroutine(DropGaugeRoutine());
+            StartCoroutine(DropGaugeRoutine());
         }
         else
         {
@@ -70,7 +69,7 @@ public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
 
     public void SecondTakeMentalGauge()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine && currentPlayerRoom != null)
         {
             MentalGauge -= (secondGaugeMinus * gaugeModifier);
             MentalGauge = Mathf.Clamp(MentalGauge, 0, maxMentalGauge);
