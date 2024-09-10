@@ -18,4 +18,5 @@ MonoBehaviour:
     \uAC00\uC7A5 \uB09C\uD3ED\uD55C \uC131\uACA9\uC744 \uBCF4\uC720\uD558\uACE0 \uC788\uC73C\uBBC0\uB85C
     \uB9C8\uC8FC\uCE5C\uB2E4\uBA74 \uBB34\uC870\uAC74 \uB3C4\uB9DD\uAC00\uB294\uAC78
     \uAD8C\uD569\uB2C8\uB2E4."
-  relatedItem: "\uD2B9\uC815 \uC544\uC774\uD15C : EMF,UVLight"
+  relatedItem: "\uD2B9\uC815 \uC544\uC774\uD15C : EMF,UV_Light"
+  ghostImage: {fileID: 21300000, guid: 363a511d5b463db4cb26b1801e226793, type: 3}
