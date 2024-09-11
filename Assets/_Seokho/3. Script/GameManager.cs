@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(delay);
         ShowDeathUI();
-        
+        SoundManager.instance.StopGameSceneMusic();
         SoundManager.instance.PlayFailSceneMusic();
         Cursor.lockState = CursorLockMode.Confined;
     }
