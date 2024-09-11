@@ -25,10 +25,18 @@ namespace Wonbin
         public static bool isInItemSlot;
         private Transform itemSlotTransform;
 
+        private static int instanceCount = 0; // 프리팹 인스턴스 번호 관리
+        private int camcorderID;
 
         private void Awake()
         {
-            renderTexture = Resources.Load<RenderTexture>("Render");
+            // 인스턴스 개수 증가
+            instanceCount++;
+            camcorderID = instanceCount;  // 캠코더마다 고유 ID 부여
+
+            // 카메라 ID에 따라 RenderTexture 경로 설정
+            string renderTexturePath = $"Camera{camcorderID}/Render";  // 캠코더의 개수에      따라경로 자동 설정
+            renderTexture = Resources.Load<RenderTexture>(renderTexturePath);
 
             CamcorderSetup();
             isInItemSlot = false;
@@ -102,6 +110,11 @@ namespace Wonbin
             //quad의 RenderTexture 해상도를 수동으로 잡아 화면에 표기 될 수 있게함.
             int width = Mathf.CeilToInt(meshSize.x * 500);  // 가로 크기
             int height = Mathf.CeilToInt(meshSize.y * 500); // 세로 크기
+
+            if (renderTexture != null)
+            {
+                renderTexture.Release(); // 기존 RenderTexture가 있다면 리소스 해제
+            }
 
             // RenderTexture의 해상도를 Quad 크기에 맞춰 설정
             renderTexture = new RenderTexture(width, height, 16);  // 깊이 버퍼 16-bit
