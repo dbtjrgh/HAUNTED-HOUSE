@@ -1992,6 +1992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitSound: {fileID: 8300000, guid: b38a6bd4e36dfff4790751b8790bdbd0, type: 3}
   _hitVolume: 0.1
+  _audioSource: {fileID: 0}
 --- !u!114 &3720084613949624532
 MonoBehaviour:
   m_ObjectHideFlags: 0

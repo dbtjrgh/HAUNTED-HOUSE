@@ -1,4 +1,4 @@
-using Photon.Pun.UtilityScripts;
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
@@ -11,32 +11,30 @@ public class CTruckButton : MonoBehaviour
     private float delay = 3f;
     private float closingTime = 4f;
 
-    private bool playerNearby = false;  // 플레이어가 콜라이더 안에 있는지 여부
+    private bool playerNearby = false;
+    private bool isAnimating = false;
 
     private void Update()
     {
-        // 플레이어가 콜라이더 안에 있고 'E' 키를 눌렀을 때만 작동
-        if (playerNearby && Input.GetKeyDown(KeyCode.E))
+        if (playerNearby && Input.GetKeyDown(KeyCode.E) && !isAnimating)
         {
-            TruckOnClick();  // 버튼 동작
+            TruckOnClick();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Player 태그를 가진 오브젝트가 버튼 콜라이더 안에 들어올 때
         if (other.CompareTag("Player"))
         {
-            playerNearby = true;  // 플레이어가 근처에 있음을 설정
+            playerNearby = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // Player 태그를 가진 오브젝트가 버튼 콜라이더를 나갈 때
         if (other.CompareTag("Player"))
         {
-            playerNearby = false;  // 플레이어가 근처에서 나갔음을 설정
+            playerNearby = false;
         }
     }
 
@@ -45,20 +43,39 @@ public class CTruckButton : MonoBehaviour
         if (canOpen && !TruckDoorOpen)
         {
             anim.SetTrigger("OpenDoors");
-            StopCoroutine("LevelEnd");
             TruckDoorOpen = true;
+            StartCoroutine(WaitForAnimation());
         }
         else if (TruckDoorOpen)
         {
             anim.SetTrigger("CloseDoors");
-            StartCoroutine("LevelEnd");
             TruckDoorOpen = false;
+            StartCoroutine(WaitForAnimation());
         }
     }
 
-    IEnumerator LevelEnd()
+    IEnumerator WaitForAnimation()
+    {
+        isAnimating = true;
+        yield return new WaitForSeconds(delay + closingTime);
+        isAnimating = false;
+    }
+
+    public IEnumerator LevelEnd()
     {
         yield return new WaitForSeconds(delay + closingTime);
         canOpen = false;
+
+        // 트럭 문이 닫힌 상태일 때 게임 매니저의 CheckAllPlayersSelectedGhost 호출
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null && gameManager.CheckAllPlayersSelectedGhost())
+        {
+            gameManager.ShowResultUI(); // 저널에서 귀신이 선택된 경우 ResultUI 표시
+        }
+    }
+
+    public bool IsTruckDoorClosed()
+    {
+        return !TruckDoorOpen;
     }
 }

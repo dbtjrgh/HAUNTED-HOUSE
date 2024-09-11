@@ -60,6 +60,14 @@ namespace changwon
             ChangeMaterialParameters();
             isEnabled = true;
             StartCoroutine(CheckPosition());
+
+            // Raycast로 빛이 닿는 곳에만 손자국이 드러나도록 설정
+            RaycastHit hit;
+            if (Physics.Raycast(uvlight.transform.position, uvlight.transform.forward, out hit))
+            {
+                revealableMaterial.SetVector("lightPosition", hit.point);
+                revealableMaterial.SetVector("lightDirection", uvlight.transform.forward);
+            }
         }
 
         private void ChangeMaterialParameters()

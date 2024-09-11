@@ -659,13 +659,14 @@ GameObject:
   - component: {fileID: 2608702958437629297}
   - component: {fileID: 2608702958437629298}
   - component: {fileID: 2608702958437629299}
+  - component: {fileID: 1479669106}
   m_Layer: 5
   m_Name: GameDefeatUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2608702958437629296
 RectTransform:
   m_ObjectHideFlags: 0
@@ -754,3 +755,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1479669106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2608702958437629301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3225eafdfb01b40b474058a5f1d433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backButton: {fileID: 2608702957354976218}
+  tipText: {fileID: 2608702957823572042}

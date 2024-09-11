@@ -34,12 +34,11 @@ public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
 
         if (photonView.IsMine)
         {
-            Debug.Log("멘탈 게이지 관리 시작");
             StartCoroutine(DropGaugeRoutine());
         }
         else
         {
-            Debug.Log("멘탈 게이지 관리 대상이 아님");
+            return;
         }
     }
 
