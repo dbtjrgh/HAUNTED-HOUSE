@@ -74,6 +74,11 @@ public class PlayerInventory : MonoBehaviourPun
             {
                 SwitchItem();
             }
+
+            if(inventoryItems == null)
+            {
+                delMissingItem(); // 인벤토리 내에서 missing된 아이템이 없는지 지속적으로 확인.
+            }
         }
     }
 
@@ -143,7 +148,20 @@ public class PlayerInventory : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
+    void delMissingItem() //아이템 인벤토리 리스트를 순회해서, missing 된 index가 있다면, 자동으로 제거해주는 함수.
+    {
+        foreach (GameObject item in inventoryItems)
+        {
+            if (item == null)
+            {
+                inventoryItems.Remove(item);
+            }
+        }
+    }
+
+
+
+        [PunRPC]
     void DropItemRPC(int itemViewID, Vector3 dropPosition)
     {
         PhotonView itemPhotonView = PhotonView.Find(itemViewID);
