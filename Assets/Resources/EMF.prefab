@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2481941538894910086}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 2481941539045457720}
   - component: {fileID: 2481941539045457723}
   - component: {fileID: 5154451568134979640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 2481941539116936984}
   - component: {fileID: 2481941539116936987}
   - component: {fileID: 7985056180564263857}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 2481941539226079029}
   - component: {fileID: 2481941539226079028}
   - component: {fileID: 924030460}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -558,14 +558,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16b23757b0d9bf4988b31a9ec0e2363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interaction: {fileID: 8250397646683880759}
   lights:
   - {fileID: 2481941539226079028}
   - {fileID: 2481941539116936987}
   - {fileID: 2481941540283316873}
   - {fileID: 2481941539918484352}
   - {fileID: 2481941539045457723}
-  EMFOnOff: 0
+  EMFOn: 0
 --- !u!114 &3251261514548133605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,7 +586,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 3045411406127366749}
   - {fileID: 6878293733044278637}
-  - {fileID: 1826149769114216449}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -634,7 +632,7 @@ GameObject:
   - component: {fileID: 2481941539918484353}
   - component: {fileID: 2481941539918484352}
   - component: {fileID: 2303558211926128185}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,7 +747,7 @@ GameObject:
   - component: {fileID: 2481941540283316878}
   - component: {fileID: 2481941540283316873}
   - component: {fileID: 8602923560773555150}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -864,7 +862,6 @@ GameObject:
   - component: {fileID: 2936259461922591310}
   - component: {fileID: 2238407732837850603}
   - component: {fileID: 4104077443799279905}
-  - component: {fileID: 1826149769114216449}
   - component: {fileID: 3208032200156801324}
   m_Layer: 8
   m_Name: emfmodel
@@ -939,22 +936,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1826149769114216449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2590802067404015860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!65 &3208032200156801324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -977,9 +958,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6739152807599787536}
-  - component: {fileID: 8250397646683880759}
-  m_Layer: 0
-  m_Name: triggerEMF
+  - component: {fileID: 103880550798881127}
+  - component: {fileID: 7571897649245414251}
+  m_Layer: 8
+  m_Name: EMFtrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1000,8 +982,8 @@ Transform:
   m_Father: {fileID: 2481941539538423471}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8250397646683880759
-BoxCollider:
+--- !u!135 &103880550798881127
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1011,5 +993,18 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7571897649245414251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4797982761916852957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a664fb231c15f854b8eee4c9d116a839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentEMF: {fileID: 4458891765883502211}

@@ -28,7 +28,6 @@ public class CTruckButton : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = true;  // 플레이어가 근처에 있음을 설정
-            Debug.Log("Player is near the button.");
         }
     }
 
@@ -38,7 +37,6 @@ public class CTruckButton : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = false;  // 플레이어가 근처에서 나갔음을 설정
-            Debug.Log("Player left the button area.");
         }
     }
 

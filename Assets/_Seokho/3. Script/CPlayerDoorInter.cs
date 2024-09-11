@@ -8,6 +8,7 @@ public class CPlayerDoorInter : MonoBehaviour
 
     public Transform InteractionTransform;  // 상호작용 위치
     public GameObject handprintPrefab;      // 손발자국 프리팹
+    public float detectionRadius = 3.0f;    // 플레이어 감지 범위
 
     public float forceAmmount = 15f;        // 힘의 양
     public float distance = 1.5f;           // 거리
@@ -15,6 +16,7 @@ public class CPlayerDoorInter : MonoBehaviour
 
     private Collider col;
     private Rigidbody rb;
+    Ghost ghost;
 
     private Camera cam;
     private bool isInterracting = false;    // 문과 상호작용 중인지 여부
@@ -27,12 +29,14 @@ public class CPlayerDoorInter : MonoBehaviour
 
     private float tKeyHoldTime = 0f;        // T 키 누른 시간
 
+
     private void Awake()
     {
         cam = Camera.main;
         hinge = GetComponent<HingeJoint>();
         col = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
+        ghost = FindAnyObjectByType<Ghost>();
 
         if (hinge == null)
         {
@@ -48,44 +52,70 @@ public class CPlayerDoorInter : MonoBehaviour
         StartCoroutine(CheckDoorState());
     }
 
-    private void Update()
+    private void Start()
     {
-        // 왼쪽 마우스 버튼으로 상호작용 시작/종료
-        if (Input.GetMouseButtonDown(0) && !isInterracting && !isDoorLocked)  // 왼쪽 클릭으로 시작
+        if (ghost != null)
         {
-            OnDragBegin();
-        }
-        if (Input.GetMouseButtonUp(0) && isInterracting)  // 왼쪽 클릭을 놓으면 상호작용 종료
-        {
-            OnDragEnd();
-        }
-
-        // T 키를 누르고 있는 시간 측정 (잠금/해제)
-        if (Input.GetKey(KeyCode.T))
-        {
-            tKeyHoldTime += Time.deltaTime;
-
-            if (tKeyHoldTime >= lockHoldTime)  // T키를 일정 시간 이상 눌렀을 때
+            if (ghost.ghostType != 0)
             {
-                if (isDoorLocked)
-                {
-                    UnlockTheDoor();
-                    Debug.Log("Door Unlocked");
-                }
-                else
-                {
-                    LockTheDoor();
-                    Debug.Log("Door Locked");
-                }
-
-                tKeyHoldTime = 0f;  // 시간 초기화
+                LeavePrintsUV();
             }
         }
-
-        // T키에서 손을 뗐을 때, 타이머 초기화
-        if (Input.GetKeyUp(KeyCode.T))
+        else
         {
-            tKeyHoldTime = 0f;
+            return;
+        }
+    }
+
+    private void Update()
+    {
+        // 플레이어가 주변에 있는지 감지
+        bool isPlayerNearby = DetectPlayerNearby();
+
+        // 플레이어가 있을 때만 문 조작 가능
+        if (isPlayerNearby)
+        {
+            // 왼쪽 마우스 버튼으로 상호작용 시작/종료
+            if (Input.GetMouseButtonDown(0) && !isInterracting && !isDoorLocked)  // 왼쪽 클릭으로 시작
+            {
+                OnDragBegin();
+            }
+            if (Input.GetMouseButtonUp(0) && isInterracting)  // 왼쪽 클릭을 놓으면 상호작용 종료
+            {
+                OnDragEnd();
+            }
+
+            // T 키를 누르고 있는 시간 측정 (잠금/해제)
+            if (Input.GetKey(KeyCode.T))
+            {
+                tKeyHoldTime += Time.deltaTime;
+
+                if (tKeyHoldTime >= lockHoldTime)  // T키를 일정 시간 이상 눌렀을 때
+                {
+                    if (isDoorLocked)
+                    {
+                        UnlockTheDoor();
+                        Debug.Log("Door Unlocked");
+                    }
+                    else
+                    {
+                        LockTheDoor();
+                        Debug.Log("Door Locked");
+                    }
+
+                    tKeyHoldTime = 0f;  // 시간 초기화
+                }
+            }
+
+            // T키에서 손을 뗐을 때, 타이머 초기화
+            if (Input.GetKeyUp(KeyCode.T))
+            {
+                tKeyHoldTime = 0f;
+            }
+        }
+        else if (isInterracting) // 플레이어가 멀어졌을 때 상호작용 종료
+        {
+            OnDragEnd(); // 상호작용 강제 종료
         }
     }
 
@@ -93,7 +123,15 @@ public class CPlayerDoorInter : MonoBehaviour
     {
         if (isInterracting && !isDoorLocked)
         {
-            DragDoor();  // 문을 드래그
+            // 상호작용 중에도 플레이어가 계속 근처에 있는지 확인
+            if (DetectPlayerNearby())
+            {
+                DragDoor();  // 문을 드래그
+            }
+            else
+            {
+                OnDragEnd(); // 플레이어가 멀어지면 상호작용 종료
+            }
         }
     }
 
@@ -165,5 +203,28 @@ public class CPlayerDoorInter : MonoBehaviour
     public void LeavePrintsUV()
     {
         Instantiate(handprintPrefab, InteractionTransform.position, InteractionTransform.rotation, InteractionTransform);
+    }
+
+    // 플레이어가 주변에 있는지 감지하는 함수
+    private bool DetectPlayerNearby()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.CompareTag("Player"))  // 태그가 Player인 오브젝트가 있으면
+            {
+                return true;  // 플레이어가 근처에 있음
+            }
+        }
+
+        return false;  // 플레이어가 근처에 없음
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // 감지 범위를 디버깅으로 시각화
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }

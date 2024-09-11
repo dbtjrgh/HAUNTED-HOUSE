@@ -32,7 +32,6 @@ namespace GameFeatures
         private void OnTriggerEnter(Collider other)
         {
             Room roomComponent = other.GetComponent<Room>();
-            Debug.Log("다른 방에 들어왔습니다. Trigger Enter: " + other.name);
 
             if (roomComponent != null)
             {
@@ -75,19 +74,21 @@ namespace GameFeatures
 
         private void ChangeRoom(RoomsEnum NextRoom)
         {
-            Debug.Log($"방을 변경합니다. 현재 방: {CurrRoom}, 다음 방: {NextRoom}");
             CurrRoom = NextRoom;
             OnRoomChanged?.Invoke();
 
             // 방을 바꿀 때마다 멘탈 게이지 감소
             if (mentalGaugeManager != null && CurrRoom != RoomsEnum.NormalRoom)
             {
-                Debug.Log("멘탈 게이지 감소 호출");
-                mentalGaugeManager.TakeMentalGauge(mentalGaugeManager.ghostRoomGaugeMinus); // 방을 옮길 때마다 멘탈 게이지 5 감소
+                mentalGaugeManager.TakeMentalGauge(mentalGaugeManager.changeRoomGaugeMinus); // 방을 옮길 때마다 멘탈 게이지 5 감소
+            }
+            else if (mentalGaugeManager != null && CurrRoom == RoomsEnum.GhostRoom)
+            {
+                mentalGaugeManager.TakeMentalGauge(mentalGaugeManager.ghostRoomGaugeMinus);
             }
             else
             {
-                Debug.LogWarning("멘탈 게이지 감소 조건을 충족하지 않았습니다.");
+                return;
             }
         }
     }

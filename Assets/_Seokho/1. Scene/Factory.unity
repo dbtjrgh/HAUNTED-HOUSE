@@ -3691,9 +3691,9 @@ GameObject:
   - component: {fileID: 196245683}
   - component: {fileID: 196245685}
   - component: {fileID: 196245684}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall6
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3864,6 +3864,10 @@ PrefabInstance:
     - target: {fileID: 1469425105205807667, guid: 1fa3a5a6c58161c48b27dfdda0aa230c, type: 3}
       propertyPath: m_Name
       value: GameResultUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469425105205807667, guid: 1fa3a5a6c58161c48b27dfdda0aa230c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fa3a5a6c58161c48b27dfdda0aa230c, type: 3}
@@ -4304,9 +4308,9 @@ GameObject:
   - component: {fileID: 244399468}
   - component: {fileID: 244399470}
   - component: {fileID: 244399469}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall4
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4472,6 +4476,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1352708887}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -10053,9 +10058,9 @@ GameObject:
   - component: {fileID: 493886443}
   - component: {fileID: 493886445}
   - component: {fileID: 493886444}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: LivingRoom1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10351,9 +10356,9 @@ GameObject:
   - component: {fileID: 511653205}
   - component: {fileID: 511653207}
   - component: {fileID: 511653206}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BathRoom3
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12812,9 +12817,9 @@ GameObject:
   - component: {fileID: 574904201}
   - component: {fileID: 574904203}
   - component: {fileID: 574904202}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: MasterRoom
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13114,9 +13119,9 @@ GameObject:
   - component: {fileID: 593759705}
   - component: {fileID: 593759707}
   - component: {fileID: 593759706}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: WorkShop
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14425,6 +14430,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1113681826}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -16413,6 +16419,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 837380526}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -16632,6 +16639,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1353707935}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -17761,6 +17769,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1464550640}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -22685,6 +22694,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1865522620}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -26699,6 +26709,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 627444469}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -27791,9 +27802,9 @@ GameObject:
   - component: {fileID: 1346768520}
   - component: {fileID: 1346768522}
   - component: {fileID: 1346768521}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Kithcen1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27860,9 +27871,9 @@ GameObject:
   - component: {fileID: 1361209898}
   - component: {fileID: 1361209900}
   - component: {fileID: 1361209899}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: LivingRoom2
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29698,9 +29709,9 @@ GameObject:
   - component: {fileID: 1418001555}
   - component: {fileID: 1418001556}
   - component: {fileID: 1418001557}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32076,9 +32087,9 @@ GameObject:
   - component: {fileID: 1528192341}
   - component: {fileID: 1528192343}
   - component: {fileID: 1528192342}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BathRoom2
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33544,9 +33555,9 @@ GameObject:
   - component: {fileID: 1558438399}
   - component: {fileID: 1558438401}
   - component: {fileID: 1558438400}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall2
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36480,9 +36491,9 @@ GameObject:
   - component: {fileID: 1744073083}
   - component: {fileID: 1744073082}
   - component: {fileID: 1744073081}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Stairs
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37410,6 +37421,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 788689156}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -37582,9 +37594,9 @@ GameObject:
   - component: {fileID: 1777199830}
   - component: {fileID: 1777199832}
   - component: {fileID: 1777199831}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BathRoom1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38693,9 +38705,9 @@ GameObject:
   - component: {fileID: 1826275857}
   - component: {fileID: 1826275859}
   - component: {fileID: 1826275858}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BedRoom1
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40417,9 +40429,9 @@ GameObject:
   - component: {fileID: 1924459868}
   - component: {fileID: 1924459870}
   - component: {fileID: 1924459869}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall3
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41415,6 +41427,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1215853659}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -41429,9 +41442,9 @@ GameObject:
   - component: {fileID: 1965091345}
   - component: {fileID: 1965091347}
   - component: {fileID: 1965091346}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: LivingRoom3
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43053,9 +43066,9 @@ GameObject:
   - component: {fileID: 2067541320}
   - component: {fileID: 2067541322}
   - component: {fileID: 2067541321}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hall5
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43613,6 +43626,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 1828914815}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -78983,6 +78997,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 2069931295}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -105246,6 +105261,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 994117739}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1
@@ -115287,6 +115303,7 @@ MonoBehaviour:
   IsDoorClosed: 0
   InteractionTransform: {fileID: 868604578}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
+  detectionRadius: 3
   forceAmmount: 15
   distance: 1.5
   lockHoldTime: 1

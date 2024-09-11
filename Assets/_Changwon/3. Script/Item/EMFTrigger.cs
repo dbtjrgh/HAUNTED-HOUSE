@@ -20,7 +20,7 @@ public class EMFTrigger : MonoBehaviour
         if (other.CompareTag("Ghost"))
         {
             float TargetDistance = Vector3.Distance(ghost.transform.position, transform.position);
-            if (emf.EMFOnOff == true)
+            if (emf.EMFOn == true)
             {
                 if (TargetDistance < 5)
                 {
