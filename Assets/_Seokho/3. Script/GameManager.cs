@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject resultUI; // 투표를 완료했을 때 나오는 UI
     private CGameResultUI gameResultUI; // 게임 결과 UI
     private CMultiPlayer[] players; // 모든 플레이어 추적
-    public CJournalBook journal;
+    public CjournalBook journal;
     private CBoardManager boardManager;
     private CTruckButton truckButton; // CTruckButton 참조 추가
     private bool onOff = false;

@@ -312,12 +312,15 @@ public class Ghost : MonoBehaviour
                 float LightBlinkTargetDistance = Vector3.Distance(target.transform.position, transform.position);
                 if (LightBlinkTargetDistance < 10)
                 {
-                    Light playerLight = player.GetComponentInChildren<Light>();
+                    Light[] playerLight = player.GetComponentsInChildren<Light>();
                     if (playerLight != null)
                     {
-                        playerLight.enabled = true;
-                        yield return new WaitForSeconds(1f);
-                        playerLight.enabled = false;
+                        for (int i = 0; i < playerLight.Length; i++)
+                        {
+                            playerLight[i].enabled = true;
+                            yield return new WaitForSeconds(1f);
+                            playerLight[i].enabled = false;
+                        }
                     }
                 }
                 break;

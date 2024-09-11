@@ -19048,18 +19048,6 @@ PrefabInstance:
       value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 6747010737851978664, guid: 11e6cdd64fdedc8448b95a4468968ad7, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.3548759
-      objectReference: {fileID: 0}
-    - target: {fileID: 6747010737851978664, guid: 11e6cdd64fdedc8448b95a4468968ad7, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.403268
-      objectReference: {fileID: 0}
-    - target: {fileID: 6747010737851978664, guid: 11e6cdd64fdedc8448b95a4468968ad7, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.38713732
-      objectReference: {fileID: 0}
-    - target: {fileID: 6747010737851978664, guid: 11e6cdd64fdedc8448b95a4468968ad7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -48164,17 +48152,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.8, y: 1.7, z: 0.030000161}
   m_Center: {x: 0, y: 1.05, z: 0.015000021}
---- !u!114 &719385806359359376 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2152512381083949805, guid: fab13f914a529104698ab3dea5b9e643, type: 3}
-  m_PrefabInstance: {fileID: 1451433480522200445}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dca517986677f174ab900abb6bb3875a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &729919254705988000
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55775,6 +55752,17 @@ PrefabInstance:
       objectReference: {fileID: 207002262}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fab13f914a529104698ab3dea5b9e643, type: 3}
+--- !u!114 &1451433480522200446 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2152512381083949805, guid: fab13f914a529104698ab3dea5b9e643, type: 3}
+  m_PrefabInstance: {fileID: 1451433480522200445}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca517986677f174ab900abb6bb3875a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1454421266610451373
 GameObject:
   m_ObjectHideFlags: 0
@@ -67565,7 +67553,7 @@ PrefabInstance:
     - target: {fileID: 3084884531096135587, guid: 6f9f469db03935944aaa7b4e0ddb151f, type: 3}
       propertyPath: journal
       value: 
-      objectReference: {fileID: 719385806359359376}
+      objectReference: {fileID: 1451433480522200446}
     - target: {fileID: 3084884531096135587, guid: 6f9f469db03935944aaa7b4e0ddb151f, type: 3}
       propertyPath: defeatUI
       value: 

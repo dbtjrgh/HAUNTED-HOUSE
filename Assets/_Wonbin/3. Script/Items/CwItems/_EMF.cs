@@ -33,13 +33,7 @@ namespace changwon
             {
                 EMFSwitching();
             }
-            else
-            {
-                for (int i = 0; i < lights.Length; i++)
-                {
-                    lights[i].gameObject.SetActive(false);
-                }
-            }
+            
         }
 
         public void ToggleEMFState()
@@ -91,10 +85,11 @@ namespace changwon
                 {
                     EMFOn = false;
                     // ±Í½ÅÀÌ ³ª°¡¸é EMF ²¨Áü
-                    for (int i = 1; i < lights.Length; i++)
+                    for (int i = 0; i < lights.Length; i++)
                     {
                         lights[i].gameObject.SetActive(false);
                     }
+
                 }
             }
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class CJournalBook : MonoBehaviour
+public class CjournalBook : MonoBehaviour
 {
     public Button homeMark;
     public Button evidenceMark;
