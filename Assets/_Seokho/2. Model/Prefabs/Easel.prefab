@@ -2114,7 +2114,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 25
+  m_VersionIndex: 28
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2364,9 +2364,9 @@ MonoBehaviour:
     \"Shift\" - \uB2EC\uB9AC\uAE30\n  \"E\" - \uC544\uC774\uD15C \uC90D\uAE30\n 
     \"G\" - \uC544\uC774\uD15C \uB193\uAE30\n  \"Q\" -  \uC544\uC774\uD15C \uBCC0\uACBD\"\n 
     \"Space\" - \uBCF4\uB4DC\uD310 \uC5F4\uAE30(\uB85C\uBE44 \uC804\uC6A9)\n  \"J\"
-    - \uC800\uB110 \uC5F4\uAE30 (\uC778\uAC8C\uC784 \uC804\uC6A9)\n  \"\uB9C8\uC6B0\uC2A4
-    \uC88C\uD074\uB9AD\" - \uBB38 \uC5F4\uAE30 \uB2EB\uAE30\n  \"T\" - \uAF2D \uB204\uB974\uBA74
-    \uBB38 \uC7A0\uADF8\uAE30, \uD574\uC81C\uD558\uAE30"
+    - \uC800\uB110 \uC5F4\uAE30 (\uC778\uAC8C\uC784 \uC804\uC6A9)\n  \"Mouse1 Drag\"
+    - \uBB38 \uC5F4\uAE30 \uB2EB\uAE30\n  \"T\" - \uAF2D \uB204\uB974\uBA74 \uBB38
+    \uC7A0\uADF8\uAE30, \uD574\uC81C\uD558\uAE30"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eebf13be89c59d144950d4ba1ce80b31, type: 2}
   m_sharedMaterial: {fileID: -2783447488330409013, guid: eebf13be89c59d144950d4ba1ce80b31, type: 2}

@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class CjournalBook : MonoBehaviour
+public class CJournalBook : MonoBehaviour
 {
     public Button homeMark;
     public Button evidenceMark;
@@ -33,7 +33,15 @@ public class CjournalBook : MonoBehaviour
     public TextMeshProUGUI relatedItem;
     public Image ghostImage;
 
+    public Toggle resultNightMare;
+    public Toggle resultDemon;
+    public Toggle resultBanshee;
+
+    // 결과를 UI에 반영
+    public CGameResultUI resultUI;
+
     public bool ghostSelected = false;
+   
 
     void Start()
     {
@@ -69,17 +77,8 @@ public class CjournalBook : MonoBehaviour
     public void SetGhostSelected(bool selected)
     {
         ghostSelected = selected;
-        CheckAllPlayersGhostSelected();
     }
 
-    private void CheckAllPlayersGhostSelected()
-    {
-        GameManager gameManager = FindObjectOfType<GameManager>();
-        if (gameManager != null)
-        {
-            gameManager.CheckAllPlayersSelectedGhost();
-        }
-    }
 
     public void OnEvidenceToggleChanged(bool isOn)
     {
@@ -150,7 +149,46 @@ public class CjournalBook : MonoBehaviour
             Transform ghostTransform = toggles[i].transform.Find("CheckImage");
             ghostTransform.gameObject.SetActive(i == index);
         }
+        CheckGhostMatchWithToggle();
     }
+    public void CheckGhostMatchWithToggle()
+    {
+        Ghost ghost = FindObjectOfType<Ghost>();  // Ghost 클래스 인스턴스를 가져옴
+        if (ghost == null) return;
+
+        string resultText = "";
+        string ghostTypeText = ghost.ghostType.ToString();
+
+        if ((ghostTypeText == "NIGHTMARE" && resultNightMare.isOn) ||
+            (ghostTypeText == "DEMON" && resultDemon.isOn) ||
+            (ghostTypeText == "BANSHEE" && resultBanshee.isOn))
+        {
+            resultText = "귀신 유형이 일치합니다!";
+        }
+        else
+        {
+            resultText = "귀신 유형이 일치하지 않습니다.";
+        }
+
+        
+        if (resultUI != null)
+        {
+            if(ghostTypeText == "NIGHTMARE")
+            {
+                ghostTypeText = "나이트메어";
+            }
+            else if (ghostTypeText == "DEMON")
+            {
+                ghostTypeText = "데몬";
+            }
+            else if (ghostTypeText == "BANSHEE")
+            {
+                ghostTypeText = "밴시";
+            }
+            resultUI.SetGameResult(resultText, ghostTypeText);
+        }
+    }
+
 
     void ShowHomePage()
     {

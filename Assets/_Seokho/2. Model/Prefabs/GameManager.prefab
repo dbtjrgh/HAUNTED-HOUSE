@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPositions: {fileID: 0}
-  DefeatUI: {fileID: 2608702958437629301, guid: 895357e03e1e3684fa07404b9545e957, type: 3}
-  ResultUI: {fileID: 1469425105205807667, guid: 1fa3a5a6c58161c48b27dfdda0aa230c, type: 3}
-  journalUI: {fileID: 719385806581320985, guid: 9246301b1087ff5489bdea7a093b2d76, type: 3}
-  backButton: {fileID: 0}
+  defeatUI: {fileID: 0}
+  resultUI: {fileID: 0}
+  journal: {fileID: 0}

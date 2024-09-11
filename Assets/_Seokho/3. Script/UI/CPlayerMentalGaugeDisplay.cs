@@ -19,7 +19,6 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        // Find and update all players and their mental gauge managers dynamically
         foreach (var player in PhotonNetwork.PlayerList)
         {
             if (!playerMentalGauges.ContainsKey(player.ActorNumber)) // 만약 아직 등록되지 않은 플레이어라면 추가
@@ -36,7 +35,6 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
             }
         }
 
-        // Update the player UI texts with the latest mental gauge values
         UpdatePlayerTexts();
     }
 
@@ -55,36 +53,37 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
 
     private void UpdatePlayerTexts()
     {
-        // Clear previous values
         player1Text.text = player2Text.text = player3Text.text = player4Text.text = "";
 
         int index = 0;
 
         foreach (var player in PhotonNetwork.PlayerList)
         {
-            if (index > 3) break; // 최대 4명의 플레이어만 표시
+            if (index > 3)
+            {
+                break; // 최대 4명의 플레이어만 표시
+            }
 
             string playerName = player.NickName;
             float mentalGauge = playerMentalGauges.ContainsKey(player.ActorNumber)
                 ? playerMentalGauges[player.ActorNumber].MentalGauge
                 : 0;
 
-            string combinedText = playerName + "\nMental: " + mentalGauge;
+            string PlayerMentalText = playerName + "\nMental: " + mentalGauge;
 
-            // Update the correct text field
             switch (index)
             {
                 case 0:
-                    player1Text.text = combinedText;
+                    player1Text.text = PlayerMentalText;
                     break;
                 case 1:
-                    player2Text.text = combinedText;
+                    player2Text.text = PlayerMentalText;
                     break;
                 case 2:
-                    player3Text.text = combinedText;
+                    player3Text.text = PlayerMentalText;
                     break;
                 case 3:
-                    player4Text.text = combinedText;
+                    player4Text.text = PlayerMentalText;
                     break;
             }
 

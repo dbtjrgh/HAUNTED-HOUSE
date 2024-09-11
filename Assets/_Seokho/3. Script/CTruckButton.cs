@@ -6,8 +6,7 @@ public class CTruckButton : MonoBehaviour
 {
     public Animator anim;
 
-    private bool TruckDoorOpen = false;
-    private bool canOpen = true;
+    public bool TruckDoorOpen = false;
     private float delay = 3f;
     private float closingTime = 4f;
 
@@ -40,17 +39,17 @@ public class CTruckButton : MonoBehaviour
 
     private void TruckOnClick()
     {
-        if (canOpen && !TruckDoorOpen)
+        if (!TruckDoorOpen)
         {
             anim.SetTrigger("OpenDoors");
-            TruckDoorOpen = true;
             StartCoroutine(WaitForAnimation());
+            TruckDoorOpen = true;
         }
         else if (TruckDoorOpen)
         {
             anim.SetTrigger("CloseDoors");
-            TruckDoorOpen = false;
             StartCoroutine(WaitForAnimation());
+            TruckDoorOpen = false;
         }
     }
 
@@ -59,23 +58,7 @@ public class CTruckButton : MonoBehaviour
         isAnimating = true;
         yield return new WaitForSeconds(delay + closingTime);
         isAnimating = false;
+        
     }
 
-    public IEnumerator LevelEnd()
-    {
-        yield return new WaitForSeconds(delay + closingTime);
-        canOpen = false;
-
-        // 트럭 문이 닫힌 상태일 때 게임 매니저의 CheckAllPlayersSelectedGhost 호출
-        GameManager gameManager = FindObjectOfType<GameManager>();
-        if (gameManager != null && gameManager.CheckAllPlayersSelectedGhost())
-        {
-            gameManager.ShowResultUI(); // 저널에서 귀신이 선택된 경우 ResultUI 표시
-        }
-    }
-
-    public bool IsTruckDoorClosed()
-    {
-        return !TruckDoorOpen;
-    }
 }

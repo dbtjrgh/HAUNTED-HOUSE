@@ -44,16 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbbc632dbf30efa4b9939c5cb36b79ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VideoCamera:
-  - {fileID: 7472116170703332204, guid: 7a02e2b2ff41d2246b61c715832f42c6, type: 3}
-  UVflashlight:
-  - {fileID: 5897041756080861818, guid: 3c5c4dd9f7c962a4da5b0d56ec47aee2, type: 3}
-  EMF:
-  - {fileID: 2481941539538423468, guid: ae52b7212d42c9f4d8ab042ac769613a, type: 3}
-  Flashlight:
-  - {fileID: 3847378341265918505, guid: 1779e338b8bc8944d819dd0bb8bdc62e, type: 3}
-  SanityPill:
-  - {fileID: 2358146820083368720, guid: 0dc2e681b6ab18d4fa63da45718592aa, type: 3}
+  VideoCamera: {fileID: 7472116170703332204, guid: 7a02e2b2ff41d2246b61c715832f42c6, type: 3}
+  UVflashlight: {fileID: 5897041756080861818, guid: 3c5c4dd9f7c962a4da5b0d56ec47aee2, type: 3}
+  EMF: {fileID: 2481941539538423468, guid: ae52b7212d42c9f4d8ab042ac769613a, type: 3}
+  Flashlight: {fileID: 3847378341265918505, guid: 1779e338b8bc8944d819dd0bb8bdc62e, type: 3}
+  SanityPill: {fileID: 2358146820083368720, guid: 0dc2e681b6ab18d4fa63da45718592aa, type: 3}
   VideoCameraSpawnPoints:
   - {fileID: 0}
   - {fileID: 0}

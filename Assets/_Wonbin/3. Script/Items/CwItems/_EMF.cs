@@ -90,7 +90,11 @@ namespace changwon
                 else if (EMFOn == true)
                 {
                     EMFOn = false;
-                    lights[0].gameObject.SetActive(false);
+                    // ±Í½ÅÀÌ ³ª°¡¸é EMF ²¨Áü
+                    for (int i = 1; i < lights.Length; i++)
+                    {
+                        lights[i].gameObject.SetActive(false);
+                    }
                 }
             }
         }

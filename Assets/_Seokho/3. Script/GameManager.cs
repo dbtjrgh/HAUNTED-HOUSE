@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections;
+using System.Collections.Generic;
 using UI.Journal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,22 +8,28 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    #region
     public Transform startPositions;
-    public GameObject DefeatUI; // 모든 플레이어가 사망했을 때 표시할 UI
-    public GameObject ResultUI; // 투표를 완료했을 때 나오는 UI
+    public GameObject defeatUI; // 모든 플레이어가 사망했을 때 표시할 UI
+    public GameObject resultUI; // 투표를 완료했을 때 나오는 UI
+    private CGameResultUI gameResultUI; // 게임 결과 UI
     private CMultiPlayer[] players; // 모든 플레이어 추적
-    private bool onOff = false;
-    public CjournalBook journal;
-    private CBoardManager CBoardManager;
+    public CJournalBook journal;
+    private CBoardManager boardManager;
     private CTruckButton truckButton; // CTruckButton 참조 추가
+    private bool onOff = false;
+
+    private Dictionary<int, mentalGaugeManager> playerMentalGaues;
+    #endregion
 
     private void Awake()
     {
-        CBoardManager = FindAnyObjectByType<CBoardManager>();
-        SceneManager.sceneLoaded += CBoardManager.OnSceneLoaded;
+        boardManager = FindAnyObjectByType<CBoardManager>();
+        SceneManager.sceneLoaded += boardManager.OnSceneLoaded;
+        gameResultUI = resultUI.GetComponent<CGameResultUI>();
 
-        DefeatUI.SetActive(false);
-        ResultUI.SetActive(false);
+        defeatUI.SetActive(false);
+        resultUI.SetActive(false);
 
         GameObject startPositionsObject = GameObject.Find("PlayerStartPositions");
         if (startPositionsObject == null)
@@ -41,6 +48,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // CTruckButton 스크립트 찾기
         truckButton = FindObjectOfType<CTruckButton>();
+        playerMentalGaues = new Dictionary<int, mentalGaugeManager>();
     }
 
     private void Update()
@@ -55,35 +63,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 예를 들어 특정 조건에서 트럭의 LevelEnd 실행
         if (CheckAllPlayersSelectedGhost())
         {
-            if (truckButton != null)
+            if (!truckButton.TruckDoorOpen)
             {
-                StartCoroutine(truckButton.LevelEnd());
+                StartCoroutine(ShowResultUI());
             }
         }
     }
 
-    // 모든 플레이어가 사망했는지 체크하는 함수
-    public void CheckAllPlayersDead()
-    {
-        players = FindObjectsOfType<CMultiPlayer>();
-
-        bool allDead = true; // 모든 플레이어가 사망했다고 가정
-
-        foreach (CMultiPlayer player in players)
-        {
-            if (!player.isDead)
-            {
-                allDead = false; // 살아있는 플레이어가 있으면 false로 설정
-                break;
-            }
-        }
-
-        if (allDead)
-        {
-            StartCoroutine(ShowDeathUIAfterDelay(5f)); // 5초 지연 후 UI 표시
-        }
-    }
-
+    /// <summary>
+    /// 플레이어 저널 관련 로직
+    /// </summary>
     private void ToggleJournal()
     {
         if (journal != null)
@@ -107,37 +96,59 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public bool CheckAllPlayersSelectedGhost()
+    /// <summary>
+    /// 게임 실패 관련 로직
+    /// </summary>
+    private void ShowDeathUI()
     {
-        // CjournalBook에서 ghostToggleGroup에 있는 토글 상태 확인
-        Toggle[] ghostToggles = journal.ghostToggleGroup.GetComponentsInChildren<Toggle>();
-
-        foreach (Toggle toggle in ghostToggles)
-        {
-            if (toggle.isOn)
-            {
-                return true; // 귀신 토글 중 하나라도 켜져 있으면 true 반환
-            }
-        }
-
-        return false; // 귀신 토글이 켜져 있지 않으면 false 반환
+        defeatUI.SetActive(true);
     }
-
-    public void ShowResultUI()
-    {
-        ResultUI.SetActive(true);
-        Cursor.lockState = CursorLockMode.Confined;
-    }
-
     private IEnumerator ShowDeathUIAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         ShowDeathUI();
         Cursor.lockState = CursorLockMode.Confined;
     }
-
-    private void ShowDeathUI()
+    // 모든 플레이어가 사망했는지 체크하는 함수
+    public void CheckAllPlayersDead()
     {
-        DefeatUI.SetActive(true);
+        players = FindObjectsOfType<CMultiPlayer>();
+
+        bool allDead = true; // 모든 플레이어가 사망했다고 가정
+
+        foreach (CMultiPlayer player in players)
+        {
+            if (!player.isDead)
+            {
+                allDead = false; // 살아있는 플레이어가 있으면 false로 설정
+                break;
+            }
+        }
+
+        if (allDead)
+        {
+            StartCoroutine(ShowDeathUIAfterDelay(5f)); // 5초 지연 후 UI 표시
+        }
     }
+
+
+    /// <summary>
+    /// 게임 결과 관련 로직
+    /// </summary>
+    public IEnumerator ShowResultUI()
+    {
+        yield return new WaitForSeconds(5f);
+        resultUI.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+    public bool CheckAllPlayersSelectedGhost()
+    {
+        if (journal.ghostSelected)
+        {
+            return true; // 귀신 토글 중 하나라도 켜져 있으면 true 반환
+        }
+        return false; // 귀신 토글이 켜져 있지 않으면 false 반환
+    }
+
+
 }
