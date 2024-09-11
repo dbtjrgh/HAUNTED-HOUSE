@@ -101,12 +101,16 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ShowDeathUI()
     {
+        
         defeatUI.SetActive(true);
+        
     }
     private IEnumerator ShowDeathUIAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         ShowDeathUI();
+        
+        SoundManager.instance.PlayFailSceneMusic();
         Cursor.lockState = CursorLockMode.Confined;
     }
     // 모든 플레이어가 사망했는지 체크하는 함수

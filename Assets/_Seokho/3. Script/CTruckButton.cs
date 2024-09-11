@@ -42,12 +42,14 @@ public class CTruckButton : MonoBehaviour
         if (!TruckDoorOpen)
         {
             anim.SetTrigger("OpenDoors");
+            SoundManager.instance.TruckButtonSound();
             StartCoroutine(WaitForAnimation());
             TruckDoorOpen = true;
         }
         else if (TruckDoorOpen)
         {
             anim.SetTrigger("CloseDoors");
+            SoundManager.instance.TruckButtonSound();
             StartCoroutine(WaitForAnimation());
             TruckDoorOpen = false;
         }

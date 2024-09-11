@@ -190,7 +190,18 @@ public class CSinglePlayer : MonoBehaviour
             // 플레이어가 움직이고 있으면 isWalking을 true로 설정
             bool isWalking = move.magnitude > 0;
             animator.SetBool("isWalking", isWalking);
+
+            if(isWalking)
+            {
+                SoundManager.instance.PlayWalkingSound();
+            }
+            else
+            {
+                SoundManager.instance.StopWalkingSound();
+            }
         }
+
+        
     }
 
     private void FollowHead()

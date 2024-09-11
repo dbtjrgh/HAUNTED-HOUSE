@@ -145,6 +145,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         if (animator != null)
         {
             animator.SetBool("Die", true);
+            SoundManager.instance.GhostLaughSound();
         }
 
         Debug.Log("Player has died and controls are disabled.");

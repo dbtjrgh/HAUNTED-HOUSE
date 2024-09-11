@@ -29,6 +29,7 @@ public class EMFTrigger : MonoBehaviour
                         for (int i = 0; i < emf.lights.Length; i++)
                         {
                             emf.lights[i].gameObject.SetActive(true);
+                            SoundManager.instance.EMFHighSound();
                         }
                     }
                     else
@@ -36,6 +37,7 @@ public class EMFTrigger : MonoBehaviour
                         switch (Ghost.instance.ghostType)
                         {
                             case GhostType.BANSHEE:
+                                SoundManager.instance.EMFNormalSound();
                                 break;
 
                             case GhostType.NIGHTMARE:
@@ -43,6 +45,7 @@ public class EMFTrigger : MonoBehaviour
                                 for (int i = 0; i < 3; i++)
                                 {
                                     emf.lights[i].gameObject.SetActive(true);
+                                    SoundManager.instance.EMFNormalSound();
                                 }
                                 break;
 
@@ -51,6 +54,7 @@ public class EMFTrigger : MonoBehaviour
                                 for (int i = 0; i < emf.lights.Length; i++)
                                 {
                                     emf.lights[i].gameObject.SetActive(true);
+                                    SoundManager.instance.EMFHighSound();
                                 }
                                 break;
                         }

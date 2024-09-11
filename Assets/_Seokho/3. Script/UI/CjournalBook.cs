@@ -80,7 +80,7 @@ public class CjournalBook : MonoBehaviour
     }
 
 
-    public void OnEvidenceToggleChanged(bool isOn)
+    public void OnEvidenceToggleChanged(bool isOn)      
     {
         foreach (Toggle toggle in evidenceItemCheck)
         {
@@ -186,6 +186,8 @@ public class CjournalBook : MonoBehaviour
                 ghostTypeText = "¹ê½Ã";
             }
             resultUI.SetGameResult(resultText, ghostTypeText);
+            SoundManager.instance.StopGameSceneMusic();
+            SoundManager.instance.PlayClearSceneMusic();
         }
     }
 

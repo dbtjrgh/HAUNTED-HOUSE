@@ -34,6 +34,7 @@ namespace changwon
                 EMFSwitching();
             }
             
+            
         }
 
         public void ToggleEMFState()
@@ -80,15 +81,23 @@ namespace changwon
                 {
                     EMFOn = true;
                     lights[0].gameObject.SetActive(true);
+                    if(ghost.state!=GhostState.HUNTTING)
+                    SoundManager.instance.EMFNormalSound();
+
                 }
                 else if (EMFOn == true)
                 {
+                    
                     EMFOn = false;
                     // ±Í½ÅÀÌ ³ª°¡¸é EMF ²¨Áü
                     for (int i = 0; i < lights.Length; i++)
                     {
                         lights[i].gameObject.SetActive(false);
                     }
+                    SoundManager.instance.NormalEMFStop();
+                    SoundManager.instance.StopEMFHighSound();
+                    
+                    
 
                 }
             }
@@ -103,6 +112,7 @@ namespace changwon
                 if (ghost != null && EMFOn)
                 {
                     HandleGhostDetection();
+                    
                 }
             }
         }
@@ -127,6 +137,9 @@ namespace changwon
                 for (int i = 1; i < lights.Length; i++)
                 {
                     lights[i].gameObject.SetActive(false);
+                    SoundManager.instance.StopEMFHighSound();
+                    SoundManager.instance.EMFNormalSound();
+                    
                 }
             }
         }
@@ -138,6 +151,8 @@ namespace changwon
                 for (int i = 0; i < lights.Length; i++)
                 {
                     lights[i].gameObject.SetActive(true);
+                    SoundManager.instance.NormalEMFStop();
+                    SoundManager.instance.EMFHighSound();
                 }
             }
             else
@@ -146,6 +161,7 @@ namespace changwon
                 {
                     case GhostType.BANSHEE:
                         Debug.Log("¹ê½Ã °¨ÁöµÊ");
+                        SoundManager.instance.EMFNormalSound();
                         break;
 
                     case GhostType.NIGHTMARE:
@@ -153,6 +169,7 @@ namespace changwon
                         {
                             Debug.Log("³ªÀÌÆ®¸Þ¾î °¨ÁöµÊ");
                             lights[i].gameObject.SetActive(true);
+                            SoundManager.instance.EMFNormalSound();
                         }
                         break;
 
@@ -161,6 +178,7 @@ namespace changwon
                         {
                             Debug.Log("µ¥¸ó °¨ÁöµÊ");
                             lights[i].gameObject.SetActive(true);
+                            SoundManager.instance.EMFHighSound();
                         }
                         break;
                 }

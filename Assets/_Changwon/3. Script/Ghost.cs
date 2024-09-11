@@ -126,7 +126,9 @@ public class Ghost : MonoBehaviour
                     break;
 
                 case changwon.GhostState.HUNTTING:
+                    SoundManager.instance.GhostWalkSound();
                     yield return StartCoroutine(Hunting());
+                    
                     break;
 
                 case changwon.GhostState.RETURN:
@@ -220,6 +222,7 @@ public class Ghost : MonoBehaviour
         mental = FindObjectOfType<mentalGaugeManager>();
         float huntingTimer = 0f; // 헌팅 상태 유지 시간을 계산할 타이머
         float maxHuntingDuration = 30f; // 헌팅 상태에서 최대 유지 시간
+        
 
         while (state == changwon.GhostState.HUNTTING)
         {
@@ -234,6 +237,7 @@ public class Ghost : MonoBehaviour
 
             if (target != null) // 타겟이 존재할 때
             {
+                
                 ghostNav.isStopped = false;
                 ghostNav.SetDestination(target.transform.position);
 

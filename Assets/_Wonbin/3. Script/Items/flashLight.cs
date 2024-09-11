@@ -37,6 +37,7 @@ public class flashLight : MonoBehaviourPun
 
         // 모든 클라이언트에서 손전등이 활성화되도록 보장
         gameObject.SetActive(true);
+        SoundManager.instance.FlashLightSound();
     }
 
     // 아이템을 드롭할 때 Rigidbody 물리 활성화

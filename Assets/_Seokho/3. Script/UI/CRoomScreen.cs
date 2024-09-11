@@ -205,10 +205,12 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
             if(selectedMap == "∞¯¿Â")
             {
                 PhotonNetwork.LoadLevel("Factory");
+                SoundManager.instance.PlayGameSceneMusic();
             }
             else if(selectedMap == "∆Û«„")
             {
                 PhotonNetwork.LoadLevel("Turkwood");
+                SoundManager.instance.PlayGameSceneMusic();
             }
             
         }
