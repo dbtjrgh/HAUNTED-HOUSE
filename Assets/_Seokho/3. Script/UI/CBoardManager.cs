@@ -139,6 +139,7 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         {
             BoardCanvas.gameObject.SetActive(true);
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            SoundManager.instance.musicSource.Stop();
 
             GameObject startPositionsObject = GameObject.Find("PlayerStartPositions");
             if (startPositionsObject == null)

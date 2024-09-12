@@ -61,28 +61,25 @@ public class SoundManager : MonoBehaviour
 
     public void PlayClearSceneMusic()
     {
-        musicSource.enabled = true;
         musicSource.clip = ClearScene;
-        musicSource.loop = true;
-        musicSource.Play();
+        musicSource.PlayOneShot(musicSource.clip);
     }
 
-    public void StopClearSceneMusic()
+    public void stopSceneMusic()
     {
-        if (musicSource.clip == ClearScene)
+        if ((musicSource.isPlaying))
         {
             musicSource.Stop();
-            musicSource.loop = false;
+
             musicSource.clip = null;
         }
     }
 
     public void PlayFailSceneMusic()
     {
-        musicSource.enabled = true;
+        
         musicSource.clip = FailScene;
-        musicSource.loop = true;
-        musicSource.Play();
+        musicSource.PlayOneShot(musicSource.clip);
     }
     public void StopFailSceneMusic()
     {
@@ -94,10 +91,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void StopBGM()
-    {
-        musicSource.Stop();
-    }
 
 
     public void DoorOpenSound()
