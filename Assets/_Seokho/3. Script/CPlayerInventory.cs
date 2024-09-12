@@ -13,6 +13,7 @@ public class CPlayerInventory : MonoBehaviourPun
     private Ray ray;
     private float rayCastDistance = 4.0f;
     private mentalGaugeManager playerMentalGauge;
+    flashLight flashlight; // flashLight의 레이어를 할당하기 위해 선언.
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class CPlayerInventory : MonoBehaviourPun
         }
 
         playerMentalGauge = GetComponent<mentalGaugeManager>();
+        flashlight = GetComponent<flashLight>(); // flashLight의 레이어를 할당하기 위해 Awake에서 초기화.
     }
 
     private void Update()
@@ -157,7 +159,6 @@ public class CPlayerInventory : MonoBehaviourPun
             EquipCurrentItem();
         }
     }
-
     void SwitchItem()
     {
         if (inventoryItems.Count == 0)
@@ -165,20 +166,43 @@ public class CPlayerInventory : MonoBehaviourPun
             return;
         }
 
-        // 현재 아이템 숨기기
-        if (currentItem != null)
+        //// 현재 아이템이 손전등(flashLight)이면 mesh를 비활성화
+        //if (currentItem == flashlight.gameObject)
+        //{
+        //    SetFlashlightMeshActive(false);
+        //}
+         if (currentItem != null)
         {
-            currentItem.SetActive(false);
+            currentItem.SetActive(false);  // 일반 아이템은 그냥 비활성화
         }
 
         // 다음 아이템으로 교체
         currentItemIndex = (currentItemIndex + 1) % inventoryItems.Count;
-        EquipCurrentItem();
+
+        EquipCurrentItem();  // 새 아이템 장착
+
+        //// 교체한 아이템이 flashLight일 경우 mesh를 활성화
+        //if (currentItem == flashlight.gameObject)
+        //{
+        //    SetFlashlightMeshActive(true);
+        //}
     }
+
+    //// 손전등의 MeshRenderer를 활성화 또는 비활성화하는 메서드
+    //void SetFlashlightMeshActive(bool isActive)
+    //{
+    //    MeshRenderer flashlightRenderer = flashlight.GetComponent<MeshRenderer>();
+
+    //    if (flashlightRenderer != null)
+    //    {
+    //        flashlightRenderer.enabled = isActive;  // MeshRenderer 활성화/비활성화
+    //    }
+    //}
+
 
 
     void DelMissingItem() //아이템 인벤토리 리스트를 순회해서, missing 된 index가 있다면, 자동으로 제거해주는 함수.
-    {
+    {   
         for (int i = inventoryItems.Count - 1; i >= 0; i--)
         {
             if (inventoryItems[i] == null)
@@ -187,6 +211,8 @@ public class CPlayerInventory : MonoBehaviourPun
             }
         }
     }
+
+ 
 
     void EquipCurrentItem()
     {

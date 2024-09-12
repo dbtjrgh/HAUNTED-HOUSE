@@ -41,7 +41,7 @@ public class CjournalBook : MonoBehaviour
     public CGameResultUI resultUI;
 
     public bool ghostSelected = false;
-   
+
 
     void Start()
     {
@@ -60,6 +60,9 @@ public class CjournalBook : MonoBehaviour
         {
             toggle.onValueChanged.AddListener(OnEvidenceToggleChanged);
         }
+
+        setupToggles();
+
     }
 
     void Update()
@@ -74,25 +77,36 @@ public class CjournalBook : MonoBehaviour
         CheckGhostToggles();
     }
 
+
     public void SetGhostSelected(bool selected)
     {
         ghostSelected = selected;
     }
 
-
-    public void OnEvidenceToggleChanged(bool isOn)      
+    public void OnEvidenceToggleChanged(bool isOn)
     {
-        foreach (Toggle toggle in evidenceItemCheck)
+        // 이 메서드는 변경된 토글 하나만의 Checkmark 상태를 업데이트합니다.
+        for (int i = 0; i < evidenceItemCheck.Length; i++)
         {
-            Transform checkmarkTransform = toggle.transform.Find("Background/Checkmark");
+            Transform checkmarkTransform = evidenceItemCheck[i].transform.Find("Background/Checkmark");
 
             if (checkmarkTransform != null)
             {
                 GameObject checkmark = checkmarkTransform.gameObject;
-                checkmark.SetActive(toggle.isOn);
+                checkmark.SetActive(evidenceItemCheck[i].isOn);
             }
         }
     }
+
+    public void setupToggles() // 처음 1회, 증거들의 toggle.ison을 비활성화.
+    {
+        foreach(Toggle toggle in evidenceItemCheck)
+        {
+            toggle.isOn = false;
+        }
+    }
+
+
 
     public void CheckGhostToggles()
     {
@@ -110,8 +124,9 @@ public class CjournalBook : MonoBehaviour
 
         if (selectedEvidenceCount == 2)
         {
-            if (selectedEvidence.Contains(evidenceEnum.BANSHEE.UVLight.ToString()) &&
-                selectedEvidence.Contains(evidenceEnum.BANSHEE.Camcoder.ToString()))
+            // 정확한 인덱스와 토글을 일치시킵니다.
+            if (selectedEvidence.Contains(evidenceEnum.NIGHTMARE.Camcoder.ToString()) &&
+                selectedEvidence.Contains(evidenceEnum.NIGHTMARE.EMF.ToString()))
             {
                 SetGhostToggle(0);
                 SetGhostSelected(true);
@@ -122,8 +137,8 @@ public class CjournalBook : MonoBehaviour
                 SetGhostToggle(1);
                 SetGhostSelected(true);
             }
-            else if (selectedEvidence.Contains(evidenceEnum.NIGHTMARE.Camcoder.ToString()) &&
-                     selectedEvidence.Contains(evidenceEnum.NIGHTMARE.EMF.ToString()))
+            else if (selectedEvidence.Contains(evidenceEnum.BANSHEE.UVLight.ToString()) &&
+                     selectedEvidence.Contains(evidenceEnum.BANSHEE.Camcoder.ToString()))
             {
                 SetGhostToggle(2);
                 SetGhostSelected(true);
@@ -136,6 +151,7 @@ public class CjournalBook : MonoBehaviour
         }
         else
         {
+            ghostToggleGroup.SetAllTogglesOff(); // 두 개 이상의 토글이 선택되지 않은 경우 모든 토글을 비활성화
             SetGhostSelected(false);
         }
     }
@@ -143,6 +159,8 @@ public class CjournalBook : MonoBehaviour
     void SetGhostToggle(int index)
     {
         Toggle[] toggles = ghostToggleGroup.GetComponentsInChildren<Toggle>();
+
+
         for (int i = 0; i < toggles.Length; i++)
         {
             toggles[i].isOn = (i == index);
@@ -170,10 +188,10 @@ public class CjournalBook : MonoBehaviour
             resultText = "귀신 유형이 일치하지 않습니다.";
         }
 
-        
+
         if (resultUI != null)
         {
-            if(ghostTypeText == "NIGHTMARE")
+            if (ghostTypeText == "NIGHTMARE")
             {
                 ghostTypeText = "나이트메어";
             }
