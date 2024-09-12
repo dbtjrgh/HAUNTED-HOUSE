@@ -30180,7 +30180,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1361652948}
   m_HandleRect: {fileID: 1361652947}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -42547,7 +42547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4360355057582129584, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 3147775
+      value: 3147647
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4360355057582129587, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
