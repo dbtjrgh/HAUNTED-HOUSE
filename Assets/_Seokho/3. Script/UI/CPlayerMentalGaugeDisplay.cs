@@ -82,10 +82,10 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
 
             string playerName = player.NickName;
             float mentalGauge = playerMentalGauges.ContainsKey(player.ActorNumber)
-                ? playerMentalGauges[player.ActorNumber].MentalGauge
-                : 0;
+                ? playerMentalGauges[player.ActorNumber].MentalGauge : 0;
 
-            string PlayerMentalText = playerName + "\nMental: " + mentalGauge;
+            // 소수점 한 자리까지만 표시
+            string PlayerMentalText = playerName + "\nMental: " + mentalGauge.ToString("F1");
 
             switch (index)
             {

@@ -52,6 +52,8 @@ public class Ghost : MonoBehaviour
                 ghostNav.speed = 3f;
                 break;
         }
+
+        
     }
 
     private void Start()
@@ -156,11 +158,14 @@ public class Ghost : MonoBehaviour
 
         while (state == changwon.GhostState.IDLE)
         {
-            ghostNav.isStopped = false;
+            if (ghostNav != null)
+            {
+                ghostNav.isStopped = false;
 
-            // 무작위 위치로 이동
-            Vector3 randomPosition = GetRandomNavMeshPosition(transform.position, 10f); // 반경 10 내에서 무작위 위치 선택
-            ghostNav.SetDestination(randomPosition);
+                // 무작위 위치로 이동
+                Vector3 randomPosition = GetRandomNavMeshPosition(transform.position, 10f); // 반경 10 내에서 무작위 위치 선택
+                ghostNav.SetDestination(randomPosition);
+            }
 
             // 일정 시간 기다린 후 다시 무작위로 이동
             yield return new WaitForSeconds(5f); // 5초 후에 다시 무작위로 이동
@@ -198,11 +203,14 @@ public class Ghost : MonoBehaviour
 
         while (state == changwon.GhostState.RETURN)
         {
-            ghostNav.isStopped = false;
-            ghostNav.SetDestination(mapManager.returnRandom); // 랜덤 위치로 이동
+            if (ghostNav != null)
+            {
+                ghostNav.isStopped = false;
+                ghostNav.SetDestination(mapManager.returnRandom); // 랜덤 위치로 이동
+            }
 
             // 목적지로 이동 중
-            while (ghostNav.remainingDistance > ghostNav.stoppingDistance)
+            while (ghostNav != null && ghostNav.remainingDistance > ghostNav.stoppingDistance)
             {
                 yield return null; // 계속 대기하며 목표에 도달할 때까지 기다림
             }
@@ -222,7 +230,6 @@ public class Ghost : MonoBehaviour
         mental = FindObjectOfType<mentalGaugeManager>();
         float huntingTimer = 0f; // 헌팅 상태 유지 시간을 계산할 타이머
         float maxHuntingDuration = 30f; // 헌팅 상태에서 최대 유지 시간
-        
 
         while (state == changwon.GhostState.HUNTTING)
         {
@@ -235,9 +242,8 @@ public class Ghost : MonoBehaviour
                 yield break; // 현재 코루틴 종료
             }
 
-            if (target != null) // 타겟이 존재할 때
+            if (target != null && ghostNav != null) // 타겟이 존재하고 ghostNav가 null이 아닐 때
             {
-                
                 ghostNav.isStopped = false;
                 ghostNav.SetDestination(target.transform.position);
 

@@ -234,7 +234,7 @@ public class CjournalBook : MonoBehaviour
     void showMentalGauge()
     {
         mentalGaugeManager mentalGaugeManager = GameObject.FindWithTag("Player").GetComponent<mentalGaugeManager>();
-        mentalGaugeText.text = mentalGaugeManager.MentalGauge.ToString();
+        mentalGaugeText.text = mentalGaugeManager.MentalGauge.ToString("F1");
     }
 
     void UpdateGhostInfo()

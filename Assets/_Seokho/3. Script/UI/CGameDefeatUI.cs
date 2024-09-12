@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CGameDefeatUI : MonoBehaviour
 {
+
     public Button backButton;
     public Text tipText;
     private int random;
@@ -17,7 +18,6 @@ public class CGameDefeatUI : MonoBehaviour
     private void Awake()
     {
         backButton.onClick.AddListener(OnBackButtonClick);
-        tipText = GetComponent<Text>();
         random = Random.Range(0, 3);
         setMsg($"유령의 정체는...?  {Ghost.instance.ghostType}");
     }
@@ -61,7 +61,6 @@ public class CGameDefeatUI : MonoBehaviour
 
         Invoke("Effecting", interval);
     }
-
     void Effecting()
     {
         Correctanswer.text += targetMsg[index];

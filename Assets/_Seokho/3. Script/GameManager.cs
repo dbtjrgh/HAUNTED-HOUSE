@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private CGameResultUI gameResultUI; // 게임 결과 UI
     private CMultiPlayer[] players; // 모든 플레이어 추적
     public CjournalBook journal;
-    private CBoardManager boardManager; 
+    private CBoardManager boardManager;
     private CTruckButton truckButton; // CTruckButton 참조 추가
     private bool onOff = false;
 
@@ -102,19 +102,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ShowDeathUI()
     {
-        
+
         defeatUI.SetActive(true);
 
         SoundManager.instance.StopGameSceneMusic();
         SoundManager.instance.PlayFailSceneMusic();
-        
+
     }
     private IEnumerator ShowDeathUIAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        ShowDeathUI();
-        
         Cursor.lockState = CursorLockMode.Confined;
+        ShowDeathUI();
     }
     // 모든 플레이어가 사망했는지 체크하는 함수
     public void CheckAllPlayersDead()

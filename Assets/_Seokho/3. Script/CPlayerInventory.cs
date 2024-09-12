@@ -1,6 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class CPlayerInventory : MonoBehaviourPun
 {
@@ -14,6 +15,10 @@ public class CPlayerInventory : MonoBehaviourPun
     private float rayCastDistance = 4.0f;
     private mentalGaugeManager playerMentalGauge;
     flashLight flashlight; // flashLight의 레이어를 할당하기 위해 선언.
+    private Vector3 lastSentPosition;
+    private Quaternion lastSentRotation;
+    private float positionThreshold = 0.05f; // 이 값을 넘으면 업데이트 전송
+    private float rotationThreshold = 1f;
 
     private void Awake()
     {
@@ -36,35 +41,22 @@ public class CPlayerInventory : MonoBehaviourPun
                 TryPickupItem();
             }
 
-            // 현재 손에 든 아이템을 손 위치에 맞춰 움직이기
+            // 아이템이 존재할 때만 위치와 회전 동기화
             if (currentItem != null)
             {
                 currentItem.transform.position = handPosition.position;
                 currentItem.transform.rotation = handPosition.rotation;
 
-                // 다른 플레이어에게도 아이템 위치와 회전 동기화
-                photonView.RPC("UpdateItemPositionRotation", RpcTarget.Others, currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
-
-                // R 키를 눌러 손전등 또는 정신력 회복 아이템 사용
-                if (Input.GetKeyDown(KeyCode.R))
+                // 위치나 회전에 큰 변화가 있을 때만 RPC 전송
+                if (Vector3.Distance(currentItem.transform.position, lastSentPosition) > positionThreshold ||
+                    Quaternion.Angle(currentItem.transform.rotation, lastSentRotation) > rotationThreshold)
                 {
-                    // 손전등 사용
-                    var flashlightScript = currentItem.GetComponent<flashLight>();
-                    if (flashlightScript != null)
-                    {
-                        flashlightScript.lightOnOFF();
-                    }
+                    lastSentPosition = currentItem.transform.position;
+                    lastSentRotation = currentItem.transform.rotation;
 
-                    // 정신력 회복 아이템 사용
-                    var gaugeFillScript = currentItem.GetComponent<gaugeFill>();
-                    if (gaugeFillScript != null && playerMentalGauge.MentalGauge < playerMentalGauge.maxMentalGauge)
-                    {
-                        gaugeFillScript.fillUse();
-                    }
-                    else if (gaugeFillScript != null && playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
-                    {
-                        Debug.Log("정신력 게이지가 최대치입니다.");
-                    }
+                    // 위치와 회전 정보를 다른 클라이언트에 전송
+                    photonView.RPC("UpdateItemPositionRotation", RpcTarget.Others,
+                        currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
                 }
             }
 
@@ -294,9 +286,28 @@ public class CPlayerInventory : MonoBehaviourPun
         if (itemPhotonView != null)
         {
             GameObject item = itemPhotonView.gameObject;
-            item.transform.position = newPosition;
-            item.transform.rotation = newRotation;
+            // 부드러운 이동과 회전을 위해 보간 처리
+            StartCoroutine(SmoothMove(item.transform, newPosition, newRotation, 0.1f)); // 0.1초 동안 부드럽게 이동
         }
+    }
+
+    private IEnumerator SmoothMove(Transform itemTransform, Vector3 targetPosition, Quaternion targetRotation, float duration)
+    {
+        Vector3 startPosition = itemTransform.position;
+        Quaternion startRotation = itemTransform.rotation;
+        float timeElapsed = 0;
+
+        while (timeElapsed < duration)
+        {
+            itemTransform.position = Vector3.Lerp(startPosition, targetPosition, timeElapsed / duration);
+            itemTransform.rotation = Quaternion.Lerp(startRotation, targetRotation, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // 최종적으로 정확한 위치와 회전 값 설정
+        itemTransform.position = targetPosition;
+        itemTransform.rotation = targetRotation;
     }
 
     void DebugRaycast()

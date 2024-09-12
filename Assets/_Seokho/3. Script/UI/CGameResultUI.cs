@@ -20,10 +20,6 @@ public class CGameResultUI : MonoBehaviour
         GhostText.text = $"발견된 귀신 : {ghostType}";
     }
 
-    void Update()
-    {
-        // 필요 시 자동 초기화 로직 추가
-    }
 
     public void OnBackButtonClick()
     {
