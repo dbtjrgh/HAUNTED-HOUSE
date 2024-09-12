@@ -31,5 +31,9 @@ public class CGameResultUI : MonoBehaviour
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PhotonNetwork.LoadLevel("MultiLobby");
+        SoundManager.instance.musicSource.Stop();
+        SoundManager.instance.musicSource.clip = null;
+
+
     }
 }

@@ -186,8 +186,7 @@ public class CjournalBook : MonoBehaviour
                 ghostTypeText = "¹ê½Ã";
             }
             resultUI.SetGameResult(resultText, ghostTypeText);
-            SoundManager.instance.StopGameSceneMusic();
-            SoundManager.instance.PlayClearSceneMusic();
+            
         }
     }
 

@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (!truckButton.TruckDoorOpen)
             {
                 StartCoroutine(ShowResultUI());
+                StartCoroutine(BGMClearSoundDelay());
             }
         }
     }
@@ -103,14 +104,16 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         
         defeatUI.SetActive(true);
+
+        SoundManager.instance.StopGameSceneMusic();
+        SoundManager.instance.PlayFailSceneMusic();
         
     }
     private IEnumerator ShowDeathUIAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         ShowDeathUI();
-        SoundManager.instance.StopGameSceneMusic();
-        SoundManager.instance.PlayFailSceneMusic();
+        
         Cursor.lockState = CursorLockMode.Confined;
     }
     // 모든 플레이어가 사망했는지 체크하는 함수
@@ -152,6 +155,18 @@ public class GameManager : MonoBehaviourPunCallbacks
             return true; // 귀신 토글 중 하나라도 켜져 있으면 true 반환
         }
         return false; // 귀신 토글이 켜져 있지 않으면 false 반환
+    }
+
+    IEnumerator BGMClearSoundDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        SoundManager.instance.PlayClearSceneMusic();
+    }
+
+    IEnumerator BGMDeathSoundDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        SoundManager.instance.PlayFailSceneMusic();
     }
 
 
