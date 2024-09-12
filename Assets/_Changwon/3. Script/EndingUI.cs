@@ -17,7 +17,7 @@ public class EndingUI : MonoBehaviour
     
     private void Awake()
     {
-        setMsg($"유령의 종류는...?{Ghost.instance.ghostType}");
+        setMsg($"유령의 정체는...?  {Ghost.instance.ghostType}");
     }
 
     public void setMsg(string msg)

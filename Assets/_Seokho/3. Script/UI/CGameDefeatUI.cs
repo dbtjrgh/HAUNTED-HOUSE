@@ -9,18 +9,18 @@ public class CGameDefeatUI : MonoBehaviour
     public Button backButton;
     public Text tipText;
     private int random;
+    private string targetMsg;
+    private int index;
+    private float interval;
+    public float CharPerSeconds;
+    public Text Correctanswer;
     private void Awake()
     {
         backButton.onClick.AddListener(OnBackButtonClick);
         tipText = GetComponent<Text>();
         random = Random.Range(0, 3);
+        setMsg($"유령의 정체는...?  {Ghost.instance.ghostType}");
     }
-
-    void Update()
-    {
-        
-    }
-
     public void OnBackButtonClick()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -44,5 +44,29 @@ public class CGameDefeatUI : MonoBehaviour
                 return;
         }
 
+    }
+
+    public void setMsg(string msg)
+    {
+        targetMsg = msg;
+        EffectStart();
+
+    }
+    void EffectStart()
+    {
+        Correctanswer.text = "";
+        index = 0;
+
+        interval = 1.0f / CharPerSeconds;
+
+        Invoke("Effecting", interval);
+    }
+
+    void Effecting()
+    {
+        Correctanswer.text += targetMsg[index];
+        index++;
+
+        Invoke("Effecting", interval);
     }
 }

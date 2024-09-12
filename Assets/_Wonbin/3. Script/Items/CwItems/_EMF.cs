@@ -33,8 +33,8 @@ namespace changwon
             {
                 EMFSwitching();
             }
-            
-            
+
+
         }
 
         public void ToggleEMFState()
@@ -81,13 +81,16 @@ namespace changwon
                 {
                     EMFOn = true;
                     lights[0].gameObject.SetActive(true);
-                    if(ghost.state!=GhostState.HUNTTING)
-                    SoundManager.instance.EMFNormalSound();
+                    if (Ghost.instance.state != GhostState.HUNTTING)
+                    {
+                        SoundManager.instance.EMFNormalSound();
+
+                    }
 
                 }
                 else if (EMFOn == true)
                 {
-                    
+
                     EMFOn = false;
                     // ±Í½ÅÀÌ ³ª°¡¸é EMF ²¨Áü
                     for (int i = 0; i < lights.Length; i++)
@@ -96,8 +99,8 @@ namespace changwon
                     }
                     SoundManager.instance.NormalEMFStop();
                     SoundManager.instance.StopEMFHighSound();
-                    
-                    
+
+
 
                 }
             }
@@ -112,7 +115,7 @@ namespace changwon
                 if (ghost != null && EMFOn)
                 {
                     HandleGhostDetection();
-                    
+
                 }
             }
         }
@@ -139,7 +142,7 @@ namespace changwon
                     lights[i].gameObject.SetActive(false);
                     SoundManager.instance.StopEMFHighSound();
                     SoundManager.instance.EMFNormalSound();
-                    
+
                 }
             }
         }
@@ -161,6 +164,7 @@ namespace changwon
                 {
                     case GhostType.BANSHEE:
                         Debug.Log("¹ê½Ã °¨ÁöµÊ");
+                        SoundManager.instance.StopEMFHighSound();
                         SoundManager.instance.EMFNormalSound();
                         break;
 
@@ -169,6 +173,7 @@ namespace changwon
                         {
                             Debug.Log("³ªÀÌÆ®¸Þ¾î °¨ÁöµÊ");
                             lights[i].gameObject.SetActive(true);
+                            SoundManager.instance.StopEMFHighSound();
                             SoundManager.instance.EMFNormalSound();
                         }
                         break;
@@ -177,7 +182,9 @@ namespace changwon
                         for (int i = 0; i < lights.Length; i++)
                         {
                             Debug.Log("µ¥¸ó °¨ÁöµÊ");
+
                             lights[i].gameObject.SetActive(true);
+                            SoundManager.instance.NormalEMFStop();
                             SoundManager.instance.EMFHighSound();
                         }
                         break;

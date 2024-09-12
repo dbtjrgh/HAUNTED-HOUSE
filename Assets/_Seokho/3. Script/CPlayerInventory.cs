@@ -68,7 +68,7 @@ public class CPlayerInventory : MonoBehaviourPun
 
             else
             {
-                delMissingItem(); // 인벤토리 내에서 null이 발생된 아이템이 있으면, 인벤토리 리스트를 순회후 제거
+                DelMissingItem(); // 인벤토리 내에서 null이 발생된 아이템이 있으면, 인벤토리 리스트를 순회후 제거
             }
 
             // G 키를 눌러 아이템 드롭
@@ -160,7 +160,10 @@ public class CPlayerInventory : MonoBehaviourPun
 
     void SwitchItem()
     {
-        if (inventoryItems.Count == 0) return;
+        if (inventoryItems.Count == 0)
+        {
+            return;
+        }
 
         // 현재 아이템 숨기기
         if (currentItem != null)
@@ -174,13 +177,13 @@ public class CPlayerInventory : MonoBehaviourPun
     }
 
 
-    void delMissingItem() //아이템 인벤토리 리스트를 순회해서, missing 된 index가 있다면, 자동으로 제거해주는 함수.
+    void DelMissingItem() //아이템 인벤토리 리스트를 순회해서, missing 된 index가 있다면, 자동으로 제거해주는 함수.
     {
-        foreach (GameObject item in inventoryItems)
+        for (int i = inventoryItems.Count - 1; i >= 0; i--)
         {
-            if (item == null)
+            if (inventoryItems[i] == null)
             {
-                inventoryItems.Remove(item);
+                inventoryItems.RemoveAt(i);
             }
         }
     }

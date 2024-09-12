@@ -230,6 +230,15 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         {
             bool isWalking = move.magnitude > 0;
             animator.SetBool("isWalking", isWalking);
+
+            if (isWalking)
+            {
+                SoundManager.instance.PlayWalkingSound();
+            }
+            else
+            {
+                SoundManager.instance.StopWalkingSound();
+            }
         }
     }
 

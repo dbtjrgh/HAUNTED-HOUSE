@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 2608702958437629297}
   - component: {fileID: 2608702958437629298}
   - component: {fileID: 2608702958437629299}
-  - component: {fileID: 5297305494712546687}
+  - component: {fileID: 7748774392275365642}
   m_Layer: 5
   m_Name: GameDefeatUI
   m_TagString: Untagged
@@ -758,7 +758,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5297305494712546687
+--- !u!114 &7748774392275365642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -767,12 +767,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2608702958437629301}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7e085cc65b288e43af4c37f680cf344, type: 3}
+  m_Script: {fileID: 11500000, guid: be3225eafdfb01b40b474058a5f1d433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backButton: {fileID: 2608702957354976218}
+  tipText: {fileID: 2608702957823572042}
   CharPerSeconds: 2
-  targetMsg: 
-  Retry: {fileID: 2608702957354976220}
   Correctanswer: {fileID: 7267098437545572467}
 --- !u!1 &4757427174746367143
 GameObject:

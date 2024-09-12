@@ -89,6 +89,7 @@ namespace changwon
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
+                    SoundManager.instance.FlashLightSound();
                     playerGetLight = !playerGetLight; // 손전등 on/off
                     myLight.intensity = playerGetLight ? 10 : 0; // 손전등 밝기 조정
 

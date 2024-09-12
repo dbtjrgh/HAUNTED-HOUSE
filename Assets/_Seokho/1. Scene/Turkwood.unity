@@ -1927,6 +1927,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2047400147}
     - target: {fileID: 4599892580852162476, guid: fd461bb26b528c041b592c6efd223a84, type: 3}
+      propertyPath: VideoCameraSpawnPoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4599892580852162476, guid: fd461bb26b528c041b592c6efd223a84, type: 3}
       propertyPath: FlashlightSpawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 263061757}
@@ -1953,7 +1957,7 @@ PrefabInstance:
     - target: {fileID: 4599892580852162476, guid: fd461bb26b528c041b592c6efd223a84, type: 3}
       propertyPath: VideoCameraSpawnPoints.Array.data[0]
       value: 
-      objectReference: {fileID: 1652254351}
+      objectReference: {fileID: 704672667}
     - target: {fileID: 4599892580852162476, guid: fd461bb26b528c041b592c6efd223a84, type: 3}
       propertyPath: VideoCameraSpawnPoints.Array.data[1]
       value: 
@@ -2702,6 +2706,10 @@ PrefabInstance:
     - target: {fileID: 2608702958437629301, guid: 895357e03e1e3684fa07404b9545e957, type: 3}
       propertyPath: m_Name
       value: 'GameDefeatUI '
+      objectReference: {fileID: 0}
+    - target: {fileID: 2608702958437629301, guid: 895357e03e1e3684fa07404b9545e957, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 895357e03e1e3684fa07404b9545e957, type: 3}
