@@ -36,17 +36,17 @@ public class mentalGaugeManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         if(diffText == "Easy")
         {
-            secondGaugeMinus = 0.2f;
+            secondGaugeMinus = 0.20f;
             changeRoomGaugeMinus = 2f;
         }
         else if (diffText == "Normal")
         {
-            secondGaugeMinus = 0.3f;
+            secondGaugeMinus = 0.30f;
             changeRoomGaugeMinus = 3f;
         }
         else if(diffText == "Hard")
         {
-            secondGaugeMinus = 0.5f;
+            secondGaugeMinus = 0.50f;
             changeRoomGaugeMinus = 5f;
         }
         ghostRoomGaugeMinus = changeRoomGaugeMinus * 2;
