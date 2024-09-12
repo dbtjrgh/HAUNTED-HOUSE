@@ -1052,10 +1052,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayerRoom: {fileID: 8763893459323535168}
-  maxMentalGauge: 100
-  secondGaugeMinus: 0.5
-  ghostRoomGaugeMinus: 10
-  changeRoomGaugeMinus: 5
+  maxMentalGauge: 0
+  secondGaugeMinus: 0
+  ghostRoomGaugeMinus: 0
+  changeRoomGaugeMinus: 0
   MentalGauge: 0
 --- !u!114 &8576351226361165010
 MonoBehaviour:

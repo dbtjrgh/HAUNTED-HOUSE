@@ -3,18 +3,54 @@ using UnityEngine;
 using Photon.Pun;
 using static myRooms.Rooms;
 using GameFeatures;
+using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
-public class mentalGaugeManager : MonoBehaviourPun, IPunObservable
+public class mentalGaugeManager : MonoBehaviourPunCallbacks, IPunObservable
 {
+    #region
     [SerializeField]
     private RoomIdentifire currentPlayerRoom; // RoomIdentifire 컴포넌트 참조
-
-    public float maxMentalGauge = 100f;
-    public float secondGaugeMinus = 0.5f;
-    public float ghostRoomGaugeMinus = 10f; // 고스트 방
-    public float changeRoomGaugeMinus = 5f;
+    public float maxMentalGauge;
+    public float secondGaugeMinus;
+    public float ghostRoomGaugeMinus; // 고스트 방
+    public float changeRoomGaugeMinus;
     public float MentalGauge;
     private float gaugeModifier = 1f; // 난이도에 따라 다르게
+    string diffText;
+    #endregion
+
+    private void Awake()
+    {
+        CRoomScreen roomScreen = FindObjectOfType<CRoomScreen>();
+        maxMentalGauge = 100f;
+        
+    }
+
+    public override void OnRoomPropertiesUpdate(PhotonHashtable props)
+    {
+        props = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        if (props.ContainsKey("Diff"))
+        {
+            diffText = ((Difficulty)props["Diff"]).ToString();
+        }
+        if(diffText == "Easy")
+        {
+            secondGaugeMinus = 0.2f;
+            changeRoomGaugeMinus = 2f;
+        }
+        else if (diffText == "Normal")
+        {
+            secondGaugeMinus = 0.3f;
+            changeRoomGaugeMinus = 3f;
+        }
+        else if(diffText == "Hard")
+        {
+            secondGaugeMinus = 0.5f;
+            changeRoomGaugeMinus = 5f;
+        }
+        ghostRoomGaugeMinus = changeRoomGaugeMinus * 2;
+    }
 
     private void Start()
     {

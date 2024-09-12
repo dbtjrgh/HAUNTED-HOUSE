@@ -24,10 +24,6 @@ namespace changwon
 
         bool playerGetLight; // 플레이어가 손전등을 on한 상태인지 확인
         static bool getLight; // 손전등 획득 여부 확인
-
-
-
-
         public static bool isInItemSlot; // 손전등이 ItemSlot에 있는지 여부를 확인
         private Transform itemSlotTransform;
 
@@ -35,7 +31,6 @@ namespace changwon
 
         private void Start()
         {
-            //_audioSource = GetComponent<AudioSource>();
             playerGetLight = false;
             getLight = false;
             isInItemSlot = false; // 초기 상태는 ItemSlot에 없음
@@ -46,6 +41,7 @@ namespace changwon
             }
 
 
+            myLight.intensity = 0;
             itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
             uvLight = GetComponent<changwon.UVLight>();
         }

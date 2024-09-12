@@ -61,6 +61,10 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         }
 
         diffDropdown.onValueChanged.AddListener(DifficultyValueChange);
+
+        // 처음에 난이도를 Easy로 설정 (첫 번째 인덱스)
+        diffDropdown.value = (int)Difficulty.Easy;
+        DifficultyValueChange((int)Difficulty.Easy); // 난이도 변경 메서드 호출
     }
 
     public override void OnDisable()
@@ -90,6 +94,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
         mapButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
 
+       
 
         foreach (Photon.Realtime.Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
@@ -305,7 +310,6 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
         if (props.ContainsKey("Diff"))
         {
-            print($"방 난이도 변경됨 : {props["Diff"]}");
             diffText.text = ((Difficulty)props["Diff"]).ToString();
         }
 

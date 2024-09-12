@@ -2,6 +2,7 @@ using Photon.Pun;
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
 public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
 {
@@ -9,9 +10,14 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
     public TextMeshPro player2Text;
     public TextMeshPro player3Text;
     public TextMeshPro player4Text;
+    public TextMeshPro diffText;
 
     private Dictionary<int, mentalGaugeManager> playerMentalGauges;
 
+    private void Awake()
+    {
+        CRoomScreen roomScreen = FindObjectOfType<CRoomScreen>();
+    }
     private void Start()
     {
         playerMentalGauges = new Dictionary<int, mentalGaugeManager>();
@@ -38,6 +44,16 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
         UpdatePlayerTexts();
     }
 
+    public override void OnRoomPropertiesUpdate(PhotonHashtable props)
+    {
+        props = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        if (props.ContainsKey("Diff"))
+        {
+            string text = ((Difficulty)props["Diff"]).ToString();
+            diffText.text = ($"≥≠¿Ãµµ : {text}");
+        }
+    }
     private GameObject GetPlayerObject(Photon.Realtime.Player player)
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))

@@ -51,8 +51,6 @@ MonoBehaviour:
   SanityPill: {fileID: 2358146820083368720, guid: 0dc2e681b6ab18d4fa63da45718592aa, type: 3}
   VideoCameraSpawnPoints:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   UVflashlightSpawnPoints:
   - {fileID: 0}
   - {fileID: 0}
