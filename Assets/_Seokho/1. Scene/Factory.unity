@@ -78853,6 +78853,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 954836735}
     - target: {fileID: 4599892580852162476, guid: fd461bb26b528c041b592c6efd223a84, type: 3}
+      propertyPath: VideoCameraSpawnPoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4599892580852162476, guid: fd461bb26b528c041b592c6efd223a84, type: 3}
       propertyPath: FlashlightSpawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 1342745685}
