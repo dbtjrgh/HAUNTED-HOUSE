@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private CGameResultUI gameResultUI; // 게임 결과 UI
     private CMultiPlayer[] players; // 모든 플레이어 추적
     public CjournalBook journal;
-    private CBoardManager boardManager;
+    private CBoardManager boardManager; 
     private CTruckButton truckButton; // CTruckButton 참조 추가
     private bool onOff = false;
 
