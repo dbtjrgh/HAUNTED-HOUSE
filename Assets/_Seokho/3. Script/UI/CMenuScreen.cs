@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class CMenuScreen : MonoBehaviour
 {
+    #region º¯¼ö
     public TextMeshProUGUI InfoText;
 
     [Header("Main Menu")]
@@ -27,6 +28,7 @@ public class CMenuScreen : MonoBehaviour
     public TMP_InputField playerNumInput;
     public Button createRoomButton;
     public Button createRoombackButton;
+    #endregion
 
     private void Awake()
     {

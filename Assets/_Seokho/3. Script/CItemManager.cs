@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CItemManager : MonoBehaviourPun
 {
+    #region 변수
     public GameObject VideoCamera;      // 비디오 카메라
     public GameObject UVflashlight;     // UV 손전등
     public GameObject EMF;              // EMF 장치
@@ -14,6 +15,7 @@ public class CItemManager : MonoBehaviourPun
     public Transform[] EMFSpawnPoints;             // EMF 장치 스폰 포인트
     public Transform[] FlashlightSpawnPoints;      // 손전등 스폰 포인트
     public Transform[] SanityPillSpawnPoints;      // 멘탈 회복제 스폰 포인트
+    #endregion
 
     private void Start()
     {
@@ -22,7 +24,9 @@ public class CItemManager : MonoBehaviourPun
             SpawnItems();
         }
     }
-
+    /// <summary>
+    /// 무슨 프리팹을 소환할지, 어디에 소환할지 할당시키면 자동으로 그곳에 형성시켜주는 함수
+    /// </summary>
     void SpawnItems()
     {
         // 각 아이템 타입별로 아이템 생성
@@ -33,7 +37,11 @@ public class CItemManager : MonoBehaviourPun
         SpawnItem(SanityPill, SanityPillSpawnPoints);
     }
 
-    // 각 아이템을 해당 스폰 포인트에서 생성하는 함수
+    /// <summary>
+    /// 각 아이템을 해당 스폰 포인트에서 생성하는 함수
+    /// </summary>
+    /// <param name="itemPrefab"></param>
+    /// <param name="spawnPoints"></param>
     void SpawnItem(GameObject itemPrefab, Transform[] spawnPoints)
     {
         for (int i = 0; i < spawnPoints.Length; i++)

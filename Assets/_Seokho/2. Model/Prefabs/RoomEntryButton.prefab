@@ -190,8 +190,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBC29 \uC774\uB984"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8fce0caee386a6346b016943d09ddce5, type: 2}
-  m_sharedMaterial: {fileID: 1762029023585943517, guid: 8fce0caee386a6346b016943d09ddce5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ae35cc2e240955a49a299aeb4cfc8d2b, type: 2}
+  m_sharedMaterial: {fileID: 8843340425729574788, guid: ae35cc2e240955a49a299aeb4cfc8d2b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

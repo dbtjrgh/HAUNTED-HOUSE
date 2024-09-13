@@ -126,6 +126,13 @@ public class CBoardManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("MultiLobby");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+    /// <summary>
+    /// 씬 로드가 되면 불러오는 함수
+    /// 맵 선택한 것에 따라 불러오는 씬이 다름
+    /// 씬 불러올 때 플레이어 형성
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 씬 이름이 SingleLobby일 경우 BoardCanvas 비활성화
@@ -159,22 +166,6 @@ public class CBoardManager : MonoBehaviourPunCallbacks
             // 플레이어 프리팹 인스턴스화
             GameObject playerPrefab = PhotonNetwork.Instantiate("MultiPlayer", pos, rot, 0);
 
-        }
-    }
-
-    // 프리팹의 레이어를 재귀적으로 변경하는 함수
-    private void SetLayerRecursively(GameObject obj, int newLayer)
-    {
-        if (obj == null) return;
-
-        obj.layer = newLayer;
-
-        foreach (Transform child in obj.transform)
-        {
-            if (child != null)
-            {
-                SetLayerRecursively(child.gameObject, newLayer);
-            }
         }
     }
 

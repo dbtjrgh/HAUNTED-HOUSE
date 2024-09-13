@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class CLoadingScreen : MonoBehaviour
 {
+    #region 변수
     [Space(10f)]
     [SerializeField]
     private CanvasGroup[] _panelsToShow;
@@ -17,12 +18,16 @@ public class CLoadingScreen : MonoBehaviour
     private const float MaxValue = 1f;
     private const float TimeToFade = 0.8f;
     private const float TimeBetweenPanels = 3f;
+    #endregion
 
     private void Start()
     {
         StartCoroutine(nameof(ShowPanels));
     }
-
+    /// <summary>
+    /// 로딩 화면 보여주는 함수
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ShowPanels()
     {
         for (int i = 0; i < _panelsToShow.Length; i++)
@@ -52,6 +57,5 @@ public class CLoadingScreen : MonoBehaviour
             yield return new WaitForSeconds(TimeToFade);
         }
         SceneManager.LoadScene("SingleLobby");
-
     }
 }

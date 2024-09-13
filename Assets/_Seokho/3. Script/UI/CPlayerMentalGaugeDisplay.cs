@@ -6,6 +6,7 @@ using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
 public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
 {
+    #region 변수
     public TextMeshPro player1Text;
     public TextMeshPro player2Text;
     public TextMeshPro player3Text;
@@ -13,6 +14,7 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
     public TextMeshPro diffText;
 
     private Dictionary<int, mentalGaugeManager> playerMentalGauges;
+    #endregion
 
     private void Awake()
     {
@@ -43,7 +45,10 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
 
         UpdatePlayerTexts();
     }
-
+    /// <summary>
+    /// 바꾼 난이도에 따라 보여주는 텍스트 포톤 콜백 함수
+    /// </summary>
+    /// <param name="props"></param>
     public override void OnRoomPropertiesUpdate(PhotonHashtable props)
     {
         props = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -54,6 +59,11 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
             diffText.text = ($"난이도 : {text}");
         }
     }
+    /// <summary>
+    /// 플레이어의 포톤뷰를 이용해 플레이어 게임 오브젝트를 찾아 반환시켜주는 함수
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
     private GameObject GetPlayerObject(Photon.Realtime.Player player)
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
@@ -67,6 +77,9 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
         return null;
     }
 
+    /// <summary>
+    /// 항상 갱신시키는 함수로 디스플레이에 플레이어 이름과 현재 멘탈 게이지 수치를 보여줌
+    /// </summary>
     private void UpdatePlayerTexts()
     {
         player1Text.text = player2Text.text = player3Text.text = player4Text.text = "";

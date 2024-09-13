@@ -18,7 +18,9 @@ public class CCreateSinglePlayer : MonoBehaviourPunCallbacks
     {
         CreateSinglePlayer();
     }
-
+    /// <summary>
+    /// 싱글 로비씬에서 싱글전용 캐릭 형성하는 함수
+    /// </summary>
     private void CreateSinglePlayer()
     {
         Transform startPositions;

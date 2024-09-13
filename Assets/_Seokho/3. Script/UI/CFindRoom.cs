@@ -8,16 +8,21 @@ using UnityEngine.UI;
 
 public class CFindRoom : MonoBehaviour
 {
+    #region 변수
     public RectTransform roomListRect;
     private List<RoomInfo> currentRoomList = new List<RoomInfo>();
     public Button roomButtonPrefab;
     public Button backButton;
+    #endregion
 
     private void Awake()
     {
         backButton.onClick.AddListener(BackButtonClick);
     }
 
+    /// <summary>
+    /// 오브젝트 비활성화라면 방 리스트 제거
+    /// </summary>
     private void OnDisable()
     {
         foreach(Transform child in  roomListRect)
@@ -26,6 +31,10 @@ public class CFindRoom : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 로비에서 사용 가능한 방 목록이 업데이트 됐을 때 호출되는 함수
+    /// </summary>
+    /// <param name="roomList"></param>
     public void UpdateRoomList(List<RoomInfo> roomList)
     {
 

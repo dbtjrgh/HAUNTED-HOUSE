@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CTruckButton : MonoBehaviour
 {
+    #region 변수
     public Animator anim;
 
     public bool TruckDoorOpen = false;
@@ -12,7 +13,7 @@ public class CTruckButton : MonoBehaviour
 
     private bool playerNearby = false;
     private bool isAnimating = false;
-
+    #endregion
     private void Update()
     {
         if (playerNearby && Input.GetKeyDown(KeyCode.E) && !isAnimating)
@@ -36,7 +37,9 @@ public class CTruckButton : MonoBehaviour
             playerNearby = false;
         }
     }
-
+    /// <summary>
+    /// 트럭 버튼 클릭시 애니메이션,사운드 실행 및 bool 갱신
+    /// </summary>
     private void TruckOnClick()
     {
         if (!TruckDoorOpen)
@@ -60,7 +63,5 @@ public class CTruckButton : MonoBehaviour
         isAnimating = true;
         yield return new WaitForSeconds(delay + closingTime);
         isAnimating = false;
-        
     }
-
 }

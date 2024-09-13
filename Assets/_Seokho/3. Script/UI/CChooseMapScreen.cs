@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CChooseMapScreen : MonoBehaviour
 {
+    #region 변수
     public Button factoryButton; // Factory 맵 선택 버튼
     public Button turkwoodButton; // Turkwood 맵 선택 버튼
     public Button backButton; // 뒤로 가기 버튼
@@ -15,6 +16,7 @@ public class CChooseMapScreen : MonoBehaviour
 
     public GameObject roomScreen;
     public GameObject ChooseMapScreen;
+    #endregion
 
     private void Start()
     {
@@ -25,7 +27,10 @@ public class CChooseMapScreen : MonoBehaviour
         backButton.onClick.AddListener(BackToRoom);
     }
 
-    // 맵 선택 메서드 (한 번에 하나만 선택)
+    /// <summary>
+    /// 맵 선택 함수 (한 번에 하나만 선택)
+    /// </summary>
+    /// <param name="mapName"></param>
     private void SelectMap(string mapName)
     {
         selectedMap = mapName;
@@ -49,7 +54,9 @@ public class CChooseMapScreen : MonoBehaviour
         roomScreen.GetComponent<CRoomScreen>().ChooseMap(mapName);
     }
 
-    // 뒤로 가기 버튼 메서드
+    /// <summary>
+    /// 뒤로 가기 버튼 함수
+    /// </summary>
     private void BackToRoom()
     {
         // RoomScreen 화면 활성화

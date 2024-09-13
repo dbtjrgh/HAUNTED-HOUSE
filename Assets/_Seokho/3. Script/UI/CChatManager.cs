@@ -22,6 +22,10 @@ public class CChatManager : MonoBehaviourPunCallbacks
     ScrollRect scroll_rect = null; // 채팅이 많이 쌓일 경우 스크롤바의 위치를 아래로 고정하기 위함
 
     #endregion
+
+    /// <summary>
+    /// 멀티 로비씬에서부터 시작
+    /// </summary>
     private void Awake()
     {
         if (instance == null)
@@ -138,20 +142,28 @@ public class CChatManager : MonoBehaviourPunCallbacks
 
     }
 
-
-
+    /// <summary>
+    /// 플레이어가 입장헀을 때 불러오는 함수
+    /// </summary>
+    /// <param name="newPlayer"></param>
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         string msg = string.Format("<color=#00ff00>[{0}]님이 입장하셨습니다.</color>", newPlayer.NickName);
         ReceiveMsg(msg);
     }
-
+    /// <summary>
+    /// 플레이어가 퇴장헀을 때 불러오는 함수
+    /// </summary>
+    /// <param name="otherPlayer"></param>
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         string msg = string.Format("<color=#ff0000>[{0}]님이 퇴장하셨습니다.</color>", otherPlayer.NickName);
         ReceiveMsg(msg);
     }
-
+    /// <summary>
+    /// 채팅을 치고나서 채팅 입력창 공백처리
+    /// </summary>
+    /// <param name="msg"></param>
     [PunRPC]
     public void ReceiveMsg(string msg)
     {
@@ -159,7 +171,10 @@ public class CChatManager : MonoBehaviourPunCallbacks
         StartCoroutine(ScrollUpdate());
     }
 
-
+    /// <summary>
+    /// 공백 이후 스크롤 초기화
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ScrollUpdate()
     {
         yield return null;

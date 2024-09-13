@@ -25,13 +25,6 @@ public class CLookBoard : MonoBehaviourPunCallbacks
             AssignLocalPlayerReferences();
         }
     }
-
-    private void Start()
-    {
-        // Start에서 추가적인 초기화가 필요한 경우 처리
-        // 예: 기본 카메라 설정 등
-    }
-
     private void Update()
     {
         // 보드 카메라가 활성화 되어 있고, esc키를 누르면 플레이어 카메라로 돌아가기
@@ -100,7 +93,9 @@ public class CLookBoard : MonoBehaviourPunCallbacks
         // 커서 화면 내 고정
         Cursor.lockState = CursorLockMode.Confined;
     }
-
+    /// <summary>
+    /// esc누를시 플레이어에게 시점 돌아가기 
+    /// </summary>
     public void ReturnToPlayerCamera()
     {
         if (playerCinemachine == null)
@@ -157,7 +152,7 @@ public class CLookBoard : MonoBehaviourPunCallbacks
         // CinemachineVirtualCamera를 성공적으로 찾았는지 확인
         if (playerCinemachine == null)
         {
-            Debug.LogError("로컬 플레이어를 위한 CinemachineVirtualCamera를 찾지 못했습니다.");
+            Debug.Log("로컬 플레이어를 위한 CinemachineVirtualCamera를 찾지 못했습니다.");
             return;
         }
     }

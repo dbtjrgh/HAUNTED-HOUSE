@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 게임 실패 관련 로직
+    /// 게임 실패UI 관련 로직
     /// </summary>
     private void ShowDeathUI()
     {
@@ -115,7 +115,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.Confined;
         ShowDeathUI();
     }
-    // 모든 플레이어가 사망했는지 체크하는 함수
+    /// <summary>
+    /// 모든 플레이어가 사망했는지 체크하는 함수
+    /// </summary>
     public void CheckAllPlayersDead()
     {
         players = FindObjectsOfType<CMultiPlayer>();
@@ -139,7 +141,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     /// <summary>
-    /// 게임 결과 관련 로직
+    /// 게임 결과UI 관련 로직
     /// </summary>
     public IEnumerator ShowResultUI()
     {

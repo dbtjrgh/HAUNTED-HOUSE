@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CPlayerDoorInter : MonoBehaviour
 {
+    #region 변수
     public bool IsDoorFullyOpened = false;  // 문이 완전히 열렸는지 여부
     public bool IsDoorClosed = false;       // 문이 완전히 닫혔는지 여부
 
@@ -32,7 +33,7 @@ public class CPlayerDoorInter : MonoBehaviour
 
     private float tKeyHoldTime = 0f;        // T 키 누른 시간
 
-
+    #endregion
     private void Awake()
     {
         cam = Camera.main;
@@ -129,7 +130,10 @@ public class CPlayerDoorInter : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// 문 상태를 주기적으로 확인하는 코루틴
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CheckDoorState()
     {
         while (true)
@@ -138,13 +142,19 @@ public class CPlayerDoorInter : MonoBehaviour
             yield return waitForDoorStateCheck;
         }
     }
-
+    /// <summary>
+    /// 문이 열렸는지, 닫혔는지를 확인하는 함수
+    /// 문 회전 각도에 따라 상태를 결정
+    /// </summary>
     private void CheckDoorRotation()
     {
         float doorCurrRotation = transform.localEulerAngles.y;
-        if (doorCurrRotation < -5f) doorCurrRotation += 360;
+        if (doorCurrRotation < -5f)
+        {
+            doorCurrRotation += 360;
+        }
 
-        if (Mathf.Abs(doorCurrRotation) <= epsilon)
+            if (Mathf.Abs(doorCurrRotation) <= epsilon)
         {
             IsDoorClosed = true;
             IsDoorFullyOpened = false;
@@ -160,7 +170,9 @@ public class CPlayerDoorInter : MonoBehaviour
             IsDoorFullyOpened = false;
         }
     }
-
+    /// <summary>
+    /// 플레이어가 문을 드래그할 때 문이 움직이는 물리적 동작을 처리하는 함수
+    /// </summary>
     private void DragDoor()
     {
         Ray playerAim = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
@@ -169,38 +181,52 @@ public class CPlayerDoorInter : MonoBehaviour
 
         rb.velocity = (nextPos - currPos) * forceAmmount;
     }
-
+    /// <summary>
+    /// 상호작용을 시작할 때 호출되는 함수로, 물리적 상호작용을 활성화
+    /// </summary>
     public void OnDragBegin()
     {
         isInterracting = true;
         rb.isKinematic = false;  // 상호작용 중에는 물리 적용
     }
-
+    /// <summary>
+    /// 상호작용을 끝낼 때 호출되는 함수로, 물리적 상호작용을 비활성화
+    /// </summary>
     public void OnDragEnd()
     {
         isInterracting = false;
         rb.isKinematic = true;  // 상호작용 끝나면 물리 적용 해제
     }
-
+    /// <summary>
+    /// 문을 잠그는 함수로, 콜라이더를 비활성화하여 문이 움직이지 못하게 함
+    /// </summary>
     public void LockTheDoor()
     {
         col.enabled = false;
         isDoorLocked = true;
     }
-
+    /// <summary>
+    /// 문을 잠금 해제하는 함수로, 콜라이더를 활성화하여 문이 움직이게 함
+    /// </summary>
     public void UnlockTheDoor()
     {
         rb.isKinematic = false;
         isDoorLocked = false;
         col.enabled = true;
     }
-
+    /// <summary>
+    /// uv 손자국을 문에 생성하는 함수
+    /// 손자국 프리팹을 문에 생성
+    /// </summary>
     public void LeavePrintsUV()
     {
         Instantiate(handprintPrefab, InteractionTransform.position, InteractionTransform.rotation, InteractionTransform);
     }
 
-    // 플레이어가 주변에 있는지 감지하는 함수
+    /// <summary>
+    /// 플레이어가 주변에 있는지 감지하는 함수
+    /// </summary>
+    /// <returns></returns>
     private bool DetectPlayerNearby()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius);
@@ -236,7 +262,9 @@ public class CPlayerDoorInter : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// 감지 범위를 시각적으로 디버깅하기 위한 함수
+    /// </summary>
     private void OnDrawGizmosSelected()
     {
         // 감지 범위를 디버깅으로 시각화

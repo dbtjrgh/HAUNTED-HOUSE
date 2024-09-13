@@ -309,7 +309,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uD50C\uB808\uC774\uC5B4 \uC774\uB984"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8fce0caee386a6346b016943d09ddce5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ae35cc2e240955a49a299aeb4cfc8d2b, type: 2}
   m_sharedMaterial: {fileID: 1762029023585943517, guid: 8fce0caee386a6346b016943d09ddce5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &-1026694473562139272

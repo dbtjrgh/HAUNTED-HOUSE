@@ -6,6 +6,7 @@ using Cinemachine;
 
 public class CMultiPlayer : MonoBehaviourPunCallbacks
 {
+    #region 변수
     [SerializeField]
     private CharacterController charController;
 
@@ -20,7 +21,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     private float normalSpeed = 2f;
 
     private float moveSpeed;
-    public float sprintMultiplier = 2f;
+    public float sprintMultiplier = 1.5f;
 
     private bool _crouch = false;
     private Wonbin.CrouchAnimation _animControl;
@@ -47,6 +48,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     private CinemachineVirtualCamera playerCinemachine;
 
     private float smoothTime = 0.2f; // 카메라 위치 전환을 위한 시간
+    #endregion
 
     private void Awake()
     {
@@ -119,7 +121,10 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             verticalVelocity -= gravity * Time.deltaTime;
         }
     }
-
+    /// <summary>
+    /// 마우스, 키보드 플레이어 조작 함수
+    /// </summary>
+    /// <returns></returns>
     private Vector3 GetMoveDirection()
     {
         float y_RotateSize = Input.GetAxis("Mouse X") * turnSpeed;
@@ -137,7 +142,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
 
         return horizontalMove;
     }
-
+    /// <summary>
+    /// 죽었을 때 불러오는 함수
+    /// </summary>
     public void Die()
     {
         isDead = true;
@@ -156,7 +163,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             gameManager.CheckAllPlayersDead();
         }
     }
-
+    /// <summary>
+    /// 앉기, 일어나기 불러오는 함수
+    /// </summary>
     private void CrouchHandle()
     {
         if (Input.GetKeyDown(KeyCode.C) && !isDead)
@@ -182,7 +191,11 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    /// <summary>
+    /// 앉았다 일어날때 자연스럽게 카메라 무빙시켜주는 함수
+    /// </summary>
+    /// <param name="targetY"></param>
+    /// <returns></returns>
     private IEnumerator SmoothHeadPosition(float targetY)
     {
         float startY = _playerHead.position.y; // 시작 Y 위치
@@ -199,7 +212,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         // 마지막으로 정확하게 목표 위치에 도달하게 설정
         _playerHead.position = new Vector3(_playerHead.position.x, targetY, _playerHead.position.z);
     }
-
+    /// <summary>
+    /// 달리기 함수
+    /// </summary>
     private void Sprint()
     {
         if (Input.GetKey(KeyCode.LeftShift) && !isDead)
@@ -212,6 +227,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// 움직일 때 불러오는 함수로 애니메이션 및 사운드 또한 적용
+    /// </summary>
     private void moveInput()
     {
         float y_RotateSize = Input.GetAxis("Mouse X") * turnSpeed;
@@ -241,7 +259,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    /// <summary>
+    /// 카메라 머리쪽에서 유지시키도록하는 함수
+    /// </summary>
     private void FollowHead()
     {
         if (_currFollowHeadTime > 0f)
@@ -250,7 +270,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             _currFollowHeadTime -= Time.deltaTime;
         }
     }
-
+    /// <summary>
+    /// 마우스 조작에 따라 시점이 바뀌게 하는 함수
+    /// </summary>
     private void PlayerRotation()
     {
         _playerBody.Rotate(Vector3.up * _mouseX);
@@ -260,7 +282,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
 
         _playerHead.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
-
+    /// <summary>
+    /// 머리 위치 재조정해주는 함수
+    /// </summary>
     private void SetHeadPosition()
     {
         _headPosition = _playerHead.position;

@@ -9,6 +9,7 @@ using Cinemachine;
 
 public class CSinglePlayer : MonoBehaviour
 {
+    #region 변수
     [SerializeField]
     private CharacterController charController;
 
@@ -55,7 +56,7 @@ public class CSinglePlayer : MonoBehaviour
 
 
     private CinemachineVirtualCamera playerCinemachine;
-
+    #endregion
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -81,14 +82,11 @@ public class CSinglePlayer : MonoBehaviour
         }
     }
 
-
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
         initialHeadPositionY = _playerHead.position.y; // 초기 머리 위치 저장
     }
-
-
     private void Update()
     {
         moveInput();
@@ -97,8 +95,6 @@ public class CSinglePlayer : MonoBehaviour
         PlayerRotation(); // 플레이어 회전
         CrouchHandle();
     }
-
-
 
     private void CrouchHandle()
     {
@@ -138,7 +134,10 @@ public class CSinglePlayer : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// 앉았다 일어날 때, 머리 위치 자연스럽게 보정해주는 함수
+    /// </summary>
+    /// <param name="targetY"></param>
     private void AdjustHeadPosition(float targetY)
     {
         if (_playerHead != null)
@@ -147,10 +146,9 @@ public class CSinglePlayer : MonoBehaviour
             _playerHead.position = new Vector3(currentPosition.x, targetY, currentPosition.z);
         }
     }
-
-
-
-
+    /// <summary>
+    /// 달리기 함수
+    /// </summary>
     private void Sprint()
     {
         // 기본 이동 속도에 스프린트 배수 적용
@@ -163,9 +161,9 @@ public class CSinglePlayer : MonoBehaviour
             moveSpeed = normalSpeed;  // 기본 속도
         }
     }
-
-
-
+    /// <summary>
+    /// 움직일 때 불러오는 함수
+    /// </summary>
     private void moveInput()
     {
         // 마우스의 이동량
@@ -200,10 +198,10 @@ public class CSinglePlayer : MonoBehaviour
                 SoundManager.instance.StopWalkingSound();
             }
         }
-
-        
     }
-
+    /// <summary>
+    /// 카메라 머리쪽에서 유지시키도록하는 함수
+    /// </summary>
     private void FollowHead()
     {
         if (_currFollowHeadTime > 0f)
@@ -212,7 +210,9 @@ public class CSinglePlayer : MonoBehaviour
             _currFollowHeadTime -= Time.deltaTime;
         }
     }
-
+    /// <summary>
+    /// 마우스 조작에 따라 시점이 바뀌게 하는 함수
+    /// </summary>
     private void PlayerRotation()
     {
         _playerBody.Rotate(Vector3.up * _mouseX);
@@ -222,7 +222,9 @@ public class CSinglePlayer : MonoBehaviour
 
         _playerHead.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
-
+    /// <summary>
+    /// 머리 위치 재조정해주는 함수
+    /// </summary>
     private void SetHeadPosition()
     {
         // 머리 위치와 회전 업데이트

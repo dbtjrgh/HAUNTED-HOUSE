@@ -5,6 +5,7 @@ using System.Collections;
 
 public class CPlayerInventory : MonoBehaviourPun
 {
+    #region 변수
     public List<GameObject> inventoryItems;
     public Transform dropPoint;
     public Transform handPosition;
@@ -19,7 +20,7 @@ public class CPlayerInventory : MonoBehaviourPun
     private Quaternion lastSentRotation;
     private float positionThreshold = 0.05f; // 이 값을 넘으면 업데이트 전송
     private float rotationThreshold = 1f;
-
+    #endregion
     private void Awake()
     {
         if (inventoryItems == null)
@@ -59,7 +60,6 @@ public class CPlayerInventory : MonoBehaviourPun
                         currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
                 }
             }
-
             else
             {
                 DelMissingItem(); // 인벤토리 내에서 null이 발생된 아이템이 있으면, 인벤토리 리스트를 순회후 제거
@@ -81,7 +81,9 @@ public class CPlayerInventory : MonoBehaviourPun
         // 디버그용 레이캐스트 시각화
         DebugRaycast();
     }
-
+    /// <summary>
+    /// 아이템 줍기 키를 눌렀을 시 호출되는 함수
+    /// </summary>
     void TryPickupItem()
     {
         ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -107,7 +109,7 @@ public class CPlayerInventory : MonoBehaviourPun
             }
         }
     }
-
+    // 지워볼생각
     [PunRPC]
     void PickupItem(int itemViewID, int playerViewID)
     {
@@ -133,12 +135,19 @@ public class CPlayerInventory : MonoBehaviourPun
             Debug.LogWarning("인벤토리가 가득 찼습니다.");
         }
     }
-
+    /// <summary>
+    /// 최대 아이템 개수 제한 체크
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
     public bool CanAddItem(GameObject item)
     {
         return inventoryItems.Count < 3;  // 인벤토리 크기 제한
     }
-
+    /// <summary>
+    /// 인벤토리에 추가 후 비활성화시키는 함수
+    /// </summary>
+    /// <param name="item"></param>
     public void AddToInventory(GameObject item)
     {
         // 인벤토리에 추가 후 비활성화
@@ -147,10 +156,13 @@ public class CPlayerInventory : MonoBehaviourPun
         item.transform.SetParent(transform);  // 플레이어의 자식으로 설정
         if (currentItemIndex == -1)
         {
-            currentItemIndex = 0;  // 첫 번째 아이템 자동 선택
+            // currentItemIndex = 0;  // 첫 번째 아이템 자동 선택
             EquipCurrentItem();
         }
     }
+    /// <summary>
+    /// 아이템을 바꿨을 때 호출되는 함수
+    /// </summary>
     void SwitchItem()
     {
         if (inventoryItems.Count == 0)
@@ -163,7 +175,7 @@ public class CPlayerInventory : MonoBehaviourPun
         //{
         //    SetFlashlightMeshActive(false);
         //}
-         if (currentItem != null)
+        if (currentItem != null)
         {
             currentItem.SetActive(false);  // 일반 아이템은 그냥 비활성화
         }
@@ -191,10 +203,11 @@ public class CPlayerInventory : MonoBehaviourPun
     //    }
     //}
 
-
-
-    void DelMissingItem() //아이템 인벤토리 리스트를 순회해서, missing 된 index가 있다면, 자동으로 제거해주는 함수.
-    {   
+    /// <summary>
+    /// 아이템 인벤토리 리스트를 순회해서, missing 된 index가 있다면, 자동으로 제거해주는 함수
+    /// </summary>
+    void DelMissingItem()
+    {
         for (int i = inventoryItems.Count - 1; i >= 0; i--)
         {
             if (inventoryItems[i] == null)
@@ -203,9 +216,9 @@ public class CPlayerInventory : MonoBehaviourPun
             }
         }
     }
-
- 
-
+    /// <summary>
+    /// 아이템 바꿨을때 같이 호출되는 함수
+    /// </summary>
     void EquipCurrentItem()
     {
         currentItem = inventoryItems[currentItemIndex];
@@ -217,7 +230,9 @@ public class CPlayerInventory : MonoBehaviourPun
         // 다른 플레이어에게도 동기화
         photonView.RPC("UpdateItemPositionRotation", RpcTarget.Others, currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
     }
-
+    /// <summary>
+    /// 아이템을 떨궜을 때 호출되는 함수
+    /// </summary>
     public void DropCurrentItem()
     {
         if (currentItem != null)
@@ -248,7 +263,11 @@ public class CPlayerInventory : MonoBehaviourPun
             currentItemIndex = -1;  // 아이템이 없을 경우 인덱스를 초기화
         }
     }
-
+    /// <summary>
+    /// 아이템 떨궜을때 호출되는 함수(멀티) 수정 예정
+    /// </summary>
+    /// <param name="itemViewID"></param>
+    /// <param name="dropPosition"></param>
     [PunRPC]
     void DropItemRPC(int itemViewID, Vector3 dropPosition)
     {
@@ -278,7 +297,12 @@ public class CPlayerInventory : MonoBehaviourPun
             }
         }
     }
-
+    /// <summary>
+    /// 아이템 위치가 갱신이 안돼서 만들어놓은 함수
+    /// </summary>
+    /// <param name="itemViewID"></param>
+    /// <param name="newPosition"></param>
+    /// <param name="newRotation"></param>
     [PunRPC]
     void UpdateItemPositionRotation(int itemViewID, Vector3 newPosition, Quaternion newRotation)
     {
@@ -290,7 +314,14 @@ public class CPlayerInventory : MonoBehaviourPun
             StartCoroutine(SmoothMove(item.transform, newPosition, newRotation, 0.1f)); // 0.1초 동안 부드럽게 이동
         }
     }
-
+    /// <summary>
+    /// 아이템을 들고있을 때 자연스럽게 들고있게 만들어본 함수
+    /// </summary>
+    /// <param name="itemTransform"></param>
+    /// <param name="targetPosition"></param>
+    /// <param name="targetRotation"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     private IEnumerator SmoothMove(Transform itemTransform, Vector3 targetPosition, Quaternion targetRotation, float duration)
     {
         Vector3 startPosition = itemTransform.position;
@@ -309,7 +340,9 @@ public class CPlayerInventory : MonoBehaviourPun
         itemTransform.position = targetPosition;
         itemTransform.rotation = targetRotation;
     }
-
+    /// <summary>
+    /// 아이템을 쉽게 줍도록 디버깅하기위해 만들어놓은 함수
+    /// </summary>
     void DebugRaycast()
     {
         ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));

@@ -66,17 +66,22 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         diffDropdown.value = (int)Difficulty.Easy;
         DifficultyValueChange((int)Difficulty.Easy); // 난이도 변경 메서드 호출
     }
-
+    /// <summary>
+    /// 이 오브젝트가 비활성화일 때 플레이어 리스트 파괴
+    /// </summary>
     public override void OnDisable()
     {
         base.OnDisable();
 
-        foreach(Transform child in playerList)
+        foreach (Transform child in playerList)
         {
             Destroy(child.gameObject);
         }
     }
 
+    /// <summary>
+    /// 이 오브젝트가 활성화일 때 플레이어 리스트 생성
+    /// </summary>
     public override void OnEnable()
     {
         base.OnEnable();
@@ -84,7 +89,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         roomTitleText.text = PhotonNetwork.CurrentRoom.Name;
 
         // 만약 방장이라면
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             playersReady = new Dictionary<int, bool>();
         }
@@ -94,7 +99,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         diffDropdown.gameObject.SetActive(PhotonNetwork.IsMasterClient);
         mapButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
 
-       
+
 
         foreach (Photon.Realtime.Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
@@ -108,7 +113,12 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         // 방에 입장 했을 때, 방장의 씬 로드 여부에 따라 함께 씬 로드
         PhotonNetwork.AutomaticallySyncScene = true;
     }
-
+    /// <summary>
+    /// 플레이어가 방에 입장했을 때 불러오는 함수로
+    /// 미리 프리팹으로 형성해놓은 플레이어 텍스트 문구를 가져와서
+    /// 리스트로 나열
+    /// </summary>
+    /// <param name="newPlayer"></param>
     public void JoinPlayer(Photon.Realtime.Player newPlayer)
     {
         var playerEntry = Instantiate(playerTextPrefab, playerList, false).GetComponent<CPlayerEntry>();
@@ -140,7 +150,10 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
         SortPlayers();
     }
-
+    /// <summary>
+    /// 게임 준비 버튼으로 클릭하면 모두에게 공유되며
+    /// 준비가 된 것을 마스터 클라이언트에게 전달한다.
+    /// </summary>
     private void OnReadyButtonClick()
     {
         var toggle = playerEntries[PhotonNetwork.LocalPlayer.ActorNumber].readyToggle;
@@ -151,7 +164,11 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
         ReadyToggleClick(newState);
     }
-
+    /// <summary>
+    /// 플레이어가 방을 떠났을 때 불러오는 함수
+    /// 프리팹으로 불러온 플레이어 텍스트를 파괴시킨다.
+    /// </summary>
+    /// <param name="leavePlayer"></param>
     public void LeavePlayer(Photon.Realtime.Player leavePlayer)
     {
         if (playerEntries.ContainsKey(leavePlayer.ActorNumber))
@@ -190,7 +207,8 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 게임 시작 버튼
+    /// 게임 시작 버튼으로 모든 플레이어가 준비가 되고 맵이 선택돼 있어야 버튼이 활성화된다. 
+    /// 맵 선택에 따라 로드되는 씬이 나뉘어진다.
     /// </summary>
     public void StartButtonClick()
     {
@@ -207,27 +225,31 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            if(selectedMap == "공장")
+            if (selectedMap == "공장")
             {
                 PhotonNetwork.LoadLevel("Factory");
                 SoundManager.instance.PlayGameSceneMusic();
             }
-            else if(selectedMap == "폐허")
+            else if (selectedMap == "폐허")
             {
                 PhotonNetwork.LoadLevel("Turkwood");
                 SoundManager.instance.PlayGameSceneMusic();
             }
-            
+
         }
     }
-
-    
-
+    /// <summary>
+    /// 모든 플레이어가 준비를 했는지 체크하는 함수
+    /// </summary>
+    /// <returns></returns>
     private bool AllPlayersReady()
     {
         foreach (var playerReady in playersReady.Values)
         {
-            if (!playerReady) return false;
+            if (!playerReady)
+            {
+                return false;
+            }
         }
         return true;
     }
@@ -241,7 +263,10 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         // 시간 지연으로 인해 방을 나갔는데 방장의 시작 콜에 의해 씬이 넘어가는 것을 방지
         PhotonNetwork.AutomaticallySyncScene = false;
     }
-
+    /// <summary>
+    /// 해당 플레이어 닉네임 옆에 토글버튼으로 누르면 준비 버튼과 동일한 함수를 호출한다.
+    /// </summary>
+    /// <param name="isOn"></param>
     public void ReadyToggleClick(bool isOn)
     {
         Photon.Realtime.Player localPlayer = PhotonNetwork.LocalPlayer;
@@ -255,28 +280,35 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         localPlayer.SetCustomProperties(customProps);
     }
 
-    // 다른 플레이어가 ReadyToggle을 변경했을 경우 내 클라이언트에도 반영.
+    /// <summary>
+    /// 다른 플레이어가 ReadyToggle을 변경했을 경우 내 클라이언트에도 반영
+    /// </summary>
+    /// <param name="actorNumber"></param>
+    /// <param name="isReady"></param>
     public void SetPlayerReady(int actorNumber, bool isReady)
-{
-    if (playerEntries.ContainsKey(actorNumber))
     {
-        var playerEntry = playerEntries[actorNumber];
-        playerEntry.readyToggle.SetIsOnWithoutNotify(isReady); // 토글의 상태를 업데이트
-
-        if (PhotonNetwork.IsMasterClient)
+        if (playerEntries.ContainsKey(actorNumber))
         {
-            playersReady[actorNumber] = isReady;
-            CheckReady();
-        }
+            var playerEntry = playerEntries[actorNumber];
+            playerEntry.readyToggle.SetIsOnWithoutNotify(isReady); // 토글의 상태를 업데이트
 
-        // 자신의 토글은 상호작용 가능하게 유지, 다른 플레이어는 비활성화
-        if (actorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
-        {
-            playerEntry.readyToggle.interactable = false;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                playersReady[actorNumber] = isReady;
+                CheckReady();
+            }
+
+            // 자신의 토글은 상호작용 가능하게 유지, 다른 플레이어는 비활성화
+            if (actorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                playerEntry.readyToggle.interactable = false;
+            }
         }
     }
-}
 
+    /// <summary>
+    /// 모든 플레이어가 준비됐는지 체크하는 함수
+    /// </summary>
     public void CheckReady()
     {
         bool allReady = playersReady.Values.All(x => x); // 모든 플레이어가 준비가 되어있을 때 버튼 활성화
@@ -284,7 +316,10 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
         startButton.interactable = allReady && !string.IsNullOrEmpty(selectedMap); // 맵 선택 여부 체크
     }
-
+    /// <summary>
+    /// 난이도 변경될 때 호출되는 함수
+    /// </summary>
+    /// <param name="value"></param>
     private void DifficultyValueChange(int value)
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -295,7 +330,11 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         customProps["Diff"] = value;
         PhotonNetwork.CurrentRoom.SetCustomProperties(customProps);
     }
-
+    /// <summary>
+    /// 플레이어가 준비할 때 호출되는 함수
+    /// </summary>
+    /// <param name="targetPlayer"></param>
+    /// <param name="changedProps"></param>
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, PhotonHashtable changedProps)
     {
         if (changedProps.ContainsKey("Ready"))
@@ -303,7 +342,10 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
             SetPlayerReady(targetPlayer.ActorNumber, (bool)changedProps["Ready"]);
         }
     }
-
+    /// <summary>
+    /// 게임 난이도와 맵 선택 할 때마다 호출되는 함수
+    /// </summary>
+    /// <param name="props"></param>
     public override void OnRoomPropertiesUpdate(PhotonHashtable props)
     {
         props = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -324,14 +366,19 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
 
     }
 
-    // 맵 선택 화면을 열기 위한 메서드
+    /// <summary>
+    /// 맵 선택 화면을 열기 위한 함수
+    /// </summary>
     public void OpenMapSelection()
     {
         this.gameObject.SetActive(false);
         chooseMapScreen.gameObject.SetActive(true); // 맵 선택 화면 활성화
     }
 
-    // 맵 선택 후 호출할 메서드
+    /// <summary>
+    /// 맵 선택 후 호출할 함수
+    /// </summary>
+    /// <param name="mapName"></param>
     public void ChooseMap(string mapName)
     {
         selectedMap = mapName;
@@ -344,10 +391,6 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         // 맵 텍스트에 선택된 맵 표시
         mapText.text = mapName;
     }
-
-
-
-
     /// <summary>
     /// 방장이 나갔을 때 호출되는 함수로, 방에 참가되어 있는 상태에서 방장의 역할을
     /// 수행 할 수 있도록 유효성 검사 및 추가 조치 요구
@@ -363,7 +406,7 @@ public class CRoomScreen : MonoBehaviourPunCallbacks
         {
             Debug.Log("I'm master client");
         }
-            
+
         if (playersReady == null)
         {
             playersReady = new Dictionary<int, bool>();

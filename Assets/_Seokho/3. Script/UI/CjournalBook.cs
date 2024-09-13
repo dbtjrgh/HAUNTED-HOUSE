@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CjournalBook : MonoBehaviour
 {
+    #region 변수
     public Button homeMark;
     public Button evidenceMark;
     public Button ghostInfoMark;
@@ -41,7 +42,7 @@ public class CjournalBook : MonoBehaviour
     public CGameResultUI resultUI;
 
     public bool ghostSelected = false;
-
+    #endregion
 
     void Start()
     {
@@ -77,15 +78,21 @@ public class CjournalBook : MonoBehaviour
         CheckGhostToggles();
     }
 
-
+    /// <summary>
+    /// 고스트가 선택됐다면 bool값으로 처리
+    /// </summary>
+    /// <param name="selected"></param>
     public void SetGhostSelected(bool selected)
     {
         ghostSelected = selected;
     }
 
+    /// <summary>
+    /// 변경된 토글 하나만의 Checkmark 상태를 업데이트해주는 함수
+    /// </summary>
+    /// <param name="isOn"></param>
     public void OnEvidenceToggleChanged(bool isOn)
     {
-        // 이 메서드는 변경된 토글 하나만의 Checkmark 상태를 업데이트합니다.
         for (int i = 0; i < evidenceItemCheck.Length; i++)
         {
             Transform checkmarkTransform = evidenceItemCheck[i].transform.Find("Background/Checkmark");
@@ -98,7 +105,10 @@ public class CjournalBook : MonoBehaviour
         }
     }
 
-    public void setupToggles() // 처음 1회, 증거들의 toggle.ison을 비활성화.
+    /// <summary>
+    /// // 처음 1회, 증거들의 toggle.ison을 비활성화시켜주는 함수
+    /// </summary>
+    public void setupToggles()
     {
         foreach(Toggle toggle in evidenceItemCheck)
         {
@@ -106,8 +116,9 @@ public class CjournalBook : MonoBehaviour
         }
     }
 
-
-
+    /// <summary>
+    /// 증거 토글 선택에 따라 고스트의 이름 토글이 자동으로 체크시켜주는 함수
+    /// </summary>
     public void CheckGhostToggles()
     {
         int selectedEvidenceCount = 0;
@@ -169,6 +180,10 @@ public class CjournalBook : MonoBehaviour
         }
         CheckGhostMatchWithToggle();
     }
+    /// <summary>
+    /// 선택한 고스트와 씬에 있는 고스트가 같은지 여부에 따라
+    /// 게임 결과 UI에 나타나는 텍스트가 결정되게 하는 함수
+    /// </summary>
     public void CheckGhostMatchWithToggle()
     {
         Ghost ghost = FindObjectOfType<Ghost>();  // Ghost 클래스 인스턴스를 가져옴
@@ -204,25 +219,30 @@ public class CjournalBook : MonoBehaviour
                 ghostTypeText = "밴시";
             }
             resultUI.SetGameResult(resultText, ghostTypeText);
-            
         }
     }
 
-
+    /// <summary>
+    /// 저널 메인 화면 탭 열기 함수
+    /// </summary>
     void ShowHomePage()
     {
         homePage.SetActive(true);
         evidencePage.SetActive(false);
         ghostInfoPage.SetActive(false);
     }
-
+    /// <summary>
+    /// 저널 증거 및 투표 화면 탭 열기 함수
+    /// </summary>
     void ShowEvidencePage()
     {
         homePage.SetActive(false);
         evidencePage.SetActive(true);
         ghostInfoPage.SetActive(false);
     }
-
+    /// <summary>
+    /// 저널 귀신 정보 화면 탭 열기 함수
+    /// </summary>
     void ShowGhostInfoPage()
     {
         homePage.SetActive(false);
@@ -230,13 +250,18 @@ public class CjournalBook : MonoBehaviour
         ghostInfoPage.SetActive(true);
         UpdateGhostInfo();
     }
-
+    /// <summary>
+    /// 해당 플레이어의 멘탈 게이지를 가져와서 표시해주는 함수
+    /// </summary>
     void showMentalGauge()
     {
         mentalGaugeManager mentalGaugeManager = GameObject.FindWithTag("Player").GetComponent<mentalGaugeManager>();
         mentalGaugeText.text = mentalGaugeManager.MentalGauge.ToString("F1");
     }
 
+    /// <summary>
+    /// 귀신 정보탭 내 파일을 할당해 나타내는 함수
+    /// </summary>
     void UpdateGhostInfo()
     {
         if (ghostObjects.Length > 0)
@@ -255,6 +280,9 @@ public class CjournalBook : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 귀신 정보탭 내 이전 페이지로 넘기는 함수
+    /// </summary>
     void ShowPreviousPage()
     {
         if (ghostObjects.Length > 0)
@@ -264,6 +292,9 @@ public class CjournalBook : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 귀신 정보탭 내 다음 페이지로 넘기는 함수
+    /// </summary>
     void ShowNextPage()
     {
         if (ghostObjects.Length > 0)
