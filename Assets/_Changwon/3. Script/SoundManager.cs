@@ -47,6 +47,7 @@ public class SoundManager : MonoBehaviour
         musicSource.clip = GameScene;
         musicSource.loop = true;
         musicSource.Play();
+        musicSource.volume = 1f;
     }
 
     public void StopGameSceneMusic()
@@ -62,7 +63,9 @@ public class SoundManager : MonoBehaviour
     public void PlayClearSceneMusic()
     {
         musicSource.clip = ClearScene;
+        musicSource.volume = 0.1f;
         musicSource.PlayOneShot(musicSource.clip);
+        
     }
 
     public void stopSceneMusic()
@@ -79,7 +82,9 @@ public class SoundManager : MonoBehaviour
     {
         
         musicSource.clip = FailScene;
+        musicSource.volume = 0.1f;
         musicSource.PlayOneShot(musicSource.clip);
+        
     }
     public void StopFailSceneMusic()
     {

@@ -40206,6 +40206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1923451545}
   - component: {fileID: 1923451546}
+  - component: {fileID: 1923451547}
   m_Layer: 0
   m_Name: BoardManager
   m_TagString: Untagged
@@ -40247,6 +40248,21 @@ MonoBehaviour:
   room: {fileID: 1635347147}
   startPositions: {fileID: 0}
   InfoText: {fileID: 125126354}
+--- !u!114 &1923451547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923451544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3412ae9c40596c24083bbfcc5ade5229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ResultUIGroup: {fileID: 0}
+  FadeTime: 1
+  activecheck: 0
 --- !u!1001 &1936512645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45100,15 +45116,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4360355057582129580, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26.123
+      value: 398
       objectReference: {fileID: 0}
     - target: {fileID: 4360355057582129580, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.477
+      value: 206
       objectReference: {fileID: 0}
     - target: {fileID: 4360355057582129580, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.2799997
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4360355057582129580, guid: 4bad91519a666a345a3400e2ee8671f3, type: 3}
       propertyPath: m_LocalRotation.w
