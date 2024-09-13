@@ -42,24 +42,38 @@ public class CPlayerInventory : MonoBehaviourPun
                 TryPickupItem();
             }
 
-            // 아이템이 존재할 때만 위치와 회전 동기화
+            // 현재 손에 든 아이템을 손 위치에 맞춰 움직이기
             if (currentItem != null)
             {
                 currentItem.transform.position = handPosition.position;
                 currentItem.transform.rotation = handPosition.rotation;
 
-                // 위치나 회전에 큰 변화가 있을 때만 RPC 전송
-                if (Vector3.Distance(currentItem.transform.position, lastSentPosition) > positionThreshold ||
-                    Quaternion.Angle(currentItem.transform.rotation, lastSentRotation) > rotationThreshold)
-                {
-                    lastSentPosition = currentItem.transform.position;
-                    lastSentRotation = currentItem.transform.rotation;
+                // 다른 플레이어에게도 아이템 위치와 회전 동기화
+                photonView.RPC("UpdateItemPositionRotation", RpcTarget.Others, currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
 
-                    // 위치와 회전 정보를 다른 클라이언트에 전송
-                    photonView.RPC("UpdateItemPositionRotation", RpcTarget.Others,
-                        currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
+                // R 키를 눌러 손전등 또는 정신력 회복 아이템 사용
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    // 손전등 사용
+                    var flashlightScript = currentItem.GetComponent<flashLight>();
+                    if (flashlightScript != null)
+                    {
+                        flashlightScript.lightOnOFF();
+                    }
+
+                    // 정신력 회복 아이템 사용
+                    var gaugeFillScript = currentItem.GetComponent<gaugeFill>();
+                    if (gaugeFillScript != null && playerMentalGauge.MentalGauge < playerMentalGauge.maxMentalGauge)
+                    {
+                        gaugeFillScript.fillUse();
+                    }
+                    else if (gaugeFillScript != null && playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
+                    {
+                        Debug.Log("정신력 게이지가 최대치입니다.");
+                    }
                 }
             }
+
             else
             {
                 DelMissingItem(); // 인벤토리 내에서 null이 발생된 아이템이 있으면, 인벤토리 리스트를 순회후 제거
@@ -81,6 +95,7 @@ public class CPlayerInventory : MonoBehaviourPun
         // 디버그용 레이캐스트 시각화
         DebugRaycast();
     }
+
     /// <summary>
     /// 아이템 줍기 키를 눌렀을 시 호출되는 함수
     /// </summary>
@@ -109,6 +124,7 @@ public class CPlayerInventory : MonoBehaviourPun
             }
         }
     }
+
     // 지워볼생각
     [PunRPC]
     void PickupItem(int itemViewID, int playerViewID)
@@ -341,7 +357,7 @@ public class CPlayerInventory : MonoBehaviourPun
         itemTransform.rotation = targetRotation;
     }
     /// <summary>
-    /// 아이템을 쉽게 줍도록 디버깅하기위해 만들어놓은 함수
+    /// 아이템을 쉽게 줍도록 디버깅하기위해 만들어놓은 함수    
     /// </summary>
     void DebugRaycast()
     {

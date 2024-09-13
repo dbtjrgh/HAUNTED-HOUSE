@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 1469425105205807629}
   - component: {fileID: 1469425105205807628}
   - component: {fileID: 207002263}
+  - component: {fileID: 4642548830030652092}
   - component: {fileID: 5467086629679930633}
   m_Layer: 5
   m_Name: GameResultUI
@@ -316,6 +317,20 @@ MonoBehaviour:
   backButton: {fileID: 1469425106111523020}
   GameResultText: {fileID: 1469425106030778898}
   GhostText: {fileID: 1469425106493820660}
+--- !u!114 &4642548830030652092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469425105205807667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3412ae9c40596c24083bbfcc5ade5229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ResultUIGroup: {fileID: 5467086629679930633}
+  FadeTime: 3
 --- !u!225 &5467086629679930633
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -324,7 +339,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469425105205807667}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

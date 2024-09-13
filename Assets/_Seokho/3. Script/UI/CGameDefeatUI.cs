@@ -79,9 +79,16 @@ public class CGameDefeatUI : MonoBehaviour
     }
     void Effecting()
     {
-        Correctanswer.text += targetMsg[index];
-        index++;
-
-        Invoke("Effecting", interval);
+        if (index < targetMsg.Length)
+        {
+            Correctanswer.text += targetMsg[index];
+            index++;
+            Invoke("Effecting", interval);
+        }
+        else
+        {
+            CancelInvoke("Effecting");
+        }
     }
+
 }
