@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool onOff = false;
 
     private Dictionary<int, mentalGaugeManager> playerMentalGaues;
+
+    FadeResult ui;
     #endregion
 
     private void Awake()
@@ -102,7 +104,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ShowDeathUI()
     {
-
+        
         defeatUI.SetActive(true);
 
         SoundManager.instance.StopGameSceneMusic();
@@ -143,8 +145,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public IEnumerator ShowResultUI()
     {
+        
         yield return new WaitForSeconds(5f);
         resultUI.SetActive(true);
+        
+        
         Cursor.lockState = CursorLockMode.Confined;
     }
     public bool CheckAllPlayersSelectedGhost()
