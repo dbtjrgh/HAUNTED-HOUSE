@@ -152,6 +152,8 @@ public class CPlayerInventory : MonoBehaviourPun
             Debug.LogWarning("인벤토리가 가득 찼습니다.");
         }
 
+
+
     }
     /// <summary>
     /// 최대 아이템 개수 제한 체크
@@ -267,6 +269,12 @@ public class CPlayerInventory : MonoBehaviourPun
             {
                 currentItem.transform.SetParent(null);  // 플레이어에서 분리
                 Vector3 dropPosition = dropPoint.position;
+
+                if (currentItem.TryGetComponent<flashLight>(out flashLight flashlight)) //버렸을때 flashlight를 다시 초기화.
+                {
+                        flashlight.meshHandle(true); // 메쉬 비활성화
+                        flashlight.swapLight(true); // 라이트는 상시 활성화.
+                }
 
                 // 아이템을 드롭한 후 소유권을 원래 상태로 전환
                 itemPhotonView.TransferOwnership(PhotonNetwork.MasterClient);

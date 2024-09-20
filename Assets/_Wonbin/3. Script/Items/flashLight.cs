@@ -11,6 +11,7 @@ public class flashLight : MonoBehaviourPun
     CPlayerInventory playerInventory; // mesh값의 상태 변화를 위해 playerInventory 스크립트를 가져옴
     private GameObject Flashlight;
 
+
     private void Start()
     {
         myLight = GetComponentInChildren<Light>();
@@ -57,23 +58,21 @@ public class flashLight : MonoBehaviourPun
     }
 
 
-    public void meshHandle(bool isActive)
-    {
-
-        Debug.Log("isActive: " + isActive); // 호출될때마다 isActive 할당 확인.
-        if (lightMesh != null)
-        {
-            lightMesh.gameObject.SetActive(isActive); // 매쉬의 활성화 상태 변경
-        }
-
-    }
-
-
     public void swapLight(bool isActive)
     {
         if (Flashlight != null)
         {
-            Flashlight.SetActive(true); // 손전등 오브젝트는 항상 활성화 상태 유지
+            Flashlight.SetActive(isActive); // 손전등 오브젝트는 항상 활성화 상태 유지
         }
     }
+
+    public void meshHandle(bool isActive)
+    {
+        if (lightMesh != null)
+        {
+            lightMesh.gameObject.SetActive(isActive); // 매쉬의 활성화 상태 변경
+        }
+    }
+
+
 }
