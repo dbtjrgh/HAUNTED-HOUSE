@@ -15,7 +15,7 @@ public class CPlayerInventory : MonoBehaviourPun
     private Ray ray;
     private float rayCastDistance = 4.0f;
     private mentalGaugeManager playerMentalGauge;
-    flashLight flashlight; // flashLight의 레이어를 할당하기 위해 선언.
+    private flashLight flashlight; // flashLight의 레이어를 할당하기 위해 선언.
     private Vector3 lastSentPosition;
     private Quaternion lastSentRotation;
     private float positionThreshold = 0.05f; // 이 값을 넘으면 업데이트 전송
@@ -29,7 +29,7 @@ public class CPlayerInventory : MonoBehaviourPun
         }
 
         playerMentalGauge = GetComponent<mentalGaugeManager>();
-        flashlight = GetComponent<flashLight>(); // flashLight의 레이어를 할당하기 위해 Awake에서 초기화.
+
     }
 
     private void Update()
@@ -58,6 +58,7 @@ public class CPlayerInventory : MonoBehaviourPun
                     var flashlightScript = currentItem.GetComponent<flashLight>();
                     if (flashlightScript != null)
                     {
+                        Debug.Log("손전등 사용");
                         flashlightScript.lightOnOFF();
                     }
 
@@ -150,6 +151,7 @@ public class CPlayerInventory : MonoBehaviourPun
         {
             Debug.LogWarning("인벤토리가 가득 찼습니다.");
         }
+
     }
     /// <summary>
     /// 최대 아이템 개수 제한 체크
@@ -186,38 +188,35 @@ public class CPlayerInventory : MonoBehaviourPun
             return;
         }
 
-        //// 현재 아이템이 손전등(flashLight)이면 mesh를 비활성화
-        //if (currentItem == flashlight.gameObject)
-        //{
-        //    SetFlashlightMeshActive(false);
-        //}
         if (currentItem != null)
         {
-            currentItem.SetActive(false);  // 일반 아이템은 그냥 비활성화
+            // 현재 아이템이 flashLight인지 확인하고 비활성화
+            if (currentItem.TryGetComponent<flashLight>(out flashLight flashlight))
+            {
+                if (currentItemIndex != inventoryItems.Count - 1) // 마지막 아이템이 아닐 때
+                {
+                    flashlight.meshHandle(false); // 메쉬 비활성화
+                    flashlight.swapLight(true); // 라이트는 상시 활성화.
+                }
+            }
+            else
+            {
+                currentItem.SetActive(false);  // 일반 아이템은 그냥 비활성화
+
+            }            
+          
         }
+
 
         // 다음 아이템으로 교체
         currentItemIndex = (currentItemIndex + 1) % inventoryItems.Count;
 
         EquipCurrentItem();  // 새 아이템 장착
 
-        //// 교체한 아이템이 flashLight일 경우 mesh를 활성화
-        //if (currentItem == flashlight.gameObject)
-        //{
-        //    SetFlashlightMeshActive(true);
-        //}
+     
     }
 
-    //// 손전등의 MeshRenderer를 활성화 또는 비활성화하는 메서드
-    //void SetFlashlightMeshActive(bool isActive)
-    //{
-    //    MeshRenderer flashlightRenderer = flashlight.GetComponent<MeshRenderer>();
 
-    //    if (flashlightRenderer != null)
-    //    {
-    //        flashlightRenderer.enabled = isActive;  // MeshRenderer 활성화/비활성화
-    //    }
-    //}
 
     /// <summary>
     /// 아이템 인벤토리 리스트를 순회해서, missing 된 index가 있다면, 자동으로 제거해주는 함수
@@ -243,9 +242,17 @@ public class CPlayerInventory : MonoBehaviourPun
         currentItem.transform.localPosition = Vector3.zero;
         currentItem.transform.localRotation = Quaternion.identity;
 
+        // flashLight일 경우 mesh 상태를 설정
+        if (currentItem.TryGetComponent<flashLight>(out flashLight flashlight))
+        {
+            flashlight.meshHandle(true); // 인벤토리에 있을 때 매쉬를 활성화
+        }
+
         // 다른 플레이어에게도 동기화
         photonView.RPC("UpdateItemPositionRotation", RpcTarget.Others, currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
-    }
+    }   
+
+
     /// <summary>
     /// 아이템을 떨궜을 때 호출되는 함수
     /// </summary>
@@ -274,6 +281,7 @@ public class CPlayerInventory : MonoBehaviourPun
                     itemRigidbody.AddForce(dropPoint.forward * 2.0f, ForceMode.Impulse);
                 }
             }
+
 
             currentItem = null;
             currentItemIndex = -1;  // 아이템이 없을 경우 인덱스를 초기화

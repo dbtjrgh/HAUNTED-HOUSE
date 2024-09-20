@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLightOn: 0
+  lightMesh: {fileID: 0}
 --- !u!114 &8508053487562871632
 MonoBehaviour:
   m_ObjectHideFlags: 0
