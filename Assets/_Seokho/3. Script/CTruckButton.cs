@@ -2,7 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
-public class CTruckButton : MonoBehaviour
+public class CTruckButton : MonoBehaviourPun
 {
     #region 변수
     public Animator anim;
@@ -14,6 +14,7 @@ public class CTruckButton : MonoBehaviour
     private bool playerNearby = false;
     private bool isAnimating = false;
     #endregion
+
     private void Update()
     {
         if (playerNearby && Input.GetKeyDown(KeyCode.E) && !isAnimating)
@@ -37,25 +38,29 @@ public class CTruckButton : MonoBehaviour
             playerNearby = false;
         }
     }
-    /// <summary>
-    /// 트럭 버튼 클릭시 애니메이션,사운드 실행 및 bool 갱신
-    /// </summary>
+
     private void TruckOnClick()
     {
         if (!TruckDoorOpen)
         {
-            anim.SetTrigger("OpenDoors");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "OpenDoors"); // 모든 클라이언트에 트리거 전달
             SoundManager.instance.TruckButtonSound();
             StartCoroutine(WaitForAnimation());
             TruckDoorOpen = true;
         }
         else if (TruckDoorOpen)
         {
-            anim.SetTrigger("CloseDoors");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "CloseDoors"); // 모든 클라이언트에 트리거 전달
             SoundManager.instance.TruckButtonSound();
             StartCoroutine(WaitForAnimation());
             TruckDoorOpen = false;
         }
+    }
+
+    [PunRPC]
+    public void RPCSetTrigger(string triggerName)
+    {
+        anim.SetTrigger(triggerName);  // 애니메이션 트리거 실행
     }
 
     IEnumerator WaitForAnimation()

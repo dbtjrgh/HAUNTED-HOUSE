@@ -57,6 +57,16 @@ MonoBehaviour:
   - SyncLights
   - lightOnOFF
   - SyncEnableUVLight
+  - DropCurrentItem
+  - SwitchItem
+  - SyncCamcorderState
+  - fillUse
+  - AddMentalGauge
+  - DestroyGauge
+  - EquipCurrentItem
+  - TruckOnClick
+  - RPCSetTrigger
+  - SyncDoorInteraction
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

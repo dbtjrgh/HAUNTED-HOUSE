@@ -9,15 +9,15 @@ public class CPlayerInventory : MonoBehaviourPun
     public List<GameObject> inventoryItems;
     public Transform dropPoint;
     public Transform handPosition;
-    private int currentItemIndex = -1;
     private GameObject currentItem;
+    private mentalGaugeManager playerMentalGauge;
+    private flashLight flashlight; // flashLight의 레이어를 할당하기 위해 선언.
     private RaycastHit hit;
     private Ray ray;
-    private float rayCastDistance = 4.0f;
-    private mentalGaugeManager playerMentalGauge;
-    flashLight flashlight; // flashLight의 레이어를 할당하기 위해 선언.
     private Vector3 lastSentPosition;
     private Quaternion lastSentRotation;
+    private int currentItemIndex = -1;
+    private float rayCastDistance = 4.0f;
     private float positionThreshold = 0.05f; // 이 값을 넘으면 업데이트 전송
     private float rotationThreshold = 1f;
     #endregion
@@ -48,9 +48,6 @@ public class CPlayerInventory : MonoBehaviourPun
                 currentItem.transform.position = handPosition.position;
                 currentItem.transform.rotation = handPosition.rotation;
 
-                // 다른 플레이어에게도 아이템 위치와 회전 동기화
-                photonView.RPC("UpdateItemPositionRotation", RpcTarget.Others, currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
-
                 // R 키를 눌러 손전등 또는 정신력 회복 아이템 사용
                 if (Input.GetKeyDown(KeyCode.R))
                 {
@@ -61,11 +58,26 @@ public class CPlayerInventory : MonoBehaviourPun
                         flashlightScript.lightOnOFF();
                     }
 
+                    // uv손전등 사용
+                    var uvlightScript = currentItem.GetComponent<changwon.UVFlashlight>();
+                    if (uvlightScript != null)
+                    {
+                        uvlightScript.lightOnOFF();
+                    }
+
+                    // 캠코더 사용
+                    var camcorderScript = currentItem.GetComponent<Wonbin.Camcorder>();
+                    if (camcorderScript != null)
+                    {
+                        camcorderScript.OnMainUse();
+                    }
+
                     // 정신력 회복 아이템 사용
                     var gaugeFillScript = currentItem.GetComponent<gaugeFill>();
                     if (gaugeFillScript != null && playerMentalGauge.MentalGauge < playerMentalGauge.maxMentalGauge)
                     {
                         gaugeFillScript.fillUse();
+
                     }
                     else if (gaugeFillScript != null && playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
                     {
@@ -82,13 +94,13 @@ public class CPlayerInventory : MonoBehaviourPun
             // G 키를 눌러 아이템 드롭
             if (Input.GetKeyDown(KeyCode.G))
             {
-                DropCurrentItem();
+                photonView.RPC("DropCurrentItem", RpcTarget.All);
             }
 
             // Q 키를 눌러 아이템 교체
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                SwitchItem();
+                photonView.RPC("SwitchItem", RpcTarget.All);
             }
         }
 
@@ -125,7 +137,6 @@ public class CPlayerInventory : MonoBehaviourPun
         }
     }
 
-    // 지워볼생각
     [PunRPC]
     void PickupItem(int itemViewID, int playerViewID)
     {
@@ -179,6 +190,7 @@ public class CPlayerInventory : MonoBehaviourPun
     /// <summary>
     /// 아이템을 바꿨을 때 호출되는 함수
     /// </summary>
+    [PunRPC]
     void SwitchItem()
     {
         if (inventoryItems.Count == 0)
@@ -199,7 +211,7 @@ public class CPlayerInventory : MonoBehaviourPun
         // 다음 아이템으로 교체
         currentItemIndex = (currentItemIndex + 1) % inventoryItems.Count;
 
-        EquipCurrentItem();  // 새 아이템 장착
+        photonView.RPC("EquipCurrentItem", RpcTarget.All);  // 새 아이템 장착
 
         //// 교체한 아이템이 flashLight일 경우 mesh를 활성화
         //if (currentItem == flashlight.gameObject)
@@ -235,6 +247,7 @@ public class CPlayerInventory : MonoBehaviourPun
     /// <summary>
     /// 아이템 바꿨을때 같이 호출되는 함수
     /// </summary>
+    [PunRPC]
     void EquipCurrentItem()
     {
         currentItem = inventoryItems[currentItemIndex];
@@ -242,13 +255,11 @@ public class CPlayerInventory : MonoBehaviourPun
         currentItem.transform.SetParent(handPosition);  // 손 위치에 배치
         currentItem.transform.localPosition = Vector3.zero;
         currentItem.transform.localRotation = Quaternion.identity;
-
-        // 다른 플레이어에게도 동기화
-        photonView.RPC("UpdateItemPositionRotation", RpcTarget.Others, currentItem.GetComponent<PhotonView>().ViewID, handPosition.position, handPosition.rotation);
     }
     /// <summary>
     /// 아이템을 떨궜을 때 호출되는 함수
     /// </summary>
+    [PunRPC]
     public void DropCurrentItem()
     {
         if (currentItem != null)
@@ -312,49 +323,6 @@ public class CPlayerInventory : MonoBehaviourPun
                 rbView.enabled = true;
             }
         }
-    }
-    /// <summary>
-    /// 아이템 위치가 갱신이 안돼서 만들어놓은 함수
-    /// </summary>
-    /// <param name="itemViewID"></param>
-    /// <param name="newPosition"></param>
-    /// <param name="newRotation"></param>
-    [PunRPC]
-    void UpdateItemPositionRotation(int itemViewID, Vector3 newPosition, Quaternion newRotation)
-    {
-        PhotonView itemPhotonView = PhotonView.Find(itemViewID);
-        if (itemPhotonView != null)
-        {
-            GameObject item = itemPhotonView.gameObject;
-            // 부드러운 이동과 회전을 위해 보간 처리
-            StartCoroutine(SmoothMove(item.transform, newPosition, newRotation, 0.1f)); // 0.1초 동안 부드럽게 이동
-        }
-    }
-    /// <summary>
-    /// 아이템을 들고있을 때 자연스럽게 들고있게 만들어본 함수
-    /// </summary>
-    /// <param name="itemTransform"></param>
-    /// <param name="targetPosition"></param>
-    /// <param name="targetRotation"></param>
-    /// <param name="duration"></param>
-    /// <returns></returns>
-    private IEnumerator SmoothMove(Transform itemTransform, Vector3 targetPosition, Quaternion targetRotation, float duration)
-    {
-        Vector3 startPosition = itemTransform.position;
-        Quaternion startRotation = itemTransform.rotation;
-        float timeElapsed = 0;
-
-        while (timeElapsed < duration)
-        {
-            itemTransform.position = Vector3.Lerp(startPosition, targetPosition, timeElapsed / duration);
-            itemTransform.rotation = Quaternion.Lerp(startRotation, targetRotation, timeElapsed / duration);
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // 최종적으로 정확한 위치와 회전 값 설정
-        itemTransform.position = targetPosition;
-        itemTransform.rotation = targetRotation;
     }
     /// <summary>
     /// 아이템을 쉽게 줍도록 디버깅하기위해 만들어놓은 함수    

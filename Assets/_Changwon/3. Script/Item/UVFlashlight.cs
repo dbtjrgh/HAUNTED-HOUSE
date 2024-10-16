@@ -23,7 +23,6 @@ namespace changwon
         //private AudioSource _audioSource;
 
         bool playerGetLight; // 플레이어가 손전등을 on한 상태인지 확인
-        static bool getLight; // 손전등 획득 여부 확인
         public static bool isInItemSlot; // 손전등이 ItemSlot에 있는지 여부를 확인
         private Transform itemSlotTransform;
 
@@ -32,7 +31,6 @@ namespace changwon
         private void Start()
         {
             playerGetLight = false;
-            getLight = false;
             isInItemSlot = false; // 초기 상태는 ItemSlot에 없음
 
             if (myLight == null)
@@ -46,61 +44,29 @@ namespace changwon
             uvLight = GetComponent<changwon.UVLight>();
         }
 
-        private void Update()
-        {
-            // 손전등이 ItemSlot의 자식인지 확인
-            bool isInItemSlot = transform.IsChildOf(itemSlotTransform);
-
-            if (isInItemSlot)
-            {
-                lightOnOFF(); // 손전등이 ItemSlot에 있을 때만 호출
-            }
-
-        }
-
-        static internal void lightEquip()
-        {
-            getLight = true;
-            GameObject flashLightObject = GameObject.FindGameObjectWithTag("Items");
-
-            if (flashLightObject != null)
-            {
-                GameObject itemSlot = GameObject.Find("ItemSlot");
-                if (itemSlot != null)
-                {
-                    flashLightObject.transform.SetParent(itemSlot.transform);
-                    flashLightObject.transform.localPosition = Vector3.zero; // 위치 초기화
-                    flashLightObject.transform.localRotation = Quaternion.identity; // 회전 초기화
-
-                    isInItemSlot = true; // ItemSlot에 추가되었음을 표시
-
-                }
-            }
-        }
-
         public void lightOnOFF()
         {
-            getLight = true;
-            if (getLight)
+            photonView.RPC("SyncUVLightState", RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void SyncUVLightState()
+        {
+            SoundManager.instance.FlashLightSound();
+            playerGetLight = !playerGetLight; // 손전등 on/off
+            myLight.intensity = playerGetLight ? 10 : 0; // 손전등 밝기 조정
+
+            if (playerGetLight)
             {
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    SoundManager.instance.FlashLightSound();
-                    playerGetLight = !playerGetLight; // 손전등 on/off
-                    myLight.intensity = playerGetLight ? 10 : 0; // 손전등 밝기 조정
+                uvLight.EnableUVLight();
+            }
+            else
+            {
 
-                    if (playerGetLight)
-                    {
-                        uvLight.EnableUVLight();
-                    }
-                    else
-                    {
-
-                        uvLight.DisableUVLight();
-                    }
-                }
+                uvLight.DisableUVLight();
             }
         }
+
         public IEnumerator Blink()
         {
             if (Ghost.instance.state == changwon.GhostState.HUNTTING)

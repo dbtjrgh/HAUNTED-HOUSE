@@ -78,6 +78,7 @@ public class mentalGaugeManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    
     public void TakeMentalGauge(float ToTake)
     {
         if (photonView.IsMine)

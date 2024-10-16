@@ -19,11 +19,9 @@ namespace Wonbin
 
         public Material renderTextureMat;
 
-        private bool normalMode; // 노말 모드인지 고스트 오브 모드인지 확인
-        private bool EquipCam; // 카메라 장착 여부
-
         public static bool isInItemSlot;
         private Transform itemSlotTransform;
+        public bool isLightOn = false;
 
         private static int instanceCount = 0; // 프리팹 인스턴스 번호 관리
         private int camcorderID;
@@ -40,44 +38,26 @@ namespace Wonbin
 
             CamcorderSetup();
             isInItemSlot = false;
-            EquipCam = false;
             itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
-        }
-
-
-        private void Update()
-        {
-            isInItemSlot = transform.IsChildOf(itemSlotTransform);
-
-            if (isInItemSlot)
-            {
-                EquipCam = true;
-                // R 키를 눌렀을 때 모드 전환
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    OnMainUse();
-                }
-            }
-            else
-            {
-                EquipCam = false;
-            }
         }
 
         public void OnMainUse()    
         {
-            if (EquipCam)  // 캠코더가 장착된 상태에서만 모드 전환 가능
+            photonView.RPC("SyncCamcorderState", RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void SyncCamcorderState()
+        {
+            SetGhostOrbMode();
+            isLightOn = !isLightOn;
+            if (isLightOn)
             {
-                // 초기에는 노말 모드가 호출. 노말 모드에서는 카메라 화면이 보이고, 고스트 오브 모드에서는 초록색 화면이 보임
-                
-                if (normalMode)
-                {
-                    SetGhostOrbMode();
-                }
-                else
-                {
-                    SetNormalMode();
-                }
+                SetGhostOrbMode();
+            }
+            else
+            {
+                SetNormalMode();
             }
         }
 
@@ -87,7 +67,6 @@ namespace Wonbin
             renderTextureMat.color = Color.white;
             greenScreen.gameObject.SetActive(false);
             camcorder.gameObject.SetActive(true);
-            normalMode = true;
         }
 
         private void SetGhostOrbMode()
@@ -95,7 +74,6 @@ namespace Wonbin
             renderTextureMat.color = Color.green;
             camcorder.gameObject.SetActive(false);
             greenScreen.gameObject.SetActive(true);
-            normalMode = false;
         }
 
         private void CamcorderSetup()

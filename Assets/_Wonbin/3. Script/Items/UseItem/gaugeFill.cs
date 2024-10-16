@@ -28,36 +28,16 @@ public class gaugeFill : MonoBehaviourPun
         useFill = true;
         itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
     }
-    private void Update()
-    {
-
-        bool isInItemSlot = transform.IsChildOf(itemSlotTransform);
-
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (itemSlotTransform == null)
-            {
-                return;
-            }
-
-            else if (isInItemSlot = true && playerMentalGauge.MentalGauge >= playerMentalGauge.maxMentalGauge)
-            {
-                useFill = false;
-
-            }
-
-            if (isInItemSlot && useFill == true)
-            {
-                fillUse();
-            }
-        }
-    }
-
     public void fillUse() // ∏‡≈ª ∞‘¿Ã¡ˆ æ‡ ªÁøÎ
     {
         playerMentalGauge.AddMentalGauge(ToAdd);
-        Destroy(this.gameObject);
+        photonView.RPC("DestroyGauge", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void DestroyGauge()
+    {
+        PhotonNetwork.Destroy(gameObject);
     }
 
 }
