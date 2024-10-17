@@ -169,12 +169,12 @@ namespace changwon
                         break;
 
                     case GhostType.NIGHTMARE:
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < lights.Length; i++)
                         {
                             Debug.Log("나이트메어 감지됨");
                             lights[i].gameObject.SetActive(true);
-                            SoundManager.instance.StopEMFHighSound();
-                            SoundManager.instance.EMFNormalSound();
+                            SoundManager.instance.NormalEMFStop();
+                            SoundManager.instance.EMFHighSound();
                         }
                         break;
 

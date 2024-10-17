@@ -39,12 +39,4 @@ public class flashLight : MonoBehaviourPun
         gameObject.SetActive(true);
         SoundManager.instance.FlashLightSound();
     }
-
-    // 아이템을 드롭할 때 Rigidbody 물리 활성화
-    public void DropItem(Vector3 dropPosition)
-    {
-        // PhotonRigidbodyView로 동기화되는 동안 물리 활성화
-        rb.isKinematic = false;
-        rb.AddForce(dropPosition * 2.0f, ForceMode.Impulse); // 아이템을 드롭 위치로 밀어냄
-    }
 }

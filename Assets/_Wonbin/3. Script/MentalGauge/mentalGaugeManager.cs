@@ -23,38 +23,16 @@ public class mentalGaugeManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         CRoomScreen roomScreen = FindObjectOfType<CRoomScreen>();
         maxMentalGauge = 100f;
-        
-    }
 
-    public override void OnRoomPropertiesUpdate(PhotonHashtable props)
-    {
-        props = PhotonNetwork.CurrentRoom.CustomProperties;
-
-        if (props.ContainsKey("Diff"))
-        {
-            diffText = ((Difficulty)props["Diff"]).ToString();
-        }
-        if(diffText == "Easy")
-        {
-            secondGaugeMinus = 0.20f;
-            changeRoomGaugeMinus = 2f;
-        }
-        else if (diffText == "Normal")
-        {
-            secondGaugeMinus = 0.30f;
-            changeRoomGaugeMinus = 3f;
-        }
-        else if(diffText == "Hard")
-        {
-            secondGaugeMinus = 0.50f;
-            changeRoomGaugeMinus = 5f;
-        }
-        ghostRoomGaugeMinus = changeRoomGaugeMinus * 2;
     }
 
     private void Start()
     {
+        maxMentalGauge = 100f;
         MentalGauge = maxMentalGauge;
+
+        // 방 속성을 처음 설정
+        UpdateGaugeModifiers();
 
         // currentPlayerRoom이 null이면, 같은 GameObject에서 RoomIdentifire를 찾음
         if (currentPlayerRoom == null)
@@ -78,19 +56,45 @@ public class mentalGaugeManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    
+    public override void OnRoomPropertiesUpdate(PhotonHashtable props)
+    {
+        base.OnRoomPropertiesUpdate(props); // 부모 클래스의 메서드 호출
+        UpdateGaugeModifiers(); // 방 속성 업데이트 시 게이지 수정자 업데이트
+    }
+
+    private void UpdateGaugeModifiers()
+    {
+        PhotonHashtable props = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        if (props.ContainsKey("Diff"))
+        {
+            diffText = ((Difficulty)props["Diff"]).ToString();
+        }
+        if (diffText == "Easy")
+        {
+            secondGaugeMinus = 0.20f;
+            changeRoomGaugeMinus = 2f;
+        }
+        else if (diffText == "Normal")
+        {
+            secondGaugeMinus = 0.30f;
+            changeRoomGaugeMinus = 3f;
+        }
+        else if (diffText == "Hard")
+        {
+            secondGaugeMinus = 0.50f;
+            changeRoomGaugeMinus = 5f;
+        }
+        ghostRoomGaugeMinus = changeRoomGaugeMinus * 2;
+    }
+
+
+
     public void TakeMentalGauge(float ToTake)
     {
-        if (photonView.IsMine)
-        {
-            MentalGauge -= (ToTake * gaugeModifier);
-            MentalGauge = Mathf.Clamp(MentalGauge, 0, maxMentalGauge);
-            Debug.Log("멘탈 게이지 감소: " + ToTake + " 남은 게이지: " + MentalGauge);
-        }
-        else
-        {
-            Debug.LogWarning("이 플레이어의 멘탈 게이지가 아닙니다.");
-        }
+        MentalGauge -= (ToTake * gaugeModifier);
+        MentalGauge = Mathf.Clamp(MentalGauge, 0, maxMentalGauge);
+        Debug.Log("멘탈 게이지 감소: " + ToTake + " 남은 게이지: " + MentalGauge);
     }
 
     public void AddMentalGauge(float ToAdd)

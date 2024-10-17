@@ -1932,11 +1932,11 @@ GameObject:
   - component: {fileID: 2018343558381690971}
   - component: {fileID: 5483569275526619573}
   - component: {fileID: -3921994390051277828}
+  - component: {fileID: 6240423320600699922}
   - component: {fileID: -5447986874986311512}
   - component: {fileID: -4247120705702709652}
   - component: {fileID: 3499709902169054000}
   - component: {fileID: -2518655794572663041}
-  - component: {fileID: 6240423320600699922}
   m_Layer: 11
   m_Name: Ghost
   m_TagString: Ghost
@@ -2053,6 +2053,22 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6240423320600699922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7874926961459402408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!82 &-5447986874986311512
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2437,22 +2453,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6240423320600699922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7874926961459402408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &7914551804106814790
 GameObject:
   m_ObjectHideFlags: 0

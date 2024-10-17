@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class CjournalBook : MonoBehaviour
 {
@@ -255,9 +256,29 @@ public class CjournalBook : MonoBehaviour
     /// </summary>
     void showMentalGauge()
     {
-        mentalGaugeManager mentalGaugeManager = GameObject.FindWithTag("Player").GetComponent<mentalGaugeManager>();
-        mentalGaugeText.text = mentalGaugeManager.MentalGauge.ToString("F1");
+        // 모든 플레이어 오브젝트를 가져옴
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players)
+        {
+            // PhotonView를 통해 현재 플레이어인지 확인
+            PhotonView photonView = player.GetComponent<PhotonView>();
+            if (photonView != null && photonView.IsMine)
+            {
+                mentalGaugeManager mentalGaugeManager = player.GetComponent<mentalGaugeManager>();
+                if (mentalGaugeManager != null)
+                {
+                    mentalGaugeText.text = mentalGaugeManager.MentalGauge.ToString();
+                }
+                else
+                {
+                    Debug.LogWarning("mentalGaugeManager를 찾을 수 없습니다.");
+                }
+                break; // 나 자신을 찾았으니 루프를 종료
+            }
+        }
     }
+
 
     /// <summary>
     /// 귀신 정보탭 내 파일을 할당해 나타내는 함수

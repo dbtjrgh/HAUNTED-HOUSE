@@ -1,4 +1,5 @@
 using GameFeatures;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public enum GhostType
     DEMON
 }
 
-public class Ghost : MonoBehaviour
+public class Ghost : MonoBehaviourPun
 {
     public static Ghost instance;
 
@@ -39,21 +40,13 @@ public class Ghost : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        ghosttypeRandom(value: Random.Range(0, 3));
-        switch (ghostType)
-        {
-            case GhostType.NIGHTMARE:
-                ghostNav.speed = 1f;
-                break;
-            case GhostType.BANSHEE:
-                ghostNav.speed = 2f;
-                break;
-            case GhostType.DEMON:
-                ghostNav.speed = 3f;
-                break;
-        }
 
-        
+        // 마스터 클라이언트만 고스트 타입을 설정하고 모든 클라이언트에 전달
+        if (PhotonNetwork.IsMasterClient)
+        {
+            int randomValue = Random.Range(0, 3);
+            photonView.RPC("ghosttypeRandom", RpcTarget.AllBuffered, randomValue); // 고스트 타입을 모든 클라이언트에 동기화
+        }
     }
 
     private void Start()
@@ -84,6 +77,28 @@ public class Ghost : MonoBehaviour
             return;
         }
     }
+
+    [PunRPC]
+    public void ghosttypeRandom(int value)
+    {
+        ghostType = (GhostType)value;
+
+        switch (ghostType)
+        {
+            case GhostType.NIGHTMARE:
+                ghostNav.speed = 1f;
+                break;
+            case GhostType.BANSHEE:
+                ghostNav.speed = 2f;
+                break;
+            case GhostType.DEMON:
+                ghostNav.speed = 3f;
+                break;
+        }
+
+        Debug.Log($"Ghost type set to: {ghostType}");
+    }
+
 
 
     // 죽은 플레이어가 아닌 가장 가까운 플레이어 찾기
@@ -130,7 +145,6 @@ public class Ghost : MonoBehaviour
                 case changwon.GhostState.HUNTTING:
                     SoundManager.instance.GhostWalkSound();
                     yield return StartCoroutine(Hunting());
-                    
                     break;
 
                 case changwon.GhostState.RETURN:
@@ -263,8 +277,9 @@ public class Ghost : MonoBehaviour
                     if (targetPlayer != null)
                     {
                         Debug.Log("죽음");
-                        targetPlayer.Die(); // 플레이어 죽이기
+                        targetPlayer.photonView.RPC("Die", RpcTarget.All); // 모든 클라이언트에서 Die() 메서드 호출
                     }
+
 
                     ghostNav.isStopped = true;
                     ChangeState(changwon.GhostState.RETURN); // 타겟을 찾았을 때 Return 상태로 전환
@@ -280,12 +295,6 @@ public class Ghost : MonoBehaviour
 
             yield return null;
         }
-    }
-
-
-    public void ghosttypeRandom(int value)
-    {
-        ghostType = (GhostType)value;
     }
 
     IEnumerator ghostBlink()

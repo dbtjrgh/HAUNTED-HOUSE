@@ -29606,6 +29606,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameDefeatUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2608702958437629301, guid: 895357e03e1e3684fa07404b9545e957, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561852877004936047, guid: 895357e03e1e3684fa07404b9545e957, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 895357e03e1e3684fa07404b9545e957, type: 3}
 --- !u!1 &1479669103 stripped
@@ -45893,14 +45901,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 5286619868451244625}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!65 &680719910950204446
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58827,14 +58833,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 5286619869000492071}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!4 &2424078962254377302
 Transform:
   m_ObjectHideFlags: 0
@@ -58954,6 +58958,7 @@ GameObject:
   - component: {fileID: 5286619868207788997}
   - component: {fileID: 5286619868302224915}
   - component: {fileID: 5286619868302224916}
+  - component: {fileID: 5286619868302224917}
   m_Layer: 9
   m_Name: Door_06
   m_TagString: Untagged
@@ -60481,6 +60486,7 @@ GameObject:
   - component: {fileID: 5286619869167764878}
   - component: {fileID: 5286619869631305768}
   - component: {fileID: 5286619869631305769}
+  - component: {fileID: 5286619869631305770}
   m_Layer: 9
   m_Name: Door_06
   m_TagString: Untagged
@@ -75615,14 +75621,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 5286619867775668322}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!1 &4532371422895658369
 GameObject:
   m_ObjectHideFlags: 0
@@ -81820,14 +81824,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 2424078963459008275}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!4 &5286619867775668322
 Transform:
   m_ObjectHideFlags: 0
@@ -82294,14 +82296,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 2424078964131274711}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!82 &5286619868207788997
 AudioSource:
   m_ObjectHideFlags: 0
@@ -82506,14 +82506,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 2424078964001407951}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!114 &5286619868254912667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82526,14 +82524,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 2424078963996848483}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!114 &5286619868302224915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82546,14 +82542,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 2424078963819225083}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!114 &5286619868302224916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82576,6 +82570,22 @@ MonoBehaviour:
   sceneViewId: 13
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &5286619868302224917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2424078962273764998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!82 &5286619868394696689
 AudioSource:
   m_ObjectHideFlags: 0
@@ -83700,14 +83710,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 2424078962500535001}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!114 &5286619868795333977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83720,14 +83728,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 4504309691666020874}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!1 &5286619868921181116
 GameObject:
   m_ObjectHideFlags: 0
@@ -84368,14 +84374,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 4504309691217202976}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!114 &5286619869489434356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84388,14 +84392,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 5286619868957075601}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!114 &5286619869631305768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84408,14 +84410,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a558aea57ba2fbb488157e1e37998005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDoorFullyOpened: 0
-  IsDoorClosed: 0
   InteractionTransform: {fileID: 2424078962691500464}
   handprintPrefab: {fileID: 1865889820300120364, guid: 54befe4a2fed456478be7207a5704182, type: 3}
   detectionRadius: 3
-  forceAmmount: 15
+  forceAmount: 15
   distance: 1.5
-  lockHoldTime: 1
+  isInteracting: 0
 --- !u!114 &5286619869631305769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84438,6 +84438,22 @@ MonoBehaviour:
   sceneViewId: 10
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &5286619869631305770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2424078963159281869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!23 &5286852178995570483
 MeshRenderer:
   m_ObjectHideFlags: 0

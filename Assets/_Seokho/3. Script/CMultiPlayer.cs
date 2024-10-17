@@ -46,6 +46,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
 
     private PhotonView pv;
     private CinemachineVirtualCamera playerCinemachine;
+    public Light deadLight;
 
     private float smoothTime = 0.2f; // 카메라 위치 전환을 위한 시간
     #endregion
@@ -145,6 +146,7 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
     /// <summary>
     /// 죽었을 때 불러오는 함수
     /// </summary>
+    [PunRPC]
     public void Die()
     {
         isDead = true;
@@ -155,7 +157,9 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             SoundManager.instance.GhostLaughSound();
         }
 
-        Debug.Log("Player has died and controls are disabled.");
+        // 카메라 위치 조정
+        AdjustCameraForDeath();
+        deadLight.enabled = true;
 
         GameManager gameManager = FindObjectOfType<GameManager>();
         if (gameManager != null)
@@ -163,6 +167,21 @@ public class CMultiPlayer : MonoBehaviourPunCallbacks
             gameManager.CheckAllPlayersDead();
         }
     }
+
+
+    private void AdjustCameraForDeath()
+    {
+        if (playerCinemachine != null)
+        {
+            // 카메라 위치를 조정 (예: 플레이어 머리 높이에서 약간 높여서)
+            Vector3 newCameraPosition = _playerHead.position + new Vector3(0, 1.0f, -2f);
+            playerCinemachine.transform.position = newCameraPosition;
+
+            // 카메라 회전 조정 (예: 플레이어를 바라보게 설정)
+            playerCinemachine.transform.LookAt(_playerHead.position);
+        }
+    }
+
     /// <summary>
     /// 앉기, 일어나기 불러오는 함수
     /// </summary>

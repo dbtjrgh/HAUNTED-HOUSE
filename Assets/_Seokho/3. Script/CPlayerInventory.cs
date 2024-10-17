@@ -156,12 +156,20 @@ public class CPlayerInventory : MonoBehaviourPun
         if (playerInventory.CanAddItem(item))
         {
             playerInventory.AddToInventory(item);  // 인벤토리에 아이템 추가
+
+            // Rigidbody 설정 (아이템을 주울 때는 물리 제어 비활성화)
+            Rigidbody itemRigidbody = item.GetComponent<Rigidbody>();
+            if (itemRigidbody != null)
+            {
+                itemRigidbody.isKinematic = true;  // 아이템을 주울 때는 물리적으로 고정
+            }
         }
         else
         {
             Debug.LogWarning("인벤토리가 가득 찼습니다.");
         }
     }
+
     /// <summary>
     /// 최대 아이템 개수 제한 체크
     /// </summary>
@@ -181,12 +189,15 @@ public class CPlayerInventory : MonoBehaviourPun
         inventoryItems.Add(item);
         item.SetActive(false);  // 추가된 아이템은 숨김
         item.transform.SetParent(transform);  // 플레이어의 자식으로 설정
+
+        // currentItemIndex가 -1일 때만 첫 번째 아이템을 장착하도록 설정
         if (currentItemIndex == -1)
         {
-            // currentItemIndex = 0;  // 첫 번째 아이템 자동 선택
-            EquipCurrentItem();
+            currentItemIndex = 0;  // 첫 번째 아이템 자동 선택
+            photonView.RPC("EquipCurrentItem", RpcTarget.All);
         }
     }
+
     /// <summary>
     /// 아이템을 바꿨을 때 호출되는 함수
     /// </summary>
@@ -255,7 +266,15 @@ public class CPlayerInventory : MonoBehaviourPun
         currentItem.transform.SetParent(handPosition);  // 손 위치에 배치
         currentItem.transform.localPosition = Vector3.zero;
         currentItem.transform.localRotation = Quaternion.identity;
+
+        // Rigidbody 설정 (아이템을 손에 들었을 때는 물리적으로 고정)
+        Rigidbody itemRigidbody = currentItem.GetComponent<Rigidbody>();
+        if (itemRigidbody != null)
+        {
+            itemRigidbody.isKinematic = true;  // 손에 있을 때 물리 제어 비활성화
+        }
     }
+
     /// <summary>
     /// 아이템을 떨궜을 때 호출되는 함수
     /// </summary>
@@ -310,10 +329,11 @@ public class CPlayerInventory : MonoBehaviourPun
                 item.transform.SetParent(null);  // 아이템을 부모에서 분리
             }
 
+            // Rigidbody 설정 (아이템을 드롭할 때 물리적으로 움직이도록 설정)
             Rigidbody itemRigidbody = item.GetComponent<Rigidbody>();
             if (itemRigidbody != null)
             {
-                itemRigidbody.isKinematic = false;
+                itemRigidbody.isKinematic = false;  // 드롭 시 물리 제어 활성화
                 itemRigidbody.AddForce(Vector3.forward * 2.0f, ForceMode.Impulse);
             }
 
@@ -324,6 +344,7 @@ public class CPlayerInventory : MonoBehaviourPun
             }
         }
     }
+
     /// <summary>
     /// 아이템을 쉽게 줍도록 디버깅하기위해 만들어놓은 함수    
     /// </summary>

@@ -67,6 +67,15 @@ MonoBehaviour:
   - TruckOnClick
   - RPCSetTrigger
   - SyncDoorInteraction
+  - RPC_OnDragBegin
+  - RPC_OnDragEnd
+  - RPC_RequestDragBegin
+  - RPC_EndDrag
+  - RPC_UpdateDoorState
+  - RPC_TakeMentalGauge
+  - Die
+  - ghosttypeRandom
+  - SetTruckDoorState
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

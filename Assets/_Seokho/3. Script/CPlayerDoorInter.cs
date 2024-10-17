@@ -3,11 +3,10 @@ using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(PhotonView), typeof(PhotonTransformView))]
 public class CPlayerDoorInter : MonoBehaviourPun
 {
     #region 변수
-    public bool IsDoorFullyOpened = false;  // 문이 완전히 열렸는지 여부
-    public bool IsDoorClosed = false;       // 문이 완전히 닫혔는지 여부
 
     public Transform InteractionTransform;  // 상호작용 위치
     public GameObject handprintPrefab;      // 손발자국 프리팹
@@ -21,13 +20,12 @@ public class CPlayerDoorInter : MonoBehaviourPun
     Ghost ghost;
 
     private Camera cam;
-    private bool isInteracting = false;    // 문과 상호작용 중인지 여부
-    private bool isDoorLocked = false;      // 문이 잠겨 있는지 여부
+    public bool isInteracting;    // 문과 상호작용 중인지 여부
+    private bool isDoorOpen = false;  // 문 상태 변수 추가
+
     private HingeJoint hinge;               // 문에 부착된 HingeJoint
     private float openedRotation;           // 문이 완전히 열린 상태의 회전
     private const float epsilon = 1f;       // 회전 각도를 비교하기 위한 오차 범위
-    private WaitForSeconds waitForDoorStateCheck;  // 문 상태 확인을 위한 대기 시간
-    private const float checkDoorStateCD = 0.3f;   // 문 상태 확인 주기
 
     #endregion
 
@@ -38,6 +36,8 @@ public class CPlayerDoorInter : MonoBehaviourPun
         rb = GetComponent<Rigidbody>();
         ghost = FindAnyObjectByType<Ghost>();
 
+        isInteracting = false;
+
         if (hinge == null)
         {
             Debug.Log("HingeJoint가 없으므로 상호작용을 비활성화합니다.");
@@ -45,34 +45,36 @@ public class CPlayerDoorInter : MonoBehaviourPun
             return;
         }
 
-        waitForDoorStateCheck = new WaitForSeconds(checkDoorStateCD);
         openedRotation = hinge.limits.max * hinge.axis.y;
         if (openedRotation < -1f) openedRotation += 360f;
-
-        StartCoroutine(CheckDoorState());
     }
 
     private void Update()
     {
-        // 플레이어가 주변에 있는지 감지
+        if (cam == null || hinge == null)
+        {
+            return;
+        }
+
         bool isPlayerNearby = DetectPlayerNearby();
 
-        // 플레이어가 있을 때만 문 조작 가능
+        // 모든 클라이언트가 입력을 감지할 수 있도록
         if (isPlayerNearby)
         {
-            // 왼쪽 마우스 버튼으로 상호작용 시작/종료
-            if (Input.GetMouseButtonDown(0) && !isInteracting && !isDoorLocked)  // 왼쪽 클릭으로 시작
+            // 소유권 여부와 상관없이 모든 클라이언트가 상호작용을 시도
+            if (Input.GetMouseButtonDown(0) && !isInteracting)
             {
-                OnDragBegin();
+                // 상호작용 시작 요청을 모든 클라이언트에 보냄
+                photonView.RPC("RPC_RequestDragBegin", RpcTarget.All);
             }
-            if (Input.GetMouseButtonUp(0) && isInteracting)  // 왼쪽 클릭을 놓으면 상호작용 종료
+            if (Input.GetMouseButtonUp(0) && isInteracting)
             {
-                OnDragEnd();
+                photonView.RPC("RPC_EndDrag", RpcTarget.All);
             }
         }
-        else if (isInteracting) // 플레이어가 멀어졌을 때 상호작용 종료
+        else if (isInteracting)
         {
-            OnDragEnd(); // 상호작용 강제 종료
+            photonView.RPC("RPC_EndDrag", RpcTarget.All);  // 플레이어가 멀어졌을 때 상호작용 종료
         }
     }
 
@@ -82,7 +84,7 @@ public class CPlayerDoorInter : MonoBehaviourPun
         {
             DetectPlayerNearby();
         }
-        if (isInteracting && !isDoorLocked)
+        if (isInteracting)
         {
             // 상호작용 중에도 플레이어가 계속 근처에 있는지 확인
             if (DetectPlayerNearby())
@@ -96,39 +98,7 @@ public class CPlayerDoorInter : MonoBehaviourPun
         }
     }
 
-    private IEnumerator CheckDoorState()
-    {
-        while (true)
-        {
-            CheckDoorRotation();
-            yield return waitForDoorStateCheck;
-        }
-    }
 
-    private void CheckDoorRotation()
-    {
-        float doorCurrRotation = transform.localEulerAngles.y;
-        if (doorCurrRotation < -5f)
-        {
-            doorCurrRotation += 360;
-        }
-
-        if (Mathf.Abs(doorCurrRotation) <= epsilon)
-        {
-            IsDoorClosed = true;
-            IsDoorFullyOpened = false;
-        }
-        else if (Mathf.Abs(doorCurrRotation - openedRotation) <= epsilon)
-        {
-            IsDoorClosed = false;
-            IsDoorFullyOpened = true;
-        }
-        else
-        {
-            IsDoorClosed = false;
-            IsDoorFullyOpened = false;
-        }
-    }
 
     private void DragDoor()
     {
@@ -136,81 +106,104 @@ public class CPlayerDoorInter : MonoBehaviourPun
         Vector3 nextPos = cam.transform.position + playerAim.direction * distance;
         Vector3 currPos = transform.position;
 
-        rb.velocity = (nextPos - currPos) * forceAmount;
+        Vector3 forceDirection = (nextPos - currPos).normalized;
+        rb.AddForce(forceDirection * forceAmount, ForceMode.VelocityChange);
+
+        // 문 상태 업데이트
+        if (!isDoorOpen)
+        {
+            isDoorOpen = true;
+            photonView.RPC("RPC_UpdateDoorState", RpcTarget.All, true);
+        }
     }
+    [PunRPC]
+    public void RPC_UpdateDoorState(bool state)
+    {
+        isDoorOpen = state;  // 문 상태 업데이트
+                             // 여기에 문 회전 애니메이션이나 상태 변화 로직 추가
+    }
+
 
     public void OnDragBegin()
     {
         isInteracting = true;
         rb.isKinematic = false;  // 상호작용 중에는 물리 적용
-
-        // 문 조작을 RPC로 호출
-        photonView.RPC("SyncDoorInteraction", RpcTarget.All, true);
     }
 
     public void OnDragEnd()
     {
         isInteracting = false;
-        rb.isKinematic = true;  // 상호작용 끝나면 물리 적용 해제
+        rb.isKinematic = true;
 
-        // 문 조작을 RPC로 호출
-        photonView.RPC("SyncDoorInteraction", RpcTarget.All, false);
+        // 문 닫기 로직
+        if (isDoorOpen)
+        {
+            isDoorOpen = false;
+            photonView.RPC("RPC_UpdateDoorState", RpcTarget.All, false);
+        }
     }
-
     [PunRPC]
-    public void SyncDoorInteraction(bool interacting)
+    public void RPC_RequestDragBegin()
     {
-        isInteracting = interacting;
-
-        if (interacting)
-        {
-            rb.isKinematic = false;  // 상호작용 중에는 물리 적용
-        }
-        else
-        {
-            rb.isKinematic = true;  // 상호작용 끝나면 물리 적용 해제
-        }
+        // 모든 클라이언트가 상호작용을 시작함
+        OnDragBegin(); // 상호작용 시작
+    }
+    [PunRPC]
+    public void RPC_EndDrag()
+    {
+        OnDragEnd();  // 상호작용 종료
     }
 
     public void LeavePrintsUV()
     {
+        // PhotonNetwork.Instantiate("Handprint", InteractionTransform.position, InteractionTransform.rotation);
         Instantiate(handprintPrefab, InteractionTransform.position, InteractionTransform.rotation, InteractionTransform);
     }
 
     private bool DetectPlayerNearby()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius);
+        // 현재 플레이어 객체
+        GameObject localPlayer = this.gameObject; // 스크립트가 부착된 객체, 즉 현재 플레이어
 
-        foreach (Collider collider in colliders)
+        // 모든 플레이어를 찾기
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players)
         {
-            if (ghost == null)
+            // 본인과는 비교하지 않도록
+            if (player == localPlayer)
             {
-                return false;
+                continue; // 본인은 무시
             }
 
-            if (collider.CompareTag("Player"))
-            {
-                return true;  // 플레이어가 근처에 있음
-            }
+            // 플레이어와의 거리 계산
+            float distance = Vector3.Distance(transform.position, player.transform.position);
 
-            Room room = collider.GetComponent<Room>();
-            if (!handprintCreated && collider.CompareTag("Room") && room != null)
+            // 지정된 거리 내에 있는지 확인
+            if (distance <= detectionRadius)
             {
-                if (room.RoomType == myRooms.Rooms.RoomsEnum.GhostRoom && ghost.ghostType != 0)
+                return true;  // 다른 플레이어가 근처에 있음
+            }
+        }
+
+        if (photonView.IsMine)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius);
+            foreach (Collider collider in colliders)
+            {
+                Room room = collider.GetComponent<Room>();
+                if (!handprintCreated && collider.CompareTag("Room") && room != null)
                 {
-                    handprintCreated = true;  // 손자국이 생성되었음을 표시
-                    Debug.Log("손자국 프리팹 형성");
-                    LeavePrintsUV();  // 손자국 프리팹 생성
+                    if (room.RoomType == myRooms.Rooms.RoomsEnum.GhostRoom && ghost.ghostType != 0)
+                    {
+                        handprintCreated = true;  // 손자국이 생성되었음을 표시
+                        Debug.Log("손자국 프리팹 형성");
+                        LeavePrintsUV();  // 손자국 프리팹 생성
+                    }
                 }
             }
         }
 
         return false;  // 플레이어가 근처에 없음
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }

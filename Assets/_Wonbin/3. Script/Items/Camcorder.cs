@@ -5,8 +5,6 @@ using UnityEngine;
 
 namespace Wonbin
 {
-    [RequireComponent(typeof(PhotonView))]
-    [RequireComponent(typeof(PhotonTransformView))]
     [RequireComponent(typeof(PhotonRigidbodyView))]
     public class Camcorder : MonoBehaviourPun
     {
@@ -25,6 +23,7 @@ namespace Wonbin
 
         private static int instanceCount = 0; // 프리팹 인스턴스 번호 관리
         private int camcorderID;
+        private Rigidbody rb;
 
         private void Awake()
         {
@@ -40,7 +39,12 @@ namespace Wonbin
             isInItemSlot = false;
             itemSlotTransform = GameObject.Find("ItemSlot")?.transform;
         }
-
+        private void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+            // Rigidbody 설정: 처음에는 물리적 상호작용 비활성화
+            rb.isKinematic = true;
+        }
         public void OnMainUse()    
         {
             photonView.RPC("SyncCamcorderState", RpcTarget.All);

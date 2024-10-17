@@ -1994,6 +1994,7 @@ MonoBehaviour:
   screenMesh: {fileID: 9086204198761895092}
   renderTexture: {fileID: 0}
   renderTextureMat: {fileID: 2100000, guid: 9086cad37c0ce54459cce3bc732119c5, type: 2}
+  isLightOn: 0
 --- !u!114 &-6924765116094174393
 MonoBehaviour:
   m_ObjectHideFlags: 0
