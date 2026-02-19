@@ -265,7 +265,7 @@ public class CjournalBook : MonoBehaviour
             PhotonView photonView = player.GetComponent<PhotonView>();
             if (photonView != null && photonView.IsMine)
             {
-                mentalGaugeManager mentalGaugeManager = player.GetComponent<mentalGaugeManager>();
+                CMentalGaugeManager mentalGaugeManager = player.GetComponent<CMentalGaugeManager>();
                 if (mentalGaugeManager != null)
                 {
                     mentalGaugeText.text = mentalGaugeManager.MentalGauge.ToString();

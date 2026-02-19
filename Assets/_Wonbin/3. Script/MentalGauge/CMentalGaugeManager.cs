@@ -5,9 +5,9 @@ using static myRooms.Rooms;
 using GameFeatures;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
-public class mentalGaugeManager : MonoBehaviourPunCallbacks, IPunObservable
+public class CMentalGaugeManager : MonoBehaviourPunCallbacks, IPunObservable
 {
-    #region
+    #region 변수
     [SerializeField]
     private RoomIdentifire currentPlayerRoom; // RoomIdentifire 컴포넌트 참조
     public float maxMentalGauge;

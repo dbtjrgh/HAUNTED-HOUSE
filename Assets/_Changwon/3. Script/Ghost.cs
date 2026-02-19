@@ -34,7 +34,7 @@ public class Ghost : MonoBehaviourPun
     private bool findRoom = true;
     Room room;
 
-    mentalGaugeManager mental;
+    CMentalGaugeManager mental;
     MapManager mapManager;
 
     private void Awake()
@@ -167,7 +167,7 @@ public class Ghost : MonoBehaviourPun
 
     private IEnumerator idle()
     {
-        mental = FindObjectOfType<mentalGaugeManager>();
+        mental = FindObjectOfType<CMentalGaugeManager>();
         mapManager = FindObjectOfType<MapManager>();
 
         while (state == changwon.GhostState.IDLE)
@@ -241,7 +241,7 @@ public class Ghost : MonoBehaviourPun
 
     private IEnumerator Hunting()
     {
-        mental = FindObjectOfType<mentalGaugeManager>();
+        mental = FindObjectOfType<CMentalGaugeManager>();
         float huntingTimer = 0f; // 헌팅 상태 유지 시간을 계산할 타이머
         float maxHuntingDuration = 30f; // 헌팅 상태에서 최대 유지 시간
 

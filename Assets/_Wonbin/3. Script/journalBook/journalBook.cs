@@ -206,7 +206,7 @@ public class journalBook : MonoBehaviour
 
     void showMentalGauge()
     {
-        mentalGaugeManager mentalGaugeManager = GameObject.FindWithTag("Player").GetComponent<mentalGaugeManager>();
+        CMentalGaugeManager mentalGaugeManager = GameObject.FindWithTag("Player").GetComponent<CMentalGaugeManager>();
         mentalGaugeText.text = mentalGaugeManager.MentalGauge.ToString(); // ¸àÅ» °ÔÀÌÁö °ª °»½Å
     }
 

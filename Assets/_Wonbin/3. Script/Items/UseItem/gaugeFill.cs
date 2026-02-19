@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(PhotonRigidbodyView))]
 public class gaugeFill : MonoBehaviourPun
 {
-    mentalGaugeManager playerMentalGauge;
+    CMentalGaugeManager playerMentalGauge;
 
     [SerializeField]
     private GameObject _Player;
@@ -22,7 +22,7 @@ public class gaugeFill : MonoBehaviourPun
 
     private void Start()
     {
-        playerMentalGauge = GameObject.FindGameObjectWithTag("Player").GetComponent<mentalGaugeManager>();
+        playerMentalGauge = GameObject.FindGameObjectWithTag("Player").GetComponent<CMentalGaugeManager>();
         getFill = false;
         isInItemSlot = false;
         useFill = true;

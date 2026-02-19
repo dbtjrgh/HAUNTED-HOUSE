@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private CTruckButton truckButton; // CTruckButton 참조 추가
     private bool onOff = false;
 
-    private Dictionary<int, mentalGaugeManager> playerMentalGaues;
+    private Dictionary<int, CMentalGaugeManager> playerMentalGaues;
 
     FadeResult ui;
     #endregion
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // CTruckButton 스크립트 찾기
         truckButton = FindObjectOfType<CTruckButton>();
-        playerMentalGaues = new Dictionary<int, mentalGaugeManager>();
+        playerMentalGaues = new Dictionary<int, CMentalGaugeManager>();
     }
 
     private void Update()

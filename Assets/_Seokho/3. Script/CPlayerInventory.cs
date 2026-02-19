@@ -10,7 +10,7 @@ public class CPlayerInventory : MonoBehaviourPun
     public Transform dropPoint;
     public Transform handPosition;
     private GameObject currentItem;
-    private mentalGaugeManager playerMentalGauge;
+    private CMentalGaugeManager playerMentalGauge;
     private flashLight flashlight; // flashLight의 레이어를 할당하기 위해 선언.
     private RaycastHit hit;
     private Ray ray;
@@ -28,7 +28,7 @@ public class CPlayerInventory : MonoBehaviourPun
             inventoryItems = new List<GameObject>();
         }
 
-        playerMentalGauge = GetComponent<mentalGaugeManager>();
+        playerMentalGauge = GetComponent<CMentalGaugeManager>();
         flashlight = GetComponent<flashLight>(); // flashLight의 레이어를 할당하기 위해 Awake에서 초기화.
     }
 

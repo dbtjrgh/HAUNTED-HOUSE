@@ -13,7 +13,7 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
     public TextMeshPro player4Text;
     public TextMeshPro diffText;
 
-    private Dictionary<int, mentalGaugeManager> playerMentalGauges;
+    private Dictionary<int, CMentalGaugeManager> playerMentalGauges;
     #endregion
 
     private void Awake()
@@ -22,7 +22,7 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        playerMentalGauges = new Dictionary<int, mentalGaugeManager>();
+        playerMentalGauges = new Dictionary<int, CMentalGaugeManager>();
     }
 
     private void Update()
@@ -34,7 +34,7 @@ public class CPlayerMentalGaugeDisplay : MonoBehaviourPunCallbacks
                 GameObject playerObject = GetPlayerObject(player);
                 if (playerObject != null)
                 {
-                    mentalGaugeManager mentalGauge = playerObject.GetComponent<mentalGaugeManager>();
+                    CMentalGaugeManager mentalGauge = playerObject.GetComponent<CMentalGaugeManager>();
                     if (mentalGauge != null)
                     {
                         playerMentalGauges[player.ActorNumber] = mentalGauge;

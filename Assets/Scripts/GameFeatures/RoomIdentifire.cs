@@ -12,12 +12,12 @@ namespace GameFeatures
         public Action OnRoomChanged;
         public RoomsEnum CurrRoom = RoomsEnum.NormalRoom;
         public List<RoomsEnum> _nextRooms = new List<RoomsEnum>();
-        private mentalGaugeManager mentalGaugeManager;
+        private CMentalGaugeManager mentalGaugeManager;
 
         private void Start()
         {
             // mentalGaugeManager 컴포넌트를 플레이어에게서 가져옴
-            mentalGaugeManager = GetComponent<mentalGaugeManager>();
+            mentalGaugeManager = GetComponent<CMentalGaugeManager>();
 
             if (mentalGaugeManager == null)
             {
